@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <sstream>
 
 // Array2DSquare method implementations
 Array2DSquare::Array2DSquare(int sideLength) {
@@ -61,6 +62,7 @@ const std::vector<std::vector<int>> CubeModel::facesToSwap = {
     {LEFT, BACK, RIGHT, FRONT},  // DOWN
 };
 
+// d: depth, i: i, m: dim-1-depth, f: dim-1-i
 const std::vector<std::vector<std::vector<char>>> CubeModel::swapInstructionsReversed = {
     {  // UP
         {'d', 'i'},
@@ -71,7 +73,7 @@ const std::vector<std::vector<std::vector<char>>> CubeModel::swapInstructionsRev
     {  // FRONT
         {'m', 'i'},
         {'i', 'd'},
-        {'d', 'm'},
+        {'d', 'f'},
         {'f', 'm'}
     },
     {  // RIGHT
@@ -100,6 +102,7 @@ const std::vector<std::vector<std::vector<char>>> CubeModel::swapInstructionsRev
     }
 };
 
+// d: depth, i: i, m: dim-1-depth, f: dim-1-i
 const std::vector<std::vector<std::vector<char>>> CubeModel::swapInstructions = {
     {  // UP
         {'d', 'i'},
@@ -109,7 +112,7 @@ const std::vector<std::vector<std::vector<char>>> CubeModel::swapInstructions = 
     },
     {  // FRONT
         {'f', 'm'},
-        {'d', 'm'},
+        {'d', 'f'},  //  bug, used to be d m
         {'i', 'd'},
         {'m', 'i'}
     },
@@ -247,6 +250,12 @@ void CubeModel::makeTurn(int face, bool reverse, int depth) {
     cycle(face, reverse, depth);
 }
 
+void CubeModel::repeatChar(char character, int repetitions) {
+    for (int i = 0; i < repetitions; i++) {
+        std::cout << character;
+    }
+}
+
 std::vector<Array2DSquare> CubeModel::getFaces() {
     return faces;
 }
@@ -267,14 +276,77 @@ void CubeModel::display() {
 
 void CubeModel::displayNet() {
     // display a net of the cube
+    // UP
+    for (int row = 0; row < dim; row++) {
+        repeatChar(' ', dim + 1);
+        for (int col = 0; col < dim; col++) {
+            std::cout << numToColour[faces[UP].at(row, col)];
+        }
+        std::cout << "\n";
+    }
+    std::cout << "\n";
 
+    // LEFT, FRONT, RIGHT, BACK
+    const int middleFaces[] = {LEFT, FRONT, RIGHT, BACK};
+    for (int row = 0; row < dim; row++ ) {
+        for (int face : middleFaces) {
+            for (int col = 0; col < dim; col++) {
+                std::cout << numToColour[faces[face].at(row, col)];
+            }
+            std::cout << " ";
+        }
+        std::cout << "\n";
+    } 
+    std::cout << "\n";
+
+    // DOWN
+    for (int row = 0; row < dim; row++) {
+        repeatChar(' ', dim + 1);
+        for (int col = 0; col < dim; col++) {
+            std::cout << numToColour[faces[DOWN].at(row, col)];
+        }
+        std::cout << "\n";
+    }
 }
 
 void CubeModel::parseMoves(std::string moves) {
-    // incomplete
-    makeTurn(RIGHT, false, 0);
-    makeTurn(UP, false, 0);
-    makeTurn(RIGHT, true, 0);
-    makeTurn(UP, true, 0);
+    bool reverseTurn = false;
+    bool doubleTurn = false;
+    bool wideTurn = false;
+    int depth, face;
 
+    // split moves by space character
+    std::string move;
+    std::istringstream stream(moves, std::istringstream::in);
+
+    while (stream >> move) {
+        doubleTurn = (move.back() == '2');
+        reverseTurn = (move.back() == '\'');
+        wideTurn = (move.find('w') != std::string::npos);
+        
+        int wideFound = move.find('w');
+        if (wideFound != std::string::npos) {
+            if (std::isdigit(move[0])) {
+                depth = (move[0] - '0') - 1;  // converts move[0] to int
+            } else {
+                depth = 1;
+            }
+        } else {
+            depth = 0;
+        }
+
+        for (int i = 0; i < 6; i++) {
+            if (move.find(numToFace[i]) != std::string::npos) {
+                face = i;
+                break;  // this can't handle invalid input
+            }
+        }
+        
+        for (int turnTwice = 0; turnTwice < (doubleTurn ? 2 : 1); turnTwice++) {
+            for (int depthCount = 0; depthCount < depth + 1; depthCount++) {
+                // for depth + 1, e.g. depth = 0 => loop once
+                makeTurn(face, reverseTurn, depthCount);
+            }
+        }
+    }
 }
