@@ -1,7 +1,6 @@
 #include "cubes.h"
 #include <iostream>
 #include <vector>
-#include <algorithm>
 #include <sstream>
 
 // Array2DSquare method implementations
