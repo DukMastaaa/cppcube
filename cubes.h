@@ -49,6 +49,7 @@ class CubeModel {
         int dim;
         void cycle(int face, bool reverse, int depth = 0);
         void makeTurn(int face, bool reverse, int depth = 0);
+        void repeatChar(char character, int repetitions);
 
     public:
         CubeModel(int dimension);
