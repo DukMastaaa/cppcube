@@ -1,4 +1,4 @@
-import CubeTimerTk.emulator2 as emul
+import emulator2 as emul
 import time
 
 scrambles_5 = [
