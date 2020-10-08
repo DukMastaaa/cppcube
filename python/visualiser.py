@@ -1,4 +1,4 @@
-import CubeTimerTk.emulator2 as emul
+import emulator2 as emul
 import tkinter as tk
 
 FACE_POSITIONS = {
