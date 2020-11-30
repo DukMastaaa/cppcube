@@ -3,6 +3,7 @@
 #include <chrono>
 #include <vector>
 
+// i have not written a scramble generator, so here are some 5x5 scrambles i took from the web
 std::vector<std::string> scrambles5 = {
     "Dw' R F2 U2 L2 Fw' F' R2 Uw' R Dw2 L' Fw D2 U2 L2 D Uw2 B2 D2 Dw' U' Bw F U F Uw' L' U Fw' Uw F' Uw2 Bw Fw2 Uw' U2 Lw R2 Dw2 B' Fw' Lw2 Fw Rw2 D Dw' F U R' U Lw F2 Rw2 R2 Uw F2 L2 Dw' Lw'",
     "Dw L Lw2 Bw' F' Lw' Rw U2 F' D Bw F D Rw2 B' U Rw' Uw' B2 L' U Rw' Uw Fw2 L2 Lw2 R' Dw L' R B' Lw' B2 Bw' Lw' U2 B2 F Lw' B L' Bw2 Uw R2 U B D' Bw' Lw' Dw' Fw Dw' Uw' Fw L Lw' R2 Uw F' U2",
