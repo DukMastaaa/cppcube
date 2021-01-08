@@ -1,3 +1,4 @@
+#pragma once
 #include <vector>
 #include <iostream>
 
@@ -13,31 +14,34 @@ W G R B O Y
 Default colour of face is the face number itself.
 */
 
+
+static const int FACE_UP = 0;
+static const int FACE_FRONT = 1;
+static const int FACE_RIGHT = 2;
+static const int FACE_BACK = 3;
+static const int FACE_LEFT = 4;
+static const int FACE_DOWN = 5;
+
+static const char FACES[] = "UFRBLD";
+static const char COLOURS[] = "WGRBOY";
+
+
 class Array2DSquare {
     private:
         std::vector<std::vector<int>> array;
-        int length;
 
     public:
+        int length;
         Array2DSquare(int sideLength);
         Array2DSquare(int sideLength, int defaultValue);
         int& at(int row, int col);
         void set(int row, int col, int value);
-        void rot90();  // oohhh boy
+        void rot90();
 };
+
 
 class CubeModel {
     private:
-        static const int UP = 0;
-        static const int FRONT = 1;
-        static const int RIGHT = 2;
-        static const int BACK = 3;
-        static const int LEFT = 4;
-        static const int DOWN = 5;
-
-        static const char numToFace[];
-        static const char numToColour[];
-
         static const std::vector<std::vector<int>> facesToSwap;
         static const std::vector<std::vector<int>> facesToSwapReversed;
 
@@ -46,18 +50,18 @@ class CubeModel {
         static const std::vector<std::vector<std::vector<char>>> swapInstructionsReversed;
 
         std::vector<Array2DSquare> faces;
-        int dim;
         void cycle(int face, bool reverse, int depth = 0);
         void makeTurn(int face, bool reverse, int depth = 0);
-        void repeatChar(char character, int repetitions);
 
     public:
+        int dim;
         CubeModel(int dimension);
         void resetState();
         void resetState(int dimension);
-        std::vector<Array2DSquare> getFaces();
-        void display();
-        void displayNet();
+        std::vector<Array2DSquare>& getFaces();
+        int getColourAtSticker(int face, int row, int col);
+        // void display();
+        // void displayNet();
         void parseMoves(std::string moves);
 };
 

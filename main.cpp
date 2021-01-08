@@ -1,22 +1,21 @@
-#include "cubes.h"
+#include <ncurses.h>
 #include <iostream>
 
 int main() {
-    int dim;
-    std::cout << "dim = ";
-    std::cin >> dim;
-
-    CubeModel cube(dim);
-    std::string moves;
-
-    while (true) {
-        std::cout << "Enter in moves or 'quit':\n";
-        std::getline(std::cin, moves);  // can't use cin here because cin separates by space
-        if (moves == "quit") {
-            break;
-        }
-        cube.parseMoves(moves);
-        cube.displayNet();
-    }
+    initscr();
+    noecho();
+    cbreak();
+    curs_set(0);
+    int beforeX, beforeY;
+    getmaxyx(stdscr, beforeY, beforeX);
+    WINDOW* meow = newwin(5, 5, 0, 0);
+    int afterX, afterY;
+    getmaxyx(stdscr, afterY, afterX);
+    int lolx, loly;
+    getmaxyx(meow, lolx, loly);
+    endwin();
+    std::cout << beforeX << ' ' << beforeY << '\n';
+    std::cout << afterX << ' ' << afterY << '\n';
+    std::cout << lolx << ' ' << loly << '\n';
     return 0;
 }

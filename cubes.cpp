@@ -1,26 +1,30 @@
-#include "cubes.h"
 #include <iostream>
 #include <vector>
 #include <sstream>
+#include "cubes.h"
 
-// Array2DSquare method implementations
+
 Array2DSquare::Array2DSquare(int sideLength) {
     array = std::vector<std::vector<int>>(sideLength, std::vector<int>(sideLength));
     length = sideLength;
 }
+
 
 Array2DSquare::Array2DSquare(int sideLength, int defaultValue) {
     array = std::vector<std::vector<int>>(sideLength, std::vector<int>(sideLength, defaultValue));
     length = sideLength;
 }
 
+
 int& Array2DSquare::at(int row, int col) {
     return array[row][col];
 }
 
+
 void Array2DSquare::set(int row, int col, int value) {
     array[row][col] = value;
 }
+
 
 void Array2DSquare::rot90() {
     // Code yoinked from 
@@ -39,61 +43,59 @@ void Array2DSquare::rot90() {
 }
 
 
-// CubeModel static member initialisations
-const char CubeModel::numToFace[] = "UFRBLD";
-const char CubeModel::numToColour[] = "WGRBOY";
-
 const std::vector<std::vector<int>> CubeModel::facesToSwapReversed = {
-    {FRONT, LEFT, BACK, RIGHT},  // UP
-    {UP, RIGHT, DOWN, LEFT},     // FRONT
-    {FRONT, UP, BACK, DOWN},     // RIGHT
-    {UP, LEFT, DOWN, RIGHT},     // BACK
-    {FRONT, DOWN, BACK, UP},     // LEFT
-    {FRONT, RIGHT, BACK, LEFT},  // DOWN
+    {FACE_FRONT, FACE_LEFT, FACE_BACK, FACE_RIGHT},  // FACE_UP
+    {FACE_UP, FACE_RIGHT, FACE_DOWN, FACE_LEFT},     // FACE_FRONT
+    {FACE_FRONT, FACE_UP, FACE_BACK, FACE_DOWN},     // FACE_RIGHT
+    {FACE_UP, FACE_LEFT, FACE_DOWN, FACE_RIGHT},     // FACE_BACK
+    {FACE_FRONT, FACE_DOWN, FACE_BACK, FACE_UP},     // FACE_LEFT
+    {FACE_FRONT, FACE_RIGHT, FACE_BACK, FACE_LEFT},  // FACE_DOWN
 };
+
 
 const std::vector<std::vector<int>> CubeModel::facesToSwap = {
-    {RIGHT, BACK, LEFT, FRONT},  // UP
-    {LEFT, DOWN, RIGHT, UP},     // FRONT
-    {DOWN, BACK, UP, FRONT},     // RIGHT
-    {RIGHT, DOWN, LEFT, UP},     // BACK
-    {UP, BACK, DOWN, FRONT},     // LEFT
-    {LEFT, BACK, RIGHT, FRONT},  // DOWN
+    {FACE_RIGHT, FACE_BACK, FACE_LEFT, FACE_FRONT},  // FACE_UP
+    {FACE_LEFT, FACE_DOWN, FACE_RIGHT, FACE_UP},     // FACE_FRONT
+    {FACE_DOWN, FACE_BACK, FACE_UP, FACE_FRONT},     // FACE_RIGHT
+    {FACE_RIGHT, FACE_DOWN, FACE_LEFT, FACE_UP},     // FACE_BACK
+    {FACE_UP, FACE_BACK, FACE_DOWN, FACE_FRONT},     // FACE_LEFT
+    {FACE_LEFT, FACE_BACK, FACE_RIGHT, FACE_FRONT},  // FACE_DOWN
 };
+
 
 // d: depth, i: i, m: dim-1-depth, f: dim-1-i
 const std::vector<std::vector<std::vector<char>>> CubeModel::swapInstructionsReversed = {
-    {  // UP
+    {  // FACE_UP
         {'d', 'i'},
         {'d', 'i'},
         {'d', 'i'},
         {'d', 'i'}
     },
-    {  // FRONT
+    {  // FACE_FRONT
         {'m', 'i'},
         {'i', 'd'},
         {'d', 'f'},
         {'f', 'm'}
     },
-    {  // RIGHT
+    {  // FACE_RIGHT
         {'i', 'm'},
         {'i', 'm'},
         {'f', 'd'},
         {'i', 'm'}
     },
-    {  // BACK
+    {  // FACE_BACK
         {'d', 'i'},
         {'f', 'd'},
         {'m', 'f'},
         {'i', 'm'}
     },
-    {  // LEFT
+    {  // FACE_LEFT
         {'i', 'd'},
         {'i', 'd'},
         {'f', 'm'},
         {'i', 'd'}
     },
-    {  // DOWN
+    {  // FACE_DOWN
         {'m', 'i'},
         {'m', 'i'},
         {'m', 'i'},
@@ -101,39 +103,40 @@ const std::vector<std::vector<std::vector<char>>> CubeModel::swapInstructionsRev
     }
 };
 
+
 // d: depth, i: i, m: dim-1-depth, f: dim-1-i
 const std::vector<std::vector<std::vector<char>>> CubeModel::swapInstructions = {
-    {  // UP
+    {  // FACE_UP
         {'d', 'i'},
         {'d', 'i'},
         {'d', 'i'},
         {'d', 'i'}
     },
-    {  // FRONT
+    {  // FACE_FRONT
         {'f', 'm'},
         {'d', 'f'},  //  bug, used to be d m
         {'i', 'd'},
         {'m', 'i'}
     },
-    {  // RIGHT
+    {  // FACE_RIGHT
         {'i', 'm'},
         {'f', 'd'},
         {'i', 'm'},
         {'i', 'm'}
     },
-    {  // BACK
+    {  // FACE_BACK
         {'i', 'm'},
         {'m', 'f'},
         {'f', 'd'},
         {'d', 'i'}
     },
-    {  // LEFT
+    {  // FACE_LEFT
         {'i', 'd'},
         {'f', 'm'},
         {'i', 'd'},
         {'i', 'd'}
     },
-    {  // DOWN
+    {  // FACE_DOWN
         {'m', 'i'},
         {'m', 'i'},
         {'m', 'i'},
@@ -149,16 +152,19 @@ CubeModel::CubeModel(int dimension) {
     resetState();
 }
 
+
 void CubeModel::resetState() {
     for (int i = 0; i < 6; i++) {
         faces[i] = Array2DSquare(dim, i);
     }
 }
 
+
 void CubeModel::resetState(int dimension) {
     dim = dimension;
     resetState();
 }
+
 
 void CubeModel::cycle(int face, bool reverse, int depth) {
     // index -1 is (dim - 1) 
@@ -240,6 +246,7 @@ void CubeModel::cycle(int face, bool reverse, int depth) {
     }
 }
 
+
 void CubeModel::makeTurn(int face, bool reverse, int depth) {
     if (depth == 0) {
         for (int i = 0; i < (reverse ? 3 : 1); i++) {
@@ -249,16 +256,18 @@ void CubeModel::makeTurn(int face, bool reverse, int depth) {
     cycle(face, reverse, depth);
 }
 
-void CubeModel::repeatChar(char character, int repetitions) {
-    for (int i = 0; i < repetitions; i++) {
-        std::cout << character;
-    }
-}
 
-std::vector<Array2DSquare> CubeModel::getFaces() {
+std::vector<Array2DSquare>& CubeModel::getFaces() {
     return faces;
 }
 
+
+int CubeModel::getColourAtSticker(int face, int row, int col) {
+    return faces[face].at(row, col);
+}
+
+
+/*
 void CubeModel::display() {
     // displays each face of the cube
     for (int i = 0; i < 6; i++) {
@@ -273,20 +282,21 @@ void CubeModel::display() {
     }
 }
 
+
 void CubeModel::displayNet() {
     // display a net of the cube
-    // UP
+    // FACE_UP
     for (int row = 0; row < dim; row++) {
         repeatChar(' ', dim + 1);
         for (int col = 0; col < dim; col++) {
-            std::cout << numToColour[faces[UP].at(row, col)];
+            std::cout << numToColour[faces[FACE_UP].at(row, col)];
         }
         std::cout << "\n";
     }
     std::cout << "\n";
 
-    // LEFT, FRONT, RIGHT, BACK
-    const int middleFaces[] = {LEFT, FRONT, RIGHT, BACK};
+    // FACE_LEFT, FACE_FRONT, FACE_RIGHT, FACE_BACK
+    const int middleFaces[] = {FACE_LEFT, FACE_FRONT, FACE_RIGHT, FACE_BACK};
     for (int row = 0; row < dim; row++ ) {
         for (int face : middleFaces) {
             for (int col = 0; col < dim; col++) {
@@ -298,15 +308,17 @@ void CubeModel::displayNet() {
     } 
     std::cout << "\n";
 
-    // DOWN
+    // FACE_DOWN
     for (int row = 0; row < dim; row++) {
         repeatChar(' ', dim + 1);
         for (int col = 0; col < dim; col++) {
-            std::cout << numToColour[faces[DOWN].at(row, col)];
+            std::cout << numToColour[faces[FACE_DOWN].at(row, col)];
         }
         std::cout << "\n";
     }
 }
+*/
+
 
 void CubeModel::parseMoves(std::string moves) {
     bool reverseTurn = false;
@@ -335,7 +347,7 @@ void CubeModel::parseMoves(std::string moves) {
         }
 
         for (int i = 0; i < 6; i++) {
-            if (move.find(numToFace[i]) != std::string::npos) {
+            if (move.find(FACES[i]) != std::string::npos) {
                 face = i;
                 break;  // this can't handle invalid input
             }
