@@ -1,4 +1,11 @@
 # cppcube
+
+## Notice
+This project is currently being converted into a terminal-based cube timer. Old python and timing code can be 
+found in the `python` folder, and the `CubeModel` class is roughly the same.
+
+
+## Previous README
 NxNxN Rubik's Cube Model in C++.
 
 Compile `g++ main.cpp cubes.cpp -o main.exe` and run `./main` to start 
