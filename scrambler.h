@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <random>
+#include <utility>
 
 
 class CubeScrambler {
@@ -16,9 +17,11 @@ class CubeScrambler {
         static const char PRIME = '\'';
         static const char DOUBLE = '2';
         static const char DIRECTIONS[2];
+        static const int MIN_WIDE_THRESHOLD = 4;
 
         static int getNewAxis(int prevAxis);
-        std::string generateMove(int prevAxis, int dim, bool wideAllowed);
+        std::pair<int, std::string> generateMove(int prevAxis, int dim, std::uniform_int_distribution<int>& wideDist);
+        std::string generateMoveSeq(int dim, std::uniform_int_distribution<int>& wideDist, int moveCount);
 
     public:
         CubeScrambler();
