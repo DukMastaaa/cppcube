@@ -2,6 +2,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <random>
+#include <utility>
 
 
 CubeScrambler::CubeScrambler() {
@@ -39,7 +40,9 @@ int CubeScrambler::getNewAxis(int prevAxis) {
 }
 
 
-std::string CubeScrambler::generateMove(int prevAxis, int dim, bool wideAllowed) {
+std::pair<int, std::string> CubeScrambler::generateMove(int prevAxis, int dim, 
+        std::uniform_int_distribution<int>& wideDist) {
+    // generates a face on a new axis. dim == 2 restricts to {F, R, U}
     int newAxis = getNewAxis(prevAxis);
     int addOffset = (dim == 2) ? 0 : uniform6(mersenneGenerator) % 2;
     char faceChar = FACES3X3[newAxis * 2 + addOffset];
@@ -47,17 +50,15 @@ std::string CubeScrambler::generateMove(int prevAxis, int dim, bool wideAllowed)
 
     std::string wideTurnDepth;
     std::string wideIndicator;
-    if (wideAllowed) {
-        std::uniform_int_distribution<int> dist(1, dim / 2);  // int division
-        int depth = dist(mersenneGenerator);
-
+    if (dim >= MIN_WIDE_THRESHOLD) {
+        int depth = wideDist(mersenneGenerator);
         if (depth == 1) {
             wideTurnDepth = "";
             wideIndicator = "";
         } else {
             wideIndicator = "w";
             if (depth > 2) {
-                wideTurnDepth = depth;
+                wideTurnDepth = std::to_string(depth);
             }
         }
     }
@@ -72,7 +73,21 @@ std::string CubeScrambler::generateMove(int prevAxis, int dim, bool wideAllowed)
         dirStr = "";
     }
 
-    return wideTurnDepth + faceString + wideIndicator + dirStr;
+    std::string move = wideTurnDepth + faceString + wideIndicator + dirStr;
+    return std::make_pair(newAxis, move);
+}
+
+
+std::string CubeScrambler::generateMoveSeq(int dim, 
+        std::uniform_int_distribution<int>& wideDist, int moveCount) {
+    std::string moves;
+    int prevAxis = uniform6(mersenneGenerator) % 3;
+    for (int i = 0; i < moveCount; ++i) {
+        std::pair<int, std::string> movePair = generateMove(prevAxis, dim, wideDist);
+        prevAxis = movePair.first;
+        moves += movePair.second;
+    }
+    return moves;
 }
 
 
@@ -81,7 +96,21 @@ std::string CubeScrambler::getScramble(int dim) {
         throw std::runtime_error("CubeScrambler dim needs to be > 2");
     }
 
-
-
-    
+    std::uniform_int_distribution<int> wideDist(1, dim / 2);  // floor division
+    switch (dim) {
+        case 2:
+            return generateMoveSeq(2, wideDist, 10);
+            break;
+        case 3:
+            return generateMoveSeq(3, wideDist, 20);  // or 25?
+            break;
+        case 4:
+            // 20 moves without wide moves, 25 moves with
+            return generateMoveSeq(3, wideDist, 20) + generateMoveSeq(4, wideDist, 25);
+            break;
+        default:
+            int moveCount = (dim - 2) * 20;
+            return generateMoveSeq(dim, wideDist, moveCount);
+            break;
+    }
 }
