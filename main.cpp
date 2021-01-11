@@ -14,14 +14,15 @@ int main() {
     startColours();
 
     CubeScrambler cs;
-    CubeModel cube(4);
-    std::string scramble = cs.getScramble(4);
+    CubeModel cube(5);
+    std::string scramble = cs.getScramble(5);
     cube.parseMoves(scramble);
 
     waddstr(stdscr, scramble.c_str());
 
     CubeView view(cube);
     view.draw();
+    box(view.viewWindow, '|', '-');
     view.wnoutrefresh();
     doupdate();
 
