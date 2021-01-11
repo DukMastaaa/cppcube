@@ -320,44 +320,52 @@ void CubeModel::displayNet() {
 */
 
 
-void CubeModel::parseMoves(std::string moves) {
-    bool reverseTurn = false;
-    bool doubleTurn = false;
-    bool wideTurn = false;
+void CubeModel::parseOneMove(std::string move) {
+    // todo: inefficient since it searches multiple times
     int depth, face;
+    std::string depthAcc;
 
-    // split moves by space character
+    bool doubleTurn = (move.back() == '2');
+    bool reverseTurn = (move.back() == '\'');
+
+    // find depth of wide turn
+    bool wideSymbol = (move.find('w') != std::string::npos);
+    if (wideSymbol) {
+        for (const char& symbol : move) {
+            if (std::isdigit(symbol)) {
+                depthAcc += {symbol, '\0'};
+            } else {
+                break;
+            }
+        }
+        depth = depthAcc.empty() ? 1 : std::stoi(depthAcc) - 1;  // top layer is depth 0, not 1
+    } else {
+        depth = 0;
+    }
+
+    std::cout << depth << '\n';
+
+    for (int i = 0; i < 6; i++) {
+        if (move.find(FACES[i]) != std::string::npos) {
+            face = i;
+            break;  // this can't handle invalid input, but oh well
+        }
+    }
+        
+    for (int turnTwice = 0; turnTwice < (doubleTurn ? 2 : 1); turnTwice++) {
+        for (int depthCount = 0; depthCount < depth + 1; depthCount++) {
+            // for depth + 1, e.g. depth = 0 => loop once
+            makeTurn(face, reverseTurn, depthCount);
+        }
+    }
+}
+
+
+void CubeModel::parseMoves(std::string moves) {
     std::string move;
-    std::istringstream stream(moves, std::istringstream::in);
+    std::stringstream stream(moves);
 
     while (stream >> move) {
-        doubleTurn = (move.back() == '2');
-        reverseTurn = (move.back() == '\'');
-        wideTurn = (move.find('w') != std::string::npos);
-        
-        int wideFound = move.find('w');
-        if (wideFound != std::string::npos) {
-            if (std::isdigit(move[0])) {
-                depth = (move[0] - '0') - 1;  // converts move[0] to int
-            } else {
-                depth = 1;
-            }
-        } else {
-            depth = 0;
-        }
-
-        for (int i = 0; i < 6; i++) {
-            if (move.find(FACES[i]) != std::string::npos) {
-                face = i;
-                break;  // this can't handle invalid input
-            }
-        }
-        
-        for (int turnTwice = 0; turnTwice < (doubleTurn ? 2 : 1); turnTwice++) {
-            for (int depthCount = 0; depthCount < depth + 1; depthCount++) {
-                // for depth + 1, e.g. depth = 0 => loop once
-                makeTurn(face, reverseTurn, depthCount);
-            }
-        }
+        parseOneMove(move);
     }
 }

@@ -62,6 +62,7 @@ class CubeModel {
         int getColourAtSticker(int face, int row, int col);
         // void display();
         // void displayNet();
+        void parseOneMove(std::string move);
         void parseMoves(std::string moves);
 };
 

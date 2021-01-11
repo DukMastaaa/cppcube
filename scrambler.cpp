@@ -3,11 +3,11 @@
 #include <stdexcept>
 #include <random>
 #include <utility>
+#include <chrono>
 
 
-CubeScrambler::CubeScrambler() {
-    std::random_device rd;
-    std::mt19937 mersenneGenerator(rd());
+
+CubeScrambler::CubeScrambler(std::mt19937& mersenne) : mersenneGenerator(mersenne) {
     std::uniform_int_distribution<int> uniform6(0, 5);  // inclusive
 }
 
@@ -19,9 +19,9 @@ const char CubeScrambler::FACES3X3[6] = {
 };
 
 
-const char CubeScrambler::DIRECTIONS[2] = {
-    PRIME, DOUBLE
-};
+const char* CubeScrambler::WIDE = "w";
+const char* CubeScrambler::PRIME = "\'";
+const char* CubeScrambler::DOUBLE = "2";
 
 
 int CubeScrambler::getNewAxis(int prevAxis) {
@@ -36,6 +36,8 @@ int CubeScrambler::getNewAxis(int prevAxis) {
         case 2:
             return newNumber;
             break;
+        default:
+            return -1;  // uh oh
     }
 }
 
@@ -46,17 +48,14 @@ std::pair<int, std::string> CubeScrambler::generateMove(int prevAxis, int dim,
     int newAxis = getNewAxis(prevAxis);
     int addOffset = (dim == 2) ? 0 : uniform6(mersenneGenerator) % 2;
     char faceChar = FACES3X3[newAxis * 2 + addOffset];
-    std::string faceString = &faceChar;
+    std::string faceString = {faceChar, '\0'};
 
-    std::string wideTurnDepth;
-    std::string wideIndicator;
+    std::string wideTurnDepth = "";
+    std::string wideIndicator = "";
     if (dim >= MIN_WIDE_THRESHOLD) {
         int depth = wideDist(mersenneGenerator);
-        if (depth == 1) {
-            wideTurnDepth = "";
-            wideIndicator = "";
-        } else {
-            wideIndicator = "w";
+        if (depth >= 2) {
+            wideIndicator = WIDE;
             if (depth > 2) {
                 wideTurnDepth = std::to_string(depth);
             }
@@ -64,13 +63,17 @@ std::pair<int, std::string> CubeScrambler::generateMove(int prevAxis, int dim,
     }
 
     int directionModifier = uniform6(mersenneGenerator) % 3;
-    char dirChar;
     std::string dirStr;
-    if (directionModifier < 2) {
-        dirChar = DIRECTIONS[directionModifier];
-        dirStr = &dirChar;
-    } else {
-        dirStr = "";
+    switch (directionModifier) {
+        case 0:
+            dirStr = PRIME;
+            break;
+        case 1:
+            dirStr = DOUBLE;
+            break;
+        default:
+            dirStr = "";
+            break;
     }
 
     std::string move = wideTurnDepth + faceString + wideIndicator + dirStr;
@@ -86,6 +89,7 @@ std::string CubeScrambler::generateMoveSeq(int dim,
         std::pair<int, std::string> movePair = generateMove(prevAxis, dim, wideDist);
         prevAxis = movePair.first;
         moves += movePair.second;
+        moves += std::string(" ");
     }
     return moves;
 }
