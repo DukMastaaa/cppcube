@@ -40,7 +40,6 @@ the following lists.
 ### Out of scope
 - Algorithm lists and visualisations
 
-
 ## What about the previous `cppcube`?
 The original `cppcube` was simply a header and `.cpp` file providing an
 NxNxN cube model. There was also code to measure performance, and an equivalent

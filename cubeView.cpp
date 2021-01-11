@@ -3,13 +3,18 @@
 #include "cubes.h"
 #include "cubeView.h"
 #include "colours.h"
+#include "baseWindow.h"
 
 
 std::tuple<int, int> CubeView::calcHeightWidth(int dim, int spacing) {
     /* Calculates height and width of the window 
-    given cube of size `dim`. */
+    given cube of size `dim`.*/
     int height = 3 * dim + 2 * spacing;
     int width = 4 * dim + 3 * spacing;
+
+    // compensate for border
+    height += 2;
+    width += 2;
     return std::make_tuple(height, width);
 }
 
@@ -31,7 +36,7 @@ std::tuple<int, int> CubeView::calcTopLeftPos(int dim, int spacing) {
 
 
 CubeView::CubeView(CubeModel& cubeRef) :
-        cube(cubeRef) {
+        BaseWindow(), cube(cubeRef) {
     int height, width;
     std::tie(height, width) = calcHeightWidth(cube.dim, 1);
 
@@ -73,7 +78,10 @@ char intToDigit(int number) {
 
 
 void CubeView::draw() {
+    // for each mvwaddch, i add 1 to position to compensate for border.
+
     int yOffset = 0;  // keeps track of y pos in window after each layer
+    static int borderWidth = 1;
 
     // FACE_UP
     int leftOffset = cube.dim + 1;
@@ -82,7 +90,7 @@ void CubeView::draw() {
             
             int thisColour = cube.getColourAtSticker(FACE_UP, row, col);
             wattron(viewWindow, COLOR_PAIR(thisColour));
-            mvwaddch(viewWindow, yOffset + row, leftOffset + col, BLOCK);
+            mvwaddch(viewWindow, yOffset + row + borderWidth, leftOffset + col + borderWidth, BLOCK);
             wattroff(viewWindow, COLOR_PAIR(thisColour));
         }
     }
@@ -99,7 +107,7 @@ void CubeView::draw() {
 
                 int thisColour = cube.getColourAtSticker(middleFaces[faceIndex], row, col);
                 wattron(viewWindow, COLOR_PAIR(thisColour));
-                mvwaddch(viewWindow, yOffset + row, leftOffset + col, BLOCK);
+                mvwaddch(viewWindow, yOffset + row + borderWidth, leftOffset + col + borderWidth, BLOCK);
                 wattroff(viewWindow, COLOR_PAIR(thisColour));
                 
             }
@@ -115,13 +123,10 @@ void CubeView::draw() {
             
             int thisColour = cube.getColourAtSticker(FACE_DOWN, row, col);
             wattron(viewWindow, COLOR_PAIR(thisColour));
-            mvwaddch(viewWindow, yOffset + row, leftOffset + col, BLOCK);
+            mvwaddch(viewWindow, yOffset + row + borderWidth, leftOffset + col + borderWidth, BLOCK);
             wattroff(viewWindow, COLOR_PAIR(thisColour));
         }
     }
 }
 
 
-void CubeView::wnoutrefresh() {
-    ::wnoutrefresh(viewWindow);
-}
