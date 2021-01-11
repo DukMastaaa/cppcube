@@ -23,7 +23,7 @@ the following lists.
 - By this point I would have written enough `view`s to design an effective
   base class so I don't have to duplicate the code
 - Actual timing functionality
-- Record `struct` with time, scramble and penalty fields
+- A `struct` with time, scramble and penalty fields
 - Penalties (+2, DNF)
 - Change side length of cube during run-time
 - Record list
