@@ -1,0 +1,80 @@
+NUMBERS IN BLOCK CHARACTERS
+
+███
+█ █
+█ █
+█ █
+███
+
+██
+ █
+ █
+ █
+███
+
+██
+  █
+ █
+█
+███
+
+██
+  █
+██ 
+  █
+██
+ 
+█ █
+█ █
+███
+  █
+  █
+
+███
+█
+███
+  █
+███
+
+███
+█
+███
+█ █
+███
+
+███
+  █
+  █
+  █
+  █
+
+███
+█ █
+███
+█ █
+███
+
+███
+█ █
+███
+  █
+  █
+
+
+NOTES
+
+/*
+    int beforeX, beforeY;
+    getmaxyx(stdscr, beforeY, beforeX);
+    WINDOW* meow = newwin(5, 5, 0, 0);
+    int afterX, afterY;
+    getmaxyx(stdscr, afterY, afterX);
+    int lolx, loly;
+    getmaxyx(meow, lolx, loly);
+    endwin();
+    std::cout << beforeX << ' ' << beforeY << '\n';
+    std::cout << afterX << ' ' << afterY << '\n';
+    std::cout << lolx << ' ' << loly << '\n';
+*/
+above shows that getmaxyx works with stdscr even after new windows are 
+defined

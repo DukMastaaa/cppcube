@@ -1,8 +1,10 @@
 #include <ncurses.h>
 #include <iostream>
+#include <random>
 #include "cubes.h"
 #include "cubeView.h"
 #include "colours.h"
+#include "scrambler.h"
 
 int main() {
     initscr();
@@ -10,21 +12,18 @@ int main() {
     cbreak();
     curs_set(0);
     startColours();
-    /*
-    int beforeX, beforeY;
-    getmaxyx(stdscr, beforeY, beforeX);
-    WINDOW* meow = newwin(5, 5, 0, 0);
-    int afterX, afterY;
-    getmaxyx(stdscr, afterY, afterX);
-    int lolx, loly;
-    getmaxyx(meow, lolx, loly);
-    endwin();
-    std::cout << beforeX << ' ' << beforeY << '\n';
-    std::cout << afterX << ' ' << afterY << '\n';
-    std::cout << lolx << ' ' << loly << '\n';
-    */
-    CubeModel cube(7);
-    cube.parseMoves(std::string("R U R' U'"));
+
+    // https://stackoverflow.com/a/15509942
+    std::random_device r;
+    std::seed_seq seed{r(), r(), r(), r(), r(), r(), r(), r()};
+    std::mt19937 mersenne(seed);    
+    CubeScrambler cs(mersenne);
+
+    CubeModel cube(4);
+    std::string scramble = cs.getScramble(4);
+    // std::string scramble = "Rw";
+    cube.parseMoves(scramble);
+
     CubeView view(cube);
     view.draw();
     view.wnoutrefresh();
@@ -32,6 +31,8 @@ int main() {
 
     wgetch(view.viewWindow);
     endwin();
+
+    std::cout << scramble << '\n';
 
     return 0;
 }
