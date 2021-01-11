@@ -13,16 +13,12 @@ int main() {
     curs_set(0);
     startColours();
 
-    // https://stackoverflow.com/a/15509942
-    std::random_device r;
-    std::seed_seq seed{r(), r(), r(), r(), r(), r(), r(), r()};
-    std::mt19937 mersenne(seed);    
-    CubeScrambler cs(mersenne);
-
+    CubeScrambler cs;
     CubeModel cube(4);
     std::string scramble = cs.getScramble(4);
-    // std::string scramble = "Rw";
     cube.parseMoves(scramble);
+
+    waddstr(stdscr, scramble.c_str());
 
     CubeView view(cube);
     view.draw();

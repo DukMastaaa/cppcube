@@ -1,4 +1,4 @@
-// #pragma once
+#pragma once
 #include <iostream>
 #include <random>
 #include <utility>
@@ -6,7 +6,7 @@
 
 class CubeScrambler {
     private:
-        std::mt19937& mersenneGenerator;
+        std::mt19937 mersenneGenerator;
 
         // will preserve uniform distribution of integers
         // using modulo 2 or 3 (since 6 is multiple of both)
@@ -23,6 +23,6 @@ class CubeScrambler {
         std::string generateMoveSeq(int dim, std::uniform_int_distribution<int>& wideDist, int moveCount);
 
     public:
-        CubeScrambler(std::mt19937& mersenne);
+        CubeScrambler();
         std::string getScramble(int dim);
 };
