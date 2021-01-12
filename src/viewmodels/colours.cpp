@@ -1,4 +1,3 @@
-#pragma once
 #include <ncurses.h>
 #include "colours.h"
 
