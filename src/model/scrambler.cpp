@@ -19,6 +19,7 @@ CubeScrambler::CubeScrambler() {
     std::seed_seq seed{r(), r(), r(), r(), r(), r(), r(), r()};
     mersenneGenerator = std::mt19937(seed);
     std::uniform_int_distribution<int> uniform6(0, 5);  // inclusive
+    mostRecentScramble = "";
 }
 
 
@@ -113,18 +114,25 @@ std::string CubeScrambler::getScramble(int dim) {
     std::uniform_int_distribution<int> wideDist(1, dim / 2);  // floor division
     switch (dim) {
         case 2:
-            return generateMoveSeq(2, wideDist, 10);
+            mostRecentScramble = generateMoveSeq(2, wideDist, 10);
             break;
         case 3:
-            return generateMoveSeq(3, wideDist, 20);  // or 25?
+            mostRecentScramble = generateMoveSeq(3, wideDist, 20);  // or 25?
             break;
         case 4:
             // 20 moves without wide moves, 25 moves with
-            return generateMoveSeq(3, wideDist, 20) + generateMoveSeq(4, wideDist, 25);
+            mostRecentScramble = generateMoveSeq(3, wideDist, 20) + generateMoveSeq(4, wideDist, 25);
             break;
         default:
             int moveCount = (dim - 2) * 20;
-            return generateMoveSeq(dim, wideDist, moveCount);
+            mostRecentScramble = generateMoveSeq(dim, wideDist, moveCount);
             break;
     }
+
+    return mostRecentScramble;
+}
+
+
+std::string& CubeScrambler::getMostRecentScramble() {
+    return mostRecentScramble;
 }

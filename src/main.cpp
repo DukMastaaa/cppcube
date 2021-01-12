@@ -6,6 +6,7 @@
 #include "colours.h"
 #include "scrambler.h"
 #include "windowClasses.h"
+#include "scramblerView.h"
 
 int main() {
     initscr();
@@ -15,21 +16,30 @@ int main() {
     startColours();
 
     CubeScrambler cs;
-    CubeModel cube(5);
-    std::string scramble = cs.getScramble(5);
+    CubeModel cube(2);
+    std::string scramble = cs.getScramble(2);
     cube.parseMoves(scramble);
 
-    // waddstr(stdscr, scramble.c_str());
-    CubeView vm(cube);
-    BottomRightWindow brwin(vm);
+
+    CubeViewModel cubevm(cube);
+    BottomRightWindow brwin(cubevm);
     brwin.draw();
     brwin.makeBox();
     brwin.wnoutrefresh();
+
+    ScramblerViewModel scramblervm(cs);
+    DefaultWindow dwin(scramblervm, 0, 0);
+    dwin.draw();
+    dwin.wnoutrefresh();
+
     doupdate();
 
-    wgetch(brwin.window);
+    char beans;
+    do {
+    beans = wgetch(brwin.window);
+    } while (beans != 'q');
     endwin();
-
+ 
     // std::cout << scramble << '\n';
 
     return 0;

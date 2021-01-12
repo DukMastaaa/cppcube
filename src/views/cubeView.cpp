@@ -5,7 +5,7 @@
 #include "colours.h"
 
 
-std::pair<int, int> CubeView::calcHeightWidth() {
+std::pair<int, int> CubeViewModel::calcHeightWidth() {
     /* Calculates height and width of the window given the side length
     of `cube`. */
     int height = 3 * cube.dim + 2 * SPACING;
@@ -17,10 +17,10 @@ std::pair<int, int> CubeView::calcHeightWidth() {
 }
 
 
-CubeView::CubeView(CubeModel& cubeRef) : cube(cubeRef) { }
+CubeViewModel::CubeViewModel(CubeModel& cubeRef) : cube(cubeRef) { }
 
 
-void CubeView::draw(WINDOW* window) {
+void CubeViewModel::draw(WINDOW* window) {
     int yOffset = 0;  // keeps track of y pos in window after each layer
 
     // FACE_UP
