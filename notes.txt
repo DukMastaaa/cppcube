@@ -78,3 +78,67 @@ NOTES
 */
 above shows that getmaxyx works with stdscr even after new windows are 
 defined
+
+/*
+
+char intToDigit(int number) {
+    switch (number) {
+        case 0:
+            return '0';
+            break;
+        case 1:
+            return '1';
+            break;
+        case 2:
+            return '2';
+            break;
+        case 3:
+            return '3';
+            break;
+        case 4:
+            return '4';
+            break;
+        case 5:
+            return '5';
+            break;
+        case 6:
+            return '6';
+            break;
+        default:
+            return 'h';
+    }
+}
+*/
+
+
+/*
+main: makeobj/main.o makeobj/colours.o makeobj/cubes.o makeobj/cubeView.o makeobj/scrambler.o makeobj/baseWindow.o
+	g++ makeobj/main.o makeobj/colours.o makeobj/cubes.o makeobj/cubeView.o makeobj/scrambler.o makeobj/baseWindow.o -lncurses -o main
+
+makeobj/main.o: main.cpp
+	g++ -c main.cpp
+	mkdir -p makeobj; mv main.o makeobj
+
+makeobj/colours.o: colours.cpp colours.h
+	g++ -c colours.cpp
+	mkdir -p makeobj; mv colours.o makeobj
+
+makeobj/cubes.o: cubes.cpp cubes.h
+	g++ -c cubes.cpp
+	mkdir -p makeobj; mv cubes.o makeobj
+
+makeobj/cubeView.o: cubeView.cpp cubeView.h
+	g++ -c cubeView.cpp
+	mkdir -p makeobj; mv cubeView.o makeobj
+
+makeobj/scrambler.o: scrambler.cpp scrambler.h
+	g++ -c scrambler.cpp
+	mkdir -p makeobj; mv scrambler.o makeobj
+
+makeobj/baseWindow.o: baseWindow.cpp baseWindow.h
+	g++ -c baseWindow.cpp
+	mkdir -p makeobj; mv baseWindow.o makeobj
+
+clean:
+	rm makeobj/*.o
+*/
