@@ -1,4 +1,5 @@
 /old
 /makeobj
 /.vscode
-main
+/build
+/main
