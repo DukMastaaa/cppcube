@@ -5,14 +5,14 @@
 #include "cubes.h"
 
 
-class CubeView : public BaseViewModel {
+class CubeViewModel : public BaseViewModel {
     private:
         CubeModel& cube;
         static const char BLOCK = '#';
         static const int SPACING = 1;
     
     public:
-        CubeView(CubeModel& cubeRef);
+        CubeViewModel(CubeModel& cubeRef);
         std::pair<int, int> calcHeightWidth();
         void draw(WINDOW* window);
 };
