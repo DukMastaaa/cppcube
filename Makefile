@@ -1,3 +1,7 @@
+# Code adapted from 
+# https://gist.github.com/mauriciopoppe/de8908f67923091982c8c8136a063ea6
+
+
 CXX ?= g++
 
 # path #
@@ -22,8 +26,8 @@ OBJECTS = $(SOURCES:$(SRC_PATH)/%.$(SRC_EXT)=$(BUILD_PATH)/%.o)
 DEPS = $(OBJECTS:.o=.d)
 
 # flags #
-COMPILE_FLAGS = -std=c++11 -Wall -Wextra -g
-INCLUDES = -I ./src -I /usr/local/include
+COMPILE_FLAGS = -Wall -Wextra
+INCLUDES = -I ./src/include
 # Space-separated pkg-config libraries used by this project
 LIBS = -lncurses
 

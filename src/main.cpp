@@ -30,7 +30,7 @@ int main() {
     wgetch(brwin.window);
     endwin();
 
-    std::cout << scramble << '\n';
+    // std::cout << scramble << '\n';
 
     return 0;
 }
