@@ -1,18 +1,18 @@
 #pragma once
 #include <ncurses.h>
-#include <tuple>
-#include "baseWindow.h"
+#include <utility>
+#include "baseViewModel.h"
 #include "cubes.h"
 
 
-class CubeView : public BaseWindow {
+class CubeView : public BaseViewModel {
     private:
         CubeModel& cube;
         static const char BLOCK = '#';
+        static const int SPACING = 1;
     
     public:
-        static std::tuple<int, int> calcHeightWidth(int dim, int spacing = 1);
-        static std::tuple<int, int> calcTopLeftPos(int dim, int spacing = 1);
         CubeView(CubeModel& cubeRef);
-        void draw();
+        std::pair<int, int> calcHeightWidth();
+        void draw(WINDOW* window);
 };
