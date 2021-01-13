@@ -10,7 +10,7 @@ std::pair<int, int> ScramblerViewModel::calcHeightWidth() {
     int maxY, maxX;
     getmaxyx(stdscr, maxY, maxX);
     (void) maxY;  // maxY unused - doesn't matter here
-    return std::make_pair(3, maxX - 2);
+    return std::make_pair(4, maxX - 2);
 }
 
 
