@@ -15,7 +15,7 @@ int main() {
     curs_set(0);
     startColours();
 
-    int dim = 6;
+    int dim = 7;
 
     CubeScrambler cs;
     CubeModel cube(dim);

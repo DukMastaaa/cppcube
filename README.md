@@ -16,17 +16,19 @@ the following lists.
       where a `w` with no beginning digit implies depth of `2`
 - NxNxN cube scrambler
 - Cube net view
+- Scramble view (and made window/view separation more robust)
 
 ### Will implement
-- Scramble view
 - Timer view using block characters (if they display properly)
-- By this point I would have written enough `view`s to design an effective
-  base class so I don't have to duplicate the code
+- Proper formatting of scramble (only break line on space)
+- Window title
 - Actual timing functionality
-- A `struct` with time, scramble and penalty fields
+- A `struct` with time, scramble and penalty fields (POD)
 - Penalties (+2, DNF)
 - Change side length of cube during run-time
+- Shrink views if too large and display popups instead
 - Record list
+- Record list view
 - Record summary statistics
 - Data export/import
 - Automatic saving (location of save file most likely OS-dependent)
@@ -44,5 +46,5 @@ the following lists.
 The original `cppcube` was simply a header and `.cpp` file providing an
 NxNxN cube model. There was also code to measure performance, and an equivalent
 Python implementation of the algorithm. The Python code can be found in `/python`
-and the `cubes` header/implementation are somewhere in the project files... just adapted
-and improved a bit.
+and the `cubes` header/implementation are `/src/include/cubes.h` and 
+`src/model/cubes.cpp` respectively. Not much has changed since the original implementation.

@@ -1,6 +1,5 @@
 #include <ncurses.h>
 #include <utility>
-#include <iostream>
 #include "windowClasses.h"
 #include "baseViewModel.h"
 
