@@ -15,7 +15,7 @@ class BaseWindow {
         WINDOW* subwin;
         virtual std::pair<int, int> calcTopLeftPos(std::pair<int, int> heightAndWidth) = 0;
         BaseWindow(BaseViewModel& vm);
-        void createWindows(int height, int width, int topLeftY, int topLeftX);
+        void createWindows(int fullHeight, int fullWidth, int topLeftY, int topLeftX);
         void wnoutrefresh();
         void makeBox();
         void draw();

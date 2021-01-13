@@ -11,6 +11,7 @@ std::pair<int, int> CubeViewModel::calcHeightWidth() {
     int height = 3 * cube.dim + 2 * SPACING;
     int width = 4 * cube.dim + 3 * SPACING;
     return std::make_pair(height, width);
+    // return std::make_pair(10, 10);
 }
 
 
@@ -32,7 +33,7 @@ void CubeViewModel::draw(WINDOW* window) {
         }
     }
 
-    yOffset = cube.dim;
+    yOffset = cube.dim + SPACING;
 
     // FACE_LEFT, FACE_FRONT, FACE_RIGHT, FACE_BACK
     static const int middleFaces[] = {FACE_LEFT, FACE_FRONT, FACE_RIGHT, FACE_BACK};
@@ -49,7 +50,7 @@ void CubeViewModel::draw(WINDOW* window) {
         }
     }
 
-    yOffset = 2 * cube.dim;
+    yOffset = 2 * (cube.dim + SPACING);
 
     // FACE_DOWN  // duplicated code... aeugh
     leftOffset = cube.dim + SPACING;
