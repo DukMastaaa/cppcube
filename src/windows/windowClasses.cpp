@@ -1,5 +1,6 @@
 #include <ncurses.h>
 #include <utility>
+#include <iostream>
 #include "windowClasses.h"
 #include "baseViewModel.h"
 
@@ -31,11 +32,11 @@ std::pair<int, int> BaseWindow::addIntToPair(std::pair<int, int> pair, int num) 
 }
 
 
-void BaseWindow::createWindows(int height, int width, int topLeftY, int topLeftX) {
-    window = newwin(height, width, topLeftY, topLeftX);
+void BaseWindow::createWindows(int fullHeight, int fullWidth, int topLeftY, int topLeftX) {
+    window = newwin(fullHeight, fullWidth, topLeftY, topLeftX);
     subwin = derwin(
         window,  // derive from main window
-        height - 2 * BORDER_WIDTH, width - 2 * BORDER_WIDTH,  // cut off both borders
+        fullHeight - 2 * BORDER_WIDTH, fullWidth - 2 * BORDER_WIDTH,  // cut off both borders
         BORDER_WIDTH, BORDER_WIDTH  // start at first part after border
     );
 }
@@ -54,7 +55,7 @@ std::pair<int, int> BottomRightWindow::calcTopLeftPos(std::pair<int, int> height
 
 
 BottomRightWindow::BottomRightWindow(BaseViewModel& vm) : BaseWindow(vm) {
-    std::pair<int, int> heightAndWidth = addIntToPair(vm.calcHeightWidth(), 0 * BORDER_WIDTH);
+    std::pair<int, int> heightAndWidth = addIntToPair(vm.calcHeightWidth(), 2 * BORDER_WIDTH);
     std::pair<int, int> topLeftPos = calcTopLeftPos(heightAndWidth);
     createWindows(heightAndWidth.first, heightAndWidth.second, topLeftPos.first, topLeftPos.second);
 }
