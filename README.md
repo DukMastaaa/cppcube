@@ -22,6 +22,7 @@ the following lists.
 - Timer view using block characters (if they display properly)
 - Proper formatting of scramble (only break line on space)
 - Window title
+- Handle terminal resize events
 - Actual timing functionality
 - A `struct` with time, scramble and penalty fields (POD)
 - Penalties (+2, DNF)

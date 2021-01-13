@@ -5,13 +5,12 @@
 #include "colours.h"
 
 
-std::pair<int, int> CubeViewModel::calcHeightWidth() {
+Pos2D CubeViewModel::calcHeightWidth() {
     /* Calculates height and width of the window given the side length
     of `cube`. */
     int height = 3 * cube.dim + 2 * SPACING;
     int width = 4 * cube.dim + 3 * SPACING;
-    return std::make_pair(height, width);
-    // return std::make_pair(10, 10);
+    return {height, width};
 }
 
 

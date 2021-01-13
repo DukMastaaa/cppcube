@@ -1,6 +1,7 @@
 #pragma once
 #include "baseViewModel.h"
 #include "scrambler.h"
+#include "position.h"
 
 
 class ScramblerViewModel : public BaseViewModel {
@@ -9,6 +10,6 @@ class ScramblerViewModel : public BaseViewModel {
 
     public:
         ScramblerViewModel(CubeScrambler& scramblerRef);
-        std::pair<int, int> calcHeightWidth();  // if not in a popup
+        Pos2D calcHeightWidth();  // if not in a popup
         void draw(WINDOW* window);
 };

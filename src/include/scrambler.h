@@ -26,7 +26,6 @@ class CubeScrambler {
         std::string generateMoveSeq(int dim, std::uniform_int_distribution<int>& wideDist, int moveCount);
 
     public:
-        std::string beans;
         CubeScrambler();
         std::string getScramble(int dim);
         std::string& getMostRecentScramble();

@@ -3,6 +3,7 @@
 #include <utility>
 #include "baseViewModel.h"
 #include "cubes.h"
+#include "position.h"
 
 
 class CubeViewModel : public BaseViewModel {
@@ -13,6 +14,6 @@ class CubeViewModel : public BaseViewModel {
     
     public:
         CubeViewModel(CubeModel& cubeRef);
-        std::pair<int, int> calcHeightWidth();
+        Pos2D calcHeightWidth();
         void draw(WINDOW* window);
 };

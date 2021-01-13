@@ -5,12 +5,12 @@
 #include "scrambler.h"
 
 
-std::pair<int, int> ScramblerViewModel::calcHeightWidth() {
+Pos2D ScramblerViewModel::calcHeightWidth() {
     // currently constant return value, will adapt later for larger scramble size
     int maxY, maxX;
     getmaxyx(stdscr, maxY, maxX);
     (void) maxY;  // maxY unused - doesn't matter here
-    return std::make_pair(4, maxX - 2);
+    return {4, maxX - 2};
 }
 
 
@@ -18,13 +18,8 @@ ScramblerViewModel::ScramblerViewModel(CubeScrambler& scramblerRef) : scrambler(
 
 
 void ScramblerViewModel::draw(WINDOW* window) {
+    // to be modified - format scramble properly, only break line on space
     std::string s = scrambler.getMostRecentScramble();
-    // std::string s = scrambler.beans;
-    // int max = s.length();
-    // for (int h = 0; h < max; h++) {
-    //     mvwaddch(window, 1, h + 1, s.at(h));
-    // }
     mvwprintw(window, 0, 0, s.c_str());
-    // waddstr(window, "beans");
 }
 

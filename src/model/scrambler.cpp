@@ -6,21 +6,12 @@
 #include <chrono>
 
 
-// std::mt19937 CubeScrambler::getMersenneGenerator() {
-//     // https://stackoverflow.com/a/15509942
-//     std::random_device r;
-//     std::seed_seq seed{r(), r(), r(), r(), r(), r(), r(), r()};
-//     return std::mt19937(seed);
-// }
-
-
 CubeScrambler::CubeScrambler() {
     std::random_device r;
     std::seed_seq seed{r(), r(), r(), r(), r(), r(), r(), r()};
     mersenneGenerator = std::mt19937(seed);
     std::uniform_int_distribution<int> uniform6(0, 5);  // inclusive
     mostRecentScramble = "";
-    beans = "meow";
 }
 
 
