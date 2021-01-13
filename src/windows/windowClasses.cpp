@@ -8,17 +8,36 @@ BaseWindow::BaseWindow(BaseViewModel& vm) : viewModel(vm) {}
 
 
 void BaseWindow::wnoutrefresh() {
+    ::touchwin(window);
     ::wnoutrefresh(window);
+    ::wnoutrefresh(subwin);
 }
 
 
 void BaseWindow::makeBox() {
-    box(window, '|', '-');
+    ::box(window, '|', '-');
 }
 
 
 void BaseWindow::draw() {
-    viewModel.draw(window);
+    viewModel.draw(subwin);
+}
+
+
+std::pair<int, int> BaseWindow::addIntToPair(std::pair<int, int> pair, int num) {
+    int first = pair.first;
+    int second = pair.second;
+    return std::make_pair(first + num, second + num);
+}
+
+
+void BaseWindow::createWindows(int height, int width, int topLeftY, int topLeftX) {
+    window = newwin(height, width, topLeftY, topLeftX);
+    subwin = derwin(
+        window,  // derive from main window
+        height - 2 * BORDER_WIDTH, width - 2 * BORDER_WIDTH,  // cut off both borders
+        BORDER_WIDTH, BORDER_WIDTH  // start at first part after border
+    );
 }
 
 
@@ -35,9 +54,9 @@ std::pair<int, int> BottomRightWindow::calcTopLeftPos(std::pair<int, int> height
 
 
 BottomRightWindow::BottomRightWindow(BaseViewModel& vm) : BaseWindow(vm) {
-    std::pair<int, int> heightAndWidth = vm.calcHeightWidth();
+    std::pair<int, int> heightAndWidth = addIntToPair(vm.calcHeightWidth(), 0 * BORDER_WIDTH);
     std::pair<int, int> topLeftPos = calcTopLeftPos(heightAndWidth);
-    window = newwin(heightAndWidth.first, heightAndWidth.second, topLeftPos.first, topLeftPos.second);
+    createWindows(heightAndWidth.first, heightAndWidth.second, topLeftPos.first, topLeftPos.second);
 }
 
 
@@ -52,19 +71,20 @@ std::pair<int, int> CentredPopupWindow::calcTopLeftPos(std::pair<int, int> heigh
 
 CentredPopupWindow::CentredPopupWindow(BaseViewModel& vm) : BaseWindow(vm) {
     // todo: blatant code duplication - will i ever need to do something different here? if not then make base method
-    std::pair<int, int> heightAndWidth = vm.calcHeightWidth();
+    std::pair<int, int> heightAndWidth = addIntToPair(vm.calcHeightWidth(), 2 * BORDER_WIDTH);
     std::pair<int, int> topLeftPos = calcTopLeftPos(heightAndWidth);
-    window = newwin(heightAndWidth.first, heightAndWidth.second, topLeftPos.first, topLeftPos.second);
+    createWindows(heightAndWidth.first, heightAndWidth.second, topLeftPos.first, topLeftPos.second);
 }
 
 
 std::pair<int, int> DefaultWindow::calcTopLeftPos(std::pair<int, int> heightAndWidth) {
     // this doesn't need to be called.
+    (void) heightAndWidth;  // unused.
     return std::make_pair(-1, -1);
 }
 
 
 DefaultWindow::DefaultWindow(BaseViewModel& vm, int topLeftY, int topLeftX) : BaseWindow(vm) {
-    std::pair<int, int> heightAndWidth = vm.calcHeightWidth();
-    window = newwin(heightAndWidth.first, heightAndWidth.second, topLeftY, topLeftX);
+    std::pair<int, int> heightAndWidth = addIntToPair(vm.calcHeightWidth(), 2 * BORDER_WIDTH);
+    createWindows(heightAndWidth.first, heightAndWidth.second, topLeftY, topLeftX);
 }

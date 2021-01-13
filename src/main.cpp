@@ -15,9 +15,11 @@ int main() {
     curs_set(0);
     startColours();
 
+    int dim = 6;
+
     CubeScrambler cs;
-    CubeModel cube(2);
-    std::string scramble = cs.getScramble(2);
+    CubeModel cube(dim);
+    std::string scramble = cs.getScramble(dim);
     cube.parseMoves(scramble);
 
 
@@ -30,6 +32,7 @@ int main() {
     ScramblerViewModel scramblervm(cs);
     DefaultWindow dwin(scramblervm, 0, 0);
     dwin.draw();
+    dwin.makeBox();
     dwin.wnoutrefresh();
 
     doupdate();
