@@ -42,8 +42,6 @@ int main() {
     beans = wgetch(brwin.window);
     } while (beans != 'q');
     endwin();
- 
-    // std::cout << scramble << '\n';
 
     return 0;
 }

@@ -2,6 +2,7 @@
 #include <utility>
 #include "windowClasses.h"
 #include "baseViewModel.h"
+#include "position.h"
 
 
 BaseWindow::BaseWindow(BaseViewModel& vm) : viewModel(vm) {}
@@ -24,10 +25,8 @@ void BaseWindow::draw() {
 }
 
 
-std::pair<int, int> BaseWindow::addIntToPair(std::pair<int, int> pair, int num) {
-    int first = pair.first;
-    int second = pair.second;
-    return std::make_pair(first + num, second + num);
+Pos2D BaseWindow::addIntToPos(Pos2D pos, int num) {
+    return {pos.y + num, pos.x + num};
 }
 
 
@@ -41,50 +40,56 @@ void BaseWindow::createWindows(int fullHeight, int fullWidth, int topLeftY, int 
 }
 
 
-std::pair<int, int> BottomRightWindow::calcTopLeftPos(std::pair<int, int> heightAndWidth) {
+BaseWindow::~BaseWindow() {
+    delwin(subwin);
+    delwin(window);
+}
+
+
+Pos2D BottomRightWindow::calcTopLeftPos(Pos2D heightAndWidth) {
     /* Calculates the position (y, x) of the top-left corner of the window
     given the window's height and width. */
 
     int maxY, maxX;
     getmaxyx(stdscr, maxY, maxX);
-    int topLeftX = maxX - heightAndWidth.second;
-    int topLeftY = maxY - heightAndWidth.first;
-    return std::make_pair(topLeftY, topLeftX);
+    int topLeftX = maxX - heightAndWidth.x;
+    int topLeftY = maxY - heightAndWidth.y;
+    return {topLeftY, topLeftX};
 }
 
 
 BottomRightWindow::BottomRightWindow(BaseViewModel& vm) : BaseWindow(vm) {
-    std::pair<int, int> heightAndWidth = addIntToPair(vm.calcHeightWidth(), 2 * BORDER_WIDTH);
-    std::pair<int, int> topLeftPos = calcTopLeftPos(heightAndWidth);
-    createWindows(heightAndWidth.first, heightAndWidth.second, topLeftPos.first, topLeftPos.second);
+    Pos2D heightAndWidth = addIntToPos(vm.calcHeightWidth(), 2 * BORDER_WIDTH);
+    Pos2D topLeftPos = calcTopLeftPos(heightAndWidth);
+    createWindows(heightAndWidth.y, heightAndWidth.x, topLeftPos.y, topLeftPos.x);
 }
 
 
-std::pair<int, int> CentredPopupWindow::calcTopLeftPos(std::pair<int, int> heightAndWidth) {
+Pos2D CentredPopupWindow::calcTopLeftPos(Pos2D heightAndWidth) {
     int maxY, maxX;
     getmaxyx(stdscr, maxY, maxX);
-    int topLeftX = (maxX - heightAndWidth.second) / 2;
-    int topLeftY = (maxY - heightAndWidth.first) / 2;
-    return std::make_pair(topLeftY, topLeftX);
+    int topLeftX = (maxX - heightAndWidth.x) / 2;
+    int topLeftY = (maxY - heightAndWidth.y) / 2;
+    return {topLeftY, topLeftX};
 }
 
 
 CentredPopupWindow::CentredPopupWindow(BaseViewModel& vm) : BaseWindow(vm) {
     // todo: blatant code duplication - will i ever need to do something different here? if not then make base method
-    std::pair<int, int> heightAndWidth = addIntToPair(vm.calcHeightWidth(), 2 * BORDER_WIDTH);
-    std::pair<int, int> topLeftPos = calcTopLeftPos(heightAndWidth);
-    createWindows(heightAndWidth.first, heightAndWidth.second, topLeftPos.first, topLeftPos.second);
+    Pos2D heightAndWidth = addIntToPos(vm.calcHeightWidth(), 2 * BORDER_WIDTH);
+    Pos2D topLeftPos = calcTopLeftPos(heightAndWidth);
+    createWindows(heightAndWidth.y, heightAndWidth.x, topLeftPos.y, topLeftPos.x);
 }
 
 
-std::pair<int, int> DefaultWindow::calcTopLeftPos(std::pair<int, int> heightAndWidth) {
+Pos2D DefaultWindow::calcTopLeftPos(Pos2D heightAndWidth) {
     // this doesn't need to be called.
     (void) heightAndWidth;  // unused.
-    return std::make_pair(-1, -1);
+    return {-1, -1};
 }
 
 
 DefaultWindow::DefaultWindow(BaseViewModel& vm, int topLeftY, int topLeftX) : BaseWindow(vm) {
-    std::pair<int, int> heightAndWidth = addIntToPair(vm.calcHeightWidth(), 2 * BORDER_WIDTH);
-    createWindows(heightAndWidth.first, heightAndWidth.second, topLeftY, topLeftX);
+    Pos2D heightAndWidth = addIntToPos(vm.calcHeightWidth(), 2 * BORDER_WIDTH);
+    createWindows(heightAndWidth.y, heightAndWidth.x, topLeftY, topLeftX);
 }
