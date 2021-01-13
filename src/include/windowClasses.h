@@ -7,11 +7,15 @@
 class BaseWindow {
     protected:
         BaseViewModel& viewModel;
+        static const int BORDER_WIDTH = 1;
+        static std::pair<int, int> addIntToPair(std::pair<int, int> pair, int num);
 
     public:
         WINDOW* window;
+        WINDOW* subwin;
         virtual std::pair<int, int> calcTopLeftPos(std::pair<int, int> heightAndWidth) = 0;
         BaseWindow(BaseViewModel& vm);
+        void createWindows(int height, int width, int topLeftY, int topLeftX);
         void wnoutrefresh();
         void makeBox();
         void draw();

@@ -20,6 +20,7 @@ CubeScrambler::CubeScrambler() {
     mersenneGenerator = std::mt19937(seed);
     std::uniform_int_distribution<int> uniform6(0, 5);  // inclusive
     mostRecentScramble = "";
+    beans = "meow";
 }
 
 
@@ -59,7 +60,7 @@ std::pair<int, std::string> CubeScrambler::generateMove(int prevAxis, int dim,
     int newAxis = getNewAxis(prevAxis);
     int addOffset = (dim == 2) ? 0 : uniform6(mersenneGenerator) % 2;
     char faceChar = FACES3X3[newAxis * 2 + addOffset];
-    std::string faceString = {faceChar, '\0'};
+    std::string faceString(1, faceChar);
 
     std::string wideTurnDepth = "";
     std::string wideIndicator = "";
