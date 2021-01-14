@@ -7,6 +7,8 @@
 #include "scrambler.h"
 #include "windowClasses.h"
 #include "scramblerView.h"
+#include "cubeTimer.h"
+#include "timerView.h"
 
 int main() {
     initscr();
@@ -15,7 +17,7 @@ int main() {
     curs_set(0);
     startColours();
 
-    int dim = 7;
+    int dim = 8;
 
     CubeScrambler cs;
     CubeModel cube(dim);
@@ -30,10 +32,17 @@ int main() {
     brwin.wnoutrefresh();
 
     ScramblerViewModel scramblervm(cs);
-    DefaultWindow dwin(scramblervm, 0, 0);
-    dwin.draw();
-    dwin.makeBox();
-    dwin.wnoutrefresh();
+    DefaultWindow swin(scramblervm, 0, 0);
+    swin.draw();
+    swin.makeBox();
+    swin.wnoutrefresh();
+
+    CubeTimer ct;
+    TimerViewModel tvm(ct);
+    DefaultWindow twin(tvm, 8, 0);
+    twin.draw();
+    twin.makeBox();
+    twin.wnoutrefresh();
 
     doupdate();
 
