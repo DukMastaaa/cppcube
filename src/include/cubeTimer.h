@@ -5,5 +5,5 @@
 class CubeTimer {
     // very much WIP!
     public:
-        std::chrono::milliseconds getTime();
+        std::chrono::milliseconds getTimeElapsed();
 };
