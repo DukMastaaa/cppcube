@@ -4,7 +4,7 @@
 
 CubeTimer::CubeTimer() {
     isTiming = false;
-    // uh
+    resetTime();
 }
 
 
@@ -26,6 +26,15 @@ void CubeTimer::stopTiming() {
         isTiming = false;
         endingTime = clock.now();
         timeElapsed = chrono::duration_cast<chrono::milliseconds>(endingTime - startingTime);
+    }
+}
+
+
+void CubeTimer::toggleTiming() {
+    if (isTiming) {
+        stopTiming();
+    } else {
+        startTimingAndReset();
     }
 }
 

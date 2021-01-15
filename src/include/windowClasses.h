@@ -20,6 +20,9 @@ class BaseWindow {
         void wnoutrefresh();
         void makeBox();
         void draw();
+        void wclear();
+        void werase();
+        void fullRefresh(bool drawBox = true, bool clear = true, bool erase = false);
         ~BaseWindow();
 };
 

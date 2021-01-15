@@ -15,52 +15,48 @@ int main() {
     noecho();
     cbreak();
     curs_set(0);
+    timeout(0);  // non-blocking getch().
     startColours();
 
     int dim = 4;
 
     CubeScrambler cs;
     CubeModel cube(dim);
-    std::string scramble = cs.getScramble(dim);
-    cube.parseMoves(scramble);
-
+    cube.parseMoves(cs.getScramble(dim));
 
     CubeViewModel cubevm(cube);
-    BottomRightWindow brwin(cubevm);
-    brwin.draw();
-    brwin.makeBox();
-    brwin.wnoutrefresh();
+    BottomRightWindow cwin(cubevm);
 
     ScramblerViewModel scramblervm(cs);
     DefaultWindow swin(scramblervm, 0, 0);
-    swin.draw();
-    swin.makeBox();
-    swin.wnoutrefresh();
 
     CubeTimer ct;
     TimerViewModel tvm(ct);
     CentredPopupWindow twin(tvm);
-    twin.draw();
-    twin.makeBox();
-    twin.wnoutrefresh();
 
+
+    // surely i have to design a better interface instead of `true, false, false`...
+    cwin.fullRefresh(true, false, false);
+    swin.fullRefresh(true, false, false);
+    twin.fullRefresh(true, false, false);
     doupdate();
 
-    char beans;
-    bool isTiming;
-    while (beans != 'q') {
-        beans = wgetch(brwin.window);
-            if (beans == 't') {
-                ct.startTimingAndReset();
-            } else if (beans == 's') {
-                ct.stopTiming();
-                twin.draw();
-                twin.makeBox();
-                twin.wnoutrefresh();
+    char input;
+    while (input != 'q') {
+        input = wgetch(cwin.window);
+        if (input == ' ') {
+            ct.toggleTiming();
+            twin.fullRefresh(true, false, true);
+
+            if (!ct.isTiming) {
+                cube.parseMoves(cs.getScramble(dim));
+                cwin.fullRefresh();
+                swin.fullRefresh();
             }
+            doupdate();
+        }
     }
     
     endwin();
-
     return 0;
 }

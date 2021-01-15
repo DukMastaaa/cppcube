@@ -15,6 +15,7 @@ class TimerViewModel : public BaseViewModel {
         static const std::string PLUS[5];
         static std::array<int, 3> getTimesAsStr(std::chrono::milliseconds elapsedTime);
         void drawCharMatrix(WINDOW* window, std::array<int, 3> times);
+        void drawEllipsis(WINDOW* window);
 
     public:
         TimerViewModel(CubeTimer& timerRef);

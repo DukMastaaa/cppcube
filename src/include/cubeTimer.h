@@ -9,12 +9,13 @@ class CubeTimer {
         std::chrono::steady_clock::time_point startingTime;
         std::chrono::steady_clock::time_point endingTime;
         std::chrono::milliseconds timeElapsed;
-        bool isTiming;
 
     public:
+        bool isTiming;
         CubeTimer();
         void resetTime();
         void startTimingAndReset();
         void stopTiming();
+        void toggleTiming();
         std::chrono::milliseconds getTimeElapsed();
 };

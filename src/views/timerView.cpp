@@ -154,10 +154,11 @@ void TimerViewModel::drawCharMatrix(WINDOW* window, std::array<int, 3> times) {
             for (int placeVal = 0; placeVal < 2; placeVal++) {
                 for (char block : NUM_BLOCK[digits[placeVal]][row]) {
                     // inverse colour - switch symbols around
-                    block = (block == '#') ? ' ' : '█';
-                    wattron(window, COLOR_PAIR(BLACK_ON_WHITE));
+                    // block = (block == '#') ? ' ' : '█';
+                    int colour = (block == '#') ? GREEN_ON_BLACK : WHITE_ON_BLACK;
+                    wattron(window, COLOR_PAIR(colour));
                     mvwaddch(window, row, xPos, block);
-                    wattroff(window, COLOR_PAIR(BLACK_ON_WHITE));
+                    wattroff(window, COLOR_PAIR(colour));
                     xPos++;
                 }
                 mvwaddch(window, row, xPos, ' ');  // spacing
@@ -179,7 +180,19 @@ void TimerViewModel::drawCharMatrix(WINDOW* window, std::array<int, 3> times) {
 }
 
 
+void TimerViewModel::drawEllipsis(WINDOW* window) {
+    for (int col = 0; col < 5; col += 2) {
+        mvwaddch(window, 4, col, '#');
+    }
+}
+
+
 void TimerViewModel::draw(WINDOW* window) {
-    std::array<int, 3> times = getTimesAsStr(timer.getTimeElapsed());
-    drawCharMatrix(window, times);
+    // wclear(window);  // probably not needed, handled by BaseWindow::fullRefresh(bool, bool, bool)
+    if (!timer.isTiming) {
+        std::array<int, 3> times = getTimesAsStr(timer.getTimeElapsed());
+        drawCharMatrix(window, times);
+    } else {
+        drawEllipsis(window);
+    }
 }
