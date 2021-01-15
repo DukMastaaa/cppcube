@@ -25,6 +25,31 @@ void BaseWindow::draw() {
 }
 
 
+void BaseWindow::wclear() {
+    ::wclear(window);
+}
+
+
+void BaseWindow::werase() {
+    ::werase(window);
+}
+
+
+void BaseWindow::fullRefresh(bool drawBox, bool clear, bool erase) {
+    if (clear) {
+        wclear();
+    } else if (erase) {
+        werase();
+    }
+    draw();
+    if (drawBox) {
+        makeBox();
+    }
+    wnoutrefresh();
+}
+
+
+
 Pos2D BaseWindow::addIntToPos(Pos2D pos, int num) {
     return {pos.y + num, pos.x + num};
 }
