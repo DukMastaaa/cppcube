@@ -17,7 +17,7 @@ int main() {
     curs_set(0);
     startColours();
 
-    int dim = 8;
+    int dim = 4;
 
     CubeScrambler cs;
     CubeModel cube(dim);
@@ -39,7 +39,7 @@ int main() {
 
     CubeTimer ct;
     TimerViewModel tvm(ct);
-    DefaultWindow twin(tvm, 8, 0);
+    CentredPopupWindow twin(tvm);
     twin.draw();
     twin.makeBox();
     twin.wnoutrefresh();
@@ -47,9 +47,19 @@ int main() {
     doupdate();
 
     char beans;
-    do {
-    beans = wgetch(brwin.window);
-    } while (beans != 'q');
+    bool isTiming;
+    while (beans != 'q') {
+        beans = wgetch(brwin.window);
+            if (beans == 't') {
+                ct.startTimingAndReset();
+            } else if (beans == 's') {
+                ct.stopTiming();
+                twin.draw();
+                twin.makeBox();
+                twin.wnoutrefresh();
+            }
+    }
+    
     endwin();
 
     return 0;

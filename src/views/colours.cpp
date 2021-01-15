@@ -10,4 +10,5 @@ void startColours() {
     init_pair(BLUE_ON_BLACK, COLOR_BLUE, COLOR_BLACK);
     init_pair(ORANGE_ON_BLACK, COLOR_MAGENTA, COLOR_BLACK);  // no orange..
     init_pair(YELLOW_ON_BLACK, COLOR_YELLOW, COLOR_BLACK);
+    init_pair(BLACK_ON_WHITE, COLOR_BLACK, COLOR_WHITE);
 }

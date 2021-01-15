@@ -17,9 +17,10 @@ the following lists.
 - NxNxN cube scrambler
 - Cube net view
 - Scramble view (and made window/view separation more robust)
+- Timer view using block characters
 
 ### Will implement
-- Timer view using block characters (if they display properly)
+- Finish CubeTimer class
 - Proper formatting of scramble (only break line on space)
 - Window title
 - Handle terminal resize events
