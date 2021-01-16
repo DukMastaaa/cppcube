@@ -19,7 +19,8 @@ ScramblerViewModel::ScramblerViewModel(CubeScrambler& scramblerRef) : scrambler(
 
 void ScramblerViewModel::draw(WINDOW* window) {
     // to be modified - format scramble properly, only break line on space
-    std::string s = scrambler.getMostRecentScramble();
-    mvwprintw(window, 0, 0, s.c_str());
+    std::string s = scrambler.mostRecentScramble;
+    // smartStringDisplay(window, "a b c d e f gs d s df sdfsdfsdfs fsdfsdf sdf sdfs dfsdfsd fsdf sdf sdfsdfs fad as AAAA AA beans beans meow beans meows oh boy big ch ungus woo hoo");
+    smartStringDisplay(window, s);
 }
 

@@ -1,14 +1,15 @@
 #include <ncurses.h>
 #include <iostream>
 #include <random>
-#include "cubes.h"
-#include "cubeView.h"
+
 #include "colours.h"
+#include "cubes.h"
 #include "scrambler.h"
-#include "windowClasses.h"
-#include "scramblerView.h"
 #include "cubeTimer.h"
-#include "timerView.h"
+#include "windowClasses.h"
+#include "cubeViewModel.h"
+#include "scramblerViewModel.h"
+#include "timerViewModel.h"
 
 int main() {
     initscr();
@@ -22,7 +23,9 @@ int main() {
 
     CubeScrambler cs;
     CubeModel cube(dim);
-    cube.parseMoves(cs.getScramble(dim));
+    std::string scramble = "R U R' U'";
+    cs.mostRecentScramble = scramble;
+    cube.parseMoves(cs.getMostRecentScramble());
 
     CubeViewModel cubevm(cube);
     BottomRightWindow cwin(cubevm);
