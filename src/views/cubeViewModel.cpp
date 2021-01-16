@@ -1,7 +1,7 @@
 #include <ncurses.h>
 #include <utility>
 #include "cubes.h"
-#include "cubeView.h"
+#include "cubeViewModel.h"
 #include "colours.h"
 
 

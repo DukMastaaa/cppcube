@@ -19,13 +19,13 @@ class CubeScrambler {
         static const int MIN_WIDE_THRESHOLD = 4;
 
 
-        std::string mostRecentScramble;  // saves most recent scramble so ScramblerViewModel can access
 
         int getNewAxis(int prevAxis);
         std::pair<int, std::string> generateMove(int prevAxis, int dim, std::uniform_int_distribution<int>& wideDist);
         std::string generateMoveSeq(int dim, std::uniform_int_distribution<int>& wideDist, int moveCount);
 
     public:
+        std::string mostRecentScramble;  // saves most recent scramble so ScramblerViewModel can access
         CubeScrambler();
         std::string getScramble(int dim);
         std::string& getMostRecentScramble();
