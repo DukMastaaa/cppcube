@@ -18,7 +18,7 @@ int main() {
     timeout(0);  // non-blocking getch().
     startColours();
 
-    int dim = 4;
+    int dim = 3;
 
     CubeScrambler cs;
     CubeModel cube(dim);
@@ -38,7 +38,7 @@ int main() {
     // surely i have to design a better interface instead of `true, false, false`...
     cwin.fullRefresh(true, false, false);
     swin.fullRefresh(true, false, false);
-    twin.fullRefresh(true, false, false);
+    twin.fullRefresh(false, false, false);
     doupdate();
 
     char input;
@@ -46,9 +46,10 @@ int main() {
         input = wgetch(cwin.window);
         if (input == ' ') {
             ct.toggleTiming();
-            twin.fullRefresh(true, false, true);
+            twin.fullRefresh(false, false, true);
 
             if (!ct.isTiming) {
+                cube.resetState();
                 cube.parseMoves(cs.getScramble(dim));
                 cwin.fullRefresh();
                 swin.fullRefresh();

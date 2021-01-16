@@ -1,7 +1,7 @@
 #include <ncurses.h>
 #include <iostream>
 #include <utility>
-#include "scramblerView.h"
+#include "scramblerViewModel.h"
 #include "scrambler.h"
 
 

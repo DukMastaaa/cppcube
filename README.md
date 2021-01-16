@@ -18,13 +18,13 @@ the following lists.
 - Cube net view
 - Scramble view (and made window/view separation more robust)
 - Timer view using block characters
+- Finish CubeTimer class
+- Actual timing functionality
 
 ### Will implement
-- Finish CubeTimer class
 - Proper formatting of scramble (only break line on space)
 - Window title
 - Handle terminal resize events
-- Actual timing functionality
 - A `struct` with time, scramble and penalty fields (POD)
 - Penalties (+2, DNF)
 - Change side length of cube during run-time
