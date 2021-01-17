@@ -3,7 +3,7 @@
 #include <array>
 #include "timerViewModel.h"
 #include "cubeTimer.h"
-#include "position.h"
+#include "myStructs.h"
 #include "colours.h"
 
 

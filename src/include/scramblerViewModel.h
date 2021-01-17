@@ -1,7 +1,7 @@
 #pragma once
 #include "baseViewModel.h"
 #include "scrambler.h"
-#include "position.h"
+#include "myStructs.h"
 
 
 class ScramblerViewModel : public BaseViewModel {

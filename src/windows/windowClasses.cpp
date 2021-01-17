@@ -2,7 +2,7 @@
 #include <utility>
 #include "windowClasses.h"
 #include "baseViewModel.h"
-#include "position.h"
+#include "myStructs.h"
 
 
 BaseWindow::BaseWindow(BaseViewModel& vm) : viewModel(vm) {}
