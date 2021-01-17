@@ -3,7 +3,7 @@
 #include <utility>
 #include "baseViewModel.h"
 #include "cubes.h"
-#include "position.h"
+#include "myStructs.h"
 
 
 class CubeViewModel : public BaseViewModel {

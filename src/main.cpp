@@ -10,6 +10,7 @@
 #include "cubeViewModel.h"
 #include "scramblerViewModel.h"
 #include "timerViewModel.h"
+#include "myStructs.h"
 
 int main() {
     initscr();
@@ -19,13 +20,11 @@ int main() {
     timeout(0);  // non-blocking getch().
     startColours();
 
-    int dim = 3;
+    int dim = 5;
 
     CubeScrambler cs;
     CubeModel cube(dim);
-    std::string scramble = "R U R' U'";
-    cs.mostRecentScramble = scramble;
-    cube.parseMoves(cs.getMostRecentScramble());
+    cube.parseMoves(cs.getScramble(dim));
 
     CubeViewModel cubevm(cube);
     BottomRightWindow cwin(cubevm);

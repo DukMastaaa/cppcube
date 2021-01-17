@@ -20,9 +20,9 @@ the following lists.
 - Timer view using block characters
 - Finish CubeTimer class
 - Actual timing functionality
+- Proper formatting of scramble (only break line on space)
 
 ### Will implement
-- Proper formatting of scramble (only break line on space)
 - Window title
 - Handle terminal resize events
 - A `struct` with time, scramble and penalty fields (POD)

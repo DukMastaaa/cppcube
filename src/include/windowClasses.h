@@ -2,7 +2,7 @@
 #include <ncurses.h>
 #include <utility>
 #include "baseViewModel.h"
-#include "position.h"
+#include "myStructs.h"
 
 
 class BaseWindow {

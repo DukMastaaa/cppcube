@@ -4,15 +4,16 @@
 #include <ncurses.h>
 
 
-void BaseViewModel::smartStringDisplay(WINDOW* window, std::string text) {
+void BaseViewModel::smartStringDisplay(WINDOW* window, const std::string& text) {
     /* Writes the text to window but breaks the line on a space, 
     not in the middle of a word, unlike `wprintw`. */
     std::stringstream stream(text);
     std::string word;
-    int maxY, maxX, row, col;
+    int maxY, maxX;
+    int row = 0;
+    int col = 0;
     getmaxyx(window, maxY, maxX);
-
-    // wprintw(window, "%d %d beans", maxY, maxX);
+    (void) maxY;  // unused
 
     while (stream >> word) {
         if (word != " ") {
@@ -22,16 +23,8 @@ void BaseViewModel::smartStringDisplay(WINDOW* window, std::string text) {
                 col = 0;
             }
 
-            for (const char& ch : word) {
-                mvwaddch(window, row, col, ch);
-                // mvwaddstr(window, row, col, "hi");
-                col += 1;
-            }
-            col += 1;
-            // mvwaddstr(window, row, col, word.c_str());  // this may not work
-            // col += wordLen;  // already includes space afterward
+            mvwaddstr(window, row, col, word.c_str());  // this may not work
+            col += wordLen + 1;
         }
     }
 }
-
-

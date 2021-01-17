@@ -3,7 +3,7 @@
 #include <array>
 #include "baseViewModel.h"
 #include "cubeTimer.h"
-#include "position.h"
+#include "myStructs.h"
 
 
 class TimerViewModel : public BaseViewModel {
