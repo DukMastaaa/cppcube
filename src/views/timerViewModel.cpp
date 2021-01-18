@@ -1,7 +1,10 @@
-#include <ncurses.h>
+#include "timerViewModel.h"
+
 #include <chrono>
 #include <array>
-#include "timerViewModel.h"
+
+#include <ncurses.h>
+
 #include "cubeTimer.h"
 #include "myStructs.h"
 #include "colours.h"

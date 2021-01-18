@@ -1,6 +1,9 @@
 #pragma once
-#include <ncurses.h>
+
 #include <utility>
+
+#include <ncurses.h>
+
 #include "baseViewModel.h"
 #include "cubes.h"
 #include "myStructs.h"

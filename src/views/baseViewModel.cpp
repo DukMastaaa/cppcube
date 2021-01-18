@@ -1,4 +1,5 @@
 #include "baseViewModel.h"
+
 #include <iostream>
 #include <sstream>
 #include <ncurses.h>

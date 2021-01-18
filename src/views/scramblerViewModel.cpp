@@ -1,7 +1,10 @@
-#include <ncurses.h>
+#include "scramblerViewModel.h"
+
 #include <iostream>
 #include <utility>
-#include "scramblerViewModel.h"
+
+#include <ncurses.h>
+
 #include "scrambler.h"
 #include "myStructs.h"
 

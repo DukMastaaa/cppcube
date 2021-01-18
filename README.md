@@ -21,12 +21,12 @@ the following lists.
 - Finish CubeTimer class
 - Actual timing functionality
 - Proper formatting of scramble (only break line on space)
+- A `struct` with time, scramble and penalty fields (POD)
 
 ### Will implement
 - Window title
 - Handle terminal resize events
-- A `struct` with time, scramble and penalty fields (POD)
-- Penalties (+2, DNF)
+- Penalty controls
 - Change side length of cube during run-time
 - Shrink views if too large and display popups instead
 - Record list
