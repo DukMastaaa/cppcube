@@ -1,5 +1,6 @@
-#include <chrono>
 #include "cubeTimer.h"
+
+#include <chrono>
 
 
 CubeTimer::CubeTimer() {

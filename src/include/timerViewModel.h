@@ -1,6 +1,8 @@
 #pragma once
+
 #include <iostream>
 #include <array>
+
 #include "baseViewModel.h"
 #include "cubeTimer.h"
 #include "myStructs.h"

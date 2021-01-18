@@ -1,7 +1,10 @@
 #pragma once
+
 #include <iostream>
-#include <ncurses.h>
 #include <utility>
+
+#include <ncurses.h>
+
 #include "myStructs.h"
 
 

@@ -1,4 +1,5 @@
 #pragma once
+
 #include "baseViewModel.h"
 #include "scrambler.h"
 #include "myStructs.h"

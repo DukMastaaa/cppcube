@@ -1,5 +1,6 @@
-#include <ncurses.h>
 #include "colours.h"
+
+#include <ncurses.h>
 
 
 void startColours() {

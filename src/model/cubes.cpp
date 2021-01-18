@@ -1,7 +1,8 @@
+#include "cubes.h"
+
 #include <iostream>
 #include <vector>
 #include <sstream>
-#include "cubes.h"
 
 
 Array2DSquare::Array2DSquare(int sideLength) {

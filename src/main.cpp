@@ -1,6 +1,7 @@
-#include <ncurses.h>
 #include <iostream>
 #include <random>
+
+#include <ncurses.h>
 
 #include "colours.h"
 #include "cubes.h"

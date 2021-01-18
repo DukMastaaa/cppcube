@@ -1,4 +1,5 @@
 #include "scrambler.h"
+
 #include <iostream>
 #include <stdexcept>
 #include <random>
