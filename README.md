@@ -2,7 +2,8 @@
 
 ## About
 `cppcube` is a Rubik's Cube speedsolving timer in the terminal. It supports scrambles
-and visualisation for NxNxN cubes, and basic summary statistics of previous times.
+and visualisation for NxNxN cubes, and basic summary statistics of previous times. 
+UI design is inspired by the legendary `https://cstimer.net`.
 Exporting and saving of times will be implemented in the near future once
 all graphical elements have been developed.
 
@@ -43,6 +44,25 @@ the following lists.
 
 ### Out of scope
 - Algorithm lists and visualisations
+
+## Controls
+Eventually I'm planning to get arrow key controls throughout the program (with 
+highlighting of buttons etc.) but for now I'm going to just do keyboard controls.
+
+| Key            | Function                               |
+| -------------- | -------------------------------------- |
+| `<Space>`      | Start, stop timing                     |
+| `2`            | Toggle +2 penalty on most recent time  |
+| `d`            | Toggle DNF penalty on most recent time |
+| `x`            | Delete most recent time                |
+| `X` (shift)    | Delete time in record list             |
+| `p`            | Change puzzle type                     |
+| `n`            | Generate new scramble                  |
+| `<Up-Arrow>`   | Scroll up through recorded times       |
+| `<Down-Arrow>` | Scroll down through recorded times     |
+| `i`       	   | Show info for selected time            |
+| `g`            | Generate summary statistics            |
+| `E` (shift)    | Export times                           |
 
 ## What about the previous `cppcube`?
 The original `cppcube` was simply a header and `.cpp` file providing an
