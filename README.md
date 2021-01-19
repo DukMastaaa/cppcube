@@ -23,14 +23,14 @@ the following lists.
 - Actual timing functionality
 - Proper formatting of scramble (only break line on space)
 - A `struct` with time, scramble and penalty fields (POD)
+- Penalty controls and display
+- Record list
 
 ### Will implement
 - Window title
 - Handle terminal resize events
-- Penalty controls
 - Change side length of cube during run-time
 - Shrink views if too large and display popups instead
-- Record list
 - Record list view
 - Record summary statistics
 - Data export/import
@@ -49,20 +49,21 @@ the following lists.
 Eventually I'm planning to get arrow key controls throughout the program (with 
 highlighting of buttons etc.) but for now I'm going to just do keyboard controls.
 
-| Key            | Function                               |
-|:--------------:| -------------------------------------- |
-| `<Space>`      | Start, stop timing                     |
-| `2`            | Toggle +2 penalty on most recent time  |
-| `d`            | Toggle DNF penalty on most recent time |
-| `x`            | Delete most recent time                |
-| `X` (shift)    | Delete time in record list             |
-| `p`            | Change puzzle type                     |
-| `n`            | Generate new scramble                  |
-| `<Up-Arrow>`   | Scroll up through recorded times       |
-| `<Down-Arrow>` | Scroll down through recorded times     |
-| `i`       	   | Show info for selected time            |
-| `g`            | Generate summary statistics            |
-| `E` (shift)    | Export times                           |
+| Key            | Function                               |ok|
+|:--------------:| -------------------------------------- |--|
+| `<Space>`      | Start, stop timing                     |Y |
+| `2`            | Toggle +2 penalty on most recent time  |Y |
+| `d`            | Toggle DNF penalty on most recent time |Y |
+| `x`            | Delete most recent time                |  |
+| `X` (shift)    | Delete time in record list             |  |
+| `p`            | Change puzzle type                     |  |
+| `n`            | Generate new scramble                  |  |
+| `<Up-Arrow>`   | Scroll up through recorded times       |  |
+| `<Down-Arrow>` | Scroll down through recorded times     |  |
+| `i`       	   | Show info for selected time            |  |
+| `j`            | Jump to index in recorded times        |  |
+| `g`            | Generate summary statistics            |  |
+| `E` (shift)    | Export times                           |  |
 
 ## What about the previous `cppcube`?
 The original `cppcube` was simply a header and `.cpp` file providing an
