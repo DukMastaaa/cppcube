@@ -50,7 +50,7 @@ Eventually I'm planning to get arrow key controls throughout the program (with
 highlighting of buttons etc.) but for now I'm going to just do keyboard controls.
 
 | Key            | Function                               |
-| -------------- | -------------------------------------- |
+|:--------------:| -------------------------------------- |
 | `<Space>`      | Start, stop timing                     |
 | `2`            | Toggle +2 penalty on most recent time  |
 | `d`            | Toggle DNF penalty on most recent time |

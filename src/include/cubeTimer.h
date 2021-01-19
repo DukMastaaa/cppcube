@@ -2,9 +2,10 @@
 
 #include <chrono>
 
+#include "myStructs.h"
+
 
 class CubeTimer {
-    // very much WIP!
     private:
         static std::chrono::steady_clock clock;
         std::chrono::steady_clock::time_point startingTime;
@@ -13,10 +14,12 @@ class CubeTimer {
 
     public:
         bool isTiming;
+        Penalty currentPenalty;
         CubeTimer();
         void resetTime();
         void startTimingAndReset();
         void stopTiming();
         void toggleTiming();
+        void togglePenalty(Penalty penalty);
         std::chrono::milliseconds getTimeElapsed();
 };

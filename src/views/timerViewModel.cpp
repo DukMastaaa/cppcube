@@ -111,6 +111,15 @@ const std::string TimerViewModel::PLUS[5] = {
 };
 
 
+const std::string TimerViewModel::DNF[5] = {
+    "##      ###",
+    "# # ### #  ",
+    "# # # # ###",
+    "# # # # #  ",
+    "##  # # #  ",
+};
+
+
 Pos2D TimerViewModel::calcHeightWidth() {
     return {5, 31};  // hardcode for now
 }
@@ -119,7 +128,7 @@ Pos2D TimerViewModel::calcHeightWidth() {
 TimerViewModel::TimerViewModel(CubeTimer& timerRef) : timer(timerRef) {}
 
 
-std::array<int, 3> TimerViewModel::getTimesAsStr(std::chrono::milliseconds elapsedTime) {
+std::array<int, 3> TimerViewModel::getTimeDivisions(std::chrono::milliseconds elapsedTime) {
     /* Changes milliseconds to string representation of equivalent minutes:seconds.centiseconds. */
     namespace chrono = std::chrono;
     static const int millisecToSec = 1000;
@@ -138,7 +147,7 @@ std::array<int, 3> TimerViewModel::getTimesAsStr(std::chrono::milliseconds elaps
 }
 
 
-void TimerViewModel::drawCharMatrix(WINDOW* window, std::array<int, 3> times) {
+void TimerViewModel::drawCharMatrix(WINDOW* window, std::array<int, 3> times, bool plus2) {
     for (int row = 0; row < 5; row++) {
         int xPos = 0;
         for (int timeSelector = 0; timeSelector < 3; timeSelector++) {
@@ -169,8 +178,19 @@ void TimerViewModel::drawCharMatrix(WINDOW* window, std::array<int, 3> times) {
             }
 
             // punctuation
-            if (timeSelector < 2) {
-                const std::string* punctuation = (timeSelector == 0) ? COLON : FULL_STOP;
+            const std::string* punctuation;
+            switch (timeSelector) {
+                case 0:
+                    punctuation = COLON;
+                    break;
+                case 1:
+                    punctuation = FULL_STOP;
+                    break;
+                case 2:
+                    punctuation = PLUS;
+                    break;
+            }
+            if (timeSelector != 2 || plus2) {
                 for (const char& symbol : punctuation[row]) {
                     mvwaddch(window, row, xPos, symbol);
                     xPos++;
@@ -190,11 +210,24 @@ void TimerViewModel::drawEllipsis(WINDOW* window) {
 }
 
 
+void TimerViewModel::drawDNF(WINDOW* window) {
+    for (int row = 0; row < 5; row++) {
+        mvwprintw(window, row, 0, DNF[row].c_str());
+    }
+}
+
+
 void TimerViewModel::draw(WINDOW* window) {
-    // wclear(window);  // probably not needed, handled by BaseWindow::fullRefresh(bool, bool, bool)
+    namespace chrono = std::chrono;
     if (!timer.isTiming) {
-        std::array<int, 3> times = getTimesAsStr(timer.getTimeElapsed());
-        drawCharMatrix(window, times);
+        if (timer.currentPenalty == DNF_PENALTY) {
+            drawDNF(window);
+        } else {
+            bool plus2 = (timer.currentPenalty == PLUS_2_PENALTY);
+            chrono::seconds offset = (plus2) ? chrono::seconds(2) : chrono::seconds(0);
+            std::array<int, 3> times = getTimeDivisions(timer.getTimeElapsed() + offset);
+            drawCharMatrix(window, times, plus2);
+        }
     } else {
         drawEllipsis(window);
     }

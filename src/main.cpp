@@ -12,6 +12,7 @@
 #include "scramblerViewModel.h"
 #include "timerViewModel.h"
 #include "myStructs.h"
+#include "recordList.h"
 
 int main() {
     initscr();
@@ -26,6 +27,8 @@ int main() {
     CubeScrambler cs;
     CubeModel cube(dim);
     cube.parseMoves(cs.getScramble(dim));
+
+    RecordList recordList;
 
     CubeViewModel cubevm(cube);
     BottomRightWindow cwin(cubevm);
@@ -47,17 +50,31 @@ int main() {
     char input;
     while (input != 'q') {
         input = wgetch(cwin.window);
-        if (input == ' ') {
-            ct.toggleTiming();
-            twin.fullRefresh(false, false, true);
 
-            if (!ct.isTiming) {
-                cube.resetState();
-                cube.parseMoves(cs.getScramble(dim));
-                cwin.fullRefresh();
-                swin.fullRefresh();
-            }
-            doupdate();
+        switch (input) {
+            case ' ':
+                ct.toggleTiming();
+                twin.fullRefresh(false, false, true);
+                if (!ct.isTiming) {
+                    cube.resetState();
+                    cube.parseMoves(cs.getScramble(dim));
+                    recordList.addRecord({ct.getTimeElapsed(), cs.getMostRecentScramble(), NO_PENALTY});
+                    cwin.fullRefresh();
+                    swin.fullRefresh();
+                }
+                doupdate();
+                break;
+            
+            case '2':
+            case 'd':
+                if (!ct.isTiming && recordList.getRecordCount() != 0) {
+                    Penalty appliedPenalty = (input == '2') ? PLUS_2_PENALTY : DNF_PENALTY;
+                    recordList.togglePenaltyLatestRecord(appliedPenalty);
+                    ct.togglePenalty(appliedPenalty);
+                    twin.fullRefresh(false, true, false);
+                    doupdate();
+                }
+                break;
         }
     }
     

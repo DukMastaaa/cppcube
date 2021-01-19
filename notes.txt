@@ -62,3 +62,10 @@ NUMBERS IN BLOCK CHARACTERS
 
 
 NOTES
+
+
+##      ###
+# #     #
+# # ### ###
+# # # # # 
+##  # # # 

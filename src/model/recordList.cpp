@@ -20,8 +20,8 @@ void RecordList::addRecord(Record record) {
 }
 
 
-void RecordList::togglePenalty(Penalty penalty, int recordNum) {
-    if (0 <= recordNum <= records.size() - 1) {
+void RecordList::togglePenalty(Penalty penalty, std::size_t recordNum) {
+    if (recordNum <= records.size() - 1) {
         Record& selectedRecord = records.at(recordNum);
         if (selectedRecord.penalty == penalty) {
             selectedRecord.penalty = NO_PENALTY;
@@ -33,12 +33,14 @@ void RecordList::togglePenalty(Penalty penalty, int recordNum) {
 
 
 void RecordList::togglePenaltyLatestRecord(Penalty penalty) {
-    togglePenalty(penalty, records.size() - 1);
+    if (records.size() != 0) {
+        togglePenalty(penalty, records.size() - 1);
+    }
 }
 
 
-void RecordList::deleteRecord(int recordNum) {
-    if (0 <= recordNum <= records.size() - 1) {
+void RecordList::deleteRecord(std::size_t recordNum) {
+    if (recordNum <= records.size() - 1) {
         records.erase(records.begin() + recordNum);
     }
 }
