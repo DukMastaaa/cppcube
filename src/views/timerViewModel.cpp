@@ -115,7 +115,7 @@ const std::string TimerViewModel::DNF[5] = {
     "##      ###",
     "# # ### #  ",
     "# # # # ###",
-    "# # # # #  ",
+    "# # # # #  ",  
     "##  # # #  ",
 };
 
@@ -149,7 +149,7 @@ std::array<int, 3> TimerViewModel::getTimeDivisions(std::chrono::milliseconds el
 
 void TimerViewModel::drawCharMatrix(WINDOW* window, std::array<int, 3> times, bool plus2) {
     for (int row = 0; row < 5; row++) {
-        int xPos = 0;
+        int xPos = (plus2) ? 0 : 2;  // aligns time properly
         for (int timeSelector = 0; timeSelector < 3; timeSelector++) {
             int time = times[timeSelector];
             int tens, ones;
