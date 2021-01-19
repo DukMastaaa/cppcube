@@ -11,7 +11,7 @@ struct Pos2D {
 
 
 enum Penalty {
-    NO_PENALTY, PLUS_2, DNF
+    NO_PENALTY, PLUS_2_PENALTY, DNF_PENALTY
 };
 
 

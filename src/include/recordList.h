@@ -13,8 +13,8 @@ class RecordList {
         RecordList();
         std::size_t getRecordCount();
         void addRecord(Record record);
-        void togglePenalty(Penalty penalty, int recordNum);
+        void togglePenalty(Penalty penalty, std::size_t recordNum);
         void togglePenaltyLatestRecord(Penalty penalty);
-        void deleteRecord(int recordNum);
+        void deleteRecord(std::size_t recordNum);
         void deleteLatestRecord();
 };
