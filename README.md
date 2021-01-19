@@ -60,7 +60,7 @@ highlighting of buttons etc.) but for now I'm going to just do keyboard controls
 | `n`            | Generate new scramble                  |  |
 | `<Up-Arrow>`   | Scroll up through recorded times       |  |
 | `<Down-Arrow>` | Scroll down through recorded times     |  |
-| `i`       	   | Show info for selected time            |  |
+| `i`            | Show info for selected time            |  |
 | `j`            | Jump to index in recorded times        |  |
 | `g`            | Generate summary statistics            |  |
 | `E` (shift)    | Export times                           |  |
