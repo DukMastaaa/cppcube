@@ -1,3 +1,5 @@
+#pragma once
+
 #include <stddef.h>
 
 #include "baseViewModel.h"
@@ -8,11 +10,17 @@
 class RecordListViewModel : public BaseViewModel {
     private:
         RecordList& records;
-        int recordsShown;
-        std::size_t selectedRecordRevIdx;  // bad name
+        std::size_t recordsShown;
+        std::size_t selectedIndex;
+        std::size_t topIndex;
+        void drawRecords(WINDOW* window);
     
     public:
         RecordListViewModel(RecordList& recordsRef);
         Pos2D calcHeightWidth();
+        void recordAdded();
+        void recordRemoved();
+        void moveUp();
+        void moveDown();
         void draw(WINDOW* window);
 };
