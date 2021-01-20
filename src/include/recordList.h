@@ -1,3 +1,5 @@
+#pragma once
+
 #include <stddef.h>
 
 #include <vector>
@@ -17,4 +19,5 @@ class RecordList {
         void togglePenaltyLatestRecord(Penalty penalty);
         void deleteRecord(std::size_t recordNum);
         void deleteLatestRecord();
+        Record& getRecord(std::size_t recordNum);
 };

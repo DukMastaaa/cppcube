@@ -62,6 +62,8 @@ highlighting of buttons etc.) but for now I'm going to just do keyboard controls
 | `<Down-Arrow>` | Scroll down through recorded times     |  |
 | `i`            | Show info for selected time            |  |
 | `j`            | Jump to index in recorded times        |  |
+| `t`            | Jump to top of recorded times          |  |
+| `b`            | Jump to bottom of recorded times       |  |
 | `g`            | Generate summary statistics            |  |
 | `E` (shift)    | Export times                           |  |
 

@@ -13,6 +13,7 @@
 #include "timerViewModel.h"
 #include "myStructs.h"
 #include "recordList.h"
+#include "recordListViewModel.h"
 
 int main() {
     initscr();
@@ -29,6 +30,8 @@ int main() {
     cube.parseMoves(cs.getScramble(dim));
 
     RecordList recordList;
+    RecordListViewModel rlvm(recordList);
+    DefaultWindow rlwin(rlvm, 6, 0);
 
     CubeViewModel cubevm(cube);
     BottomRightWindow cwin(cubevm);
@@ -45,9 +48,10 @@ int main() {
     cwin.fullRefresh(true, false, false);
     swin.fullRefresh(true, false, false);
     twin.fullRefresh(false, false, false);
+    rlwin.fullRefresh(true, false, false);
     doupdate();
 
-    char input;
+    int input;
     while (input != 'q') {
         input = wgetch(cwin.window);
 
@@ -59,8 +63,10 @@ int main() {
                     cube.resetState();
                     cube.parseMoves(cs.getScramble(dim));
                     recordList.addRecord({ct.getTimeElapsed(), cs.getMostRecentScramble(), NO_PENALTY});
+                    rlvm.recordAdded();
                     cwin.fullRefresh();
                     swin.fullRefresh();
+                    rlwin.fullRefresh();
                 }
                 doupdate();
                 break;
@@ -72,6 +78,20 @@ int main() {
                     recordList.togglePenaltyLatestRecord(appliedPenalty);
                     ct.togglePenalty(appliedPenalty);
                     twin.fullRefresh(false, true, false);
+                    rlwin.fullRefresh();
+                    doupdate();
+                }
+                break;
+            
+            case 'w':
+            case 's':
+                if (!ct.isTiming) {
+                    if (input == 'w') {
+                        rlvm.moveUp();
+                    } else if (input == 's') {
+                        rlvm.moveDown();
+                    }
+                    rlwin.fullRefresh();
                     doupdate();
                 }
                 break;

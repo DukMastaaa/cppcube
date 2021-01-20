@@ -49,3 +49,8 @@ void RecordList::deleteRecord(std::size_t recordNum) {
 void RecordList::deleteLatestRecord() {
     deleteRecord(records.size() - 1);
 }
+
+
+Record& RecordList::getRecord(std::size_t recordNum) {
+    return records.at(recordNum);
+}
