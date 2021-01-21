@@ -16,7 +16,6 @@ class TimerViewModel : public BaseViewModel {
         static const std::string COLON[5];
         static const std::string PLUS[5];
         static const std::string DNF[5];
-        static std::array<int, 3> getTimeDivisions(std::chrono::milliseconds elapsedTime);
         void drawCharMatrix(WINDOW* window, std::array<int, 3> times, bool plus2);
         void drawEllipsis(WINDOW* window);
         void drawDNF(WINDOW* window);
