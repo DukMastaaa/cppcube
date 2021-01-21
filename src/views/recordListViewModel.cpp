@@ -1,11 +1,25 @@
 #include "recordListViewModel.h"
 
 #include <chrono>
+#include <array>
 
 #include <ncurses.h>
 
 #include "recordList.h"
+#include "cubeTimer.h"
 #include "myStructs.h"
+
+
+std::string RecordListViewModel::formatTime(std::chrono::milliseconds time, Penalty penalty) {
+    if (penalty == DNF_PENALTY) {
+        return "DNF";
+    } else {
+        auto offset = (penalty == PLUS_2_PENALTY) ? std::chrono::seconds(2) : std::chrono::seconds(0); 
+        std::array<int, 3> times = CubeTimer::getTimeDivisions(time + offset);
+
+        // todo: resume from here
+    }
+}
 
 
 RecordListViewModel::RecordListViewModel(RecordList& recordsRef) : records(recordsRef) {
@@ -75,15 +89,24 @@ void RecordListViewModel::moveDown() {
 
 
 void RecordListViewModel::drawRecords(WINDOW* window) {
-    for (std::size_t )  // how to fix this - it doesnt display the first record, probably off by 1 error
+    // for (std::size_t )  // how to fix this - it doesnt display the first record, probably off by 1 error
 
-
-    for (std::size_t rowCounter = 0; rowCounter < recordsShown && topIndex - rowCounter >= 0 && records.getRecordCount() > 0; rowCounter++) {
-        std::size_t currentIndex = topIndex - rowCounter;
-        Record& thisRecord = records.getRecord(currentIndex);
-        int time = thisRecord.time.count();
-        mvwprintw(window, rowCounter + 1, 0, "%ld: %d", currentIndex + 1, time);
+    std::size_t recordCount = records.getRecordCount();
+    if (recordCount == 0) {
+        mvwprintw(window, 1, 0, "none yet");
+    } else {
+        for (std::size_t rowCounter = 0; rowCounter < recordsShown; rowCounter++) {
+            std::size_t currentIndex = topIndex - rowCounter;
+            Record& thisRecord = records.getRecord(currentIndex);
+            int time = thisRecord.time.count();
+            mvwprintw(window, rowCounter + 1, 0, "%ld: %d", currentIndex + 1, time);
+            if (topIndex - rowCounter == 0) {
+                break;
+            }
+        }
     }
+
+    
 }
 
 

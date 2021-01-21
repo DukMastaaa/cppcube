@@ -1,6 +1,7 @@
 #pragma once
 
 #include <chrono>
+#include <array>
 
 #include "myStructs.h"
 
@@ -22,4 +23,5 @@ class CubeTimer {
         void toggleTiming();
         void togglePenalty(Penalty penalty);
         std::chrono::milliseconds getTimeElapsed();
+        static std::array<int, 3> getTimeDivisions(std::chrono::milliseconds elapsedTime);
 };

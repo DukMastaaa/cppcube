@@ -128,25 +128,6 @@ Pos2D TimerViewModel::calcHeightWidth() {
 TimerViewModel::TimerViewModel(CubeTimer& timerRef) : timer(timerRef) {}
 
 
-std::array<int, 3> TimerViewModel::getTimeDivisions(std::chrono::milliseconds elapsedTime) {
-    /* Changes milliseconds to string representation of equivalent minutes:seconds.centiseconds. */
-    namespace chrono = std::chrono;
-    static const int millisecToSec = 1000;
-
-    int min = chrono::duration_cast<chrono::minutes>(elapsedTime).count();
-    int sec, centisec;
-    if (min >= 100) {  // wrap at 100 min
-        min = 99;
-        sec = 59;
-        centisec = 99;
-    } else {
-        sec = chrono::duration_cast<chrono::seconds>(elapsedTime).count() % 60;
-        centisec = (elapsedTime.count() % millisecToSec) / 10;  // round instead of floor div?
-    }
-    return {min, sec, centisec};
-}
-
-
 void TimerViewModel::drawCharMatrix(WINDOW* window, std::array<int, 3> times, bool plus2) {
     for (int row = 0; row < 5; row++) {
         int xPos = (plus2) ? 0 : 2;  // aligns time properly
@@ -218,14 +199,13 @@ void TimerViewModel::drawDNF(WINDOW* window) {
 
 
 void TimerViewModel::draw(WINDOW* window) {
-    namespace chrono = std::chrono;
     if (!timer.isTiming) {
         if (timer.currentPenalty == DNF_PENALTY) {
             drawDNF(window);
         } else {
             bool plus2 = (timer.currentPenalty == PLUS_2_PENALTY);
-            chrono::seconds offset = (plus2) ? chrono::seconds(2) : chrono::seconds(0);
-            std::array<int, 3> times = getTimeDivisions(timer.getTimeElapsed() + offset);
+            auto offset = (plus2) ? std::chrono::seconds(2) : std::chrono::seconds(0);
+            std::array<int, 3> times = CubeTimer::getTimeDivisions(timer.getTimeElapsed() + offset);
             drawCharMatrix(window, times, plus2);
         }
     } else {

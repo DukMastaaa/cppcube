@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 #include <stddef.h>
 
 #include "baseViewModel.h"
@@ -14,6 +16,7 @@ class RecordListViewModel : public BaseViewModel {
         std::size_t selectedIndex;
         std::size_t topIndex;
         void drawRecords(WINDOW* window);
+        std::string formatTime(std::chrono::milliseconds time, Penalty penalty);
     
     public:
         RecordListViewModel(RecordList& recordsRef);
