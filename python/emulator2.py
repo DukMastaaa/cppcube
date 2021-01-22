@@ -59,7 +59,7 @@ class CubeState(object):
 
     def reset_state(self, dim: Optional[int] = None):
         if dim is not None:
-            self._dim = dim  # todo: bad smh
+            self._dim = dim  # bad smh
             self._idim = dim - 1
         for face in DEFAULT_COLOURS:
             self._faces[face] = np.full((self._dim, self._dim), DEFAULT_COLOURS[face], int)
@@ -133,7 +133,7 @@ def generate_scramble_seq(dim: int):
     moves_list = [FRONT, RIGHT, UP] if dim <= 2 else [FRONT, RIGHT, UP, LEFT, DOWN, BACK]
     prev = None
     prev2 = None
-    if dim <= 4:  # todo: include dim >= 5
+    if dim <= 4:  # include dim >= 5
         for count in range(SCRAMBLE_INIT_LENGTHS[dim]):
             prev2 = prev
             removed_list = list_remove_multiple(moves_list, prev, prev2)

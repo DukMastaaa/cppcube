@@ -129,6 +129,7 @@ TimerViewModel::TimerViewModel(CubeTimer& timerRef) : timer(timerRef) {}
 
 
 void TimerViewModel::drawCharMatrix(WINDOW* window, std::array<int, 3> times, bool plus2) {
+    // todo: move RLVM::formatTime to CubeTimer::formatTime and iterate over char. this is partially duplicated code
     for (int row = 0; row < 5; row++) {
         int xPos = (plus2) ? 0 : 2;  // aligns time properly
         for (int timeSelector = 0; timeSelector < 3; timeSelector++) {
