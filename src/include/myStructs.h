@@ -1,12 +1,13 @@
 #pragma once
 
+#include <cstddef>
 #include <chrono>
 #include <iostream>
 
 
 struct Pos2D {
-    int y;  // y-pos or height
-    int x;  // x-pos or width
+    unsigned int y;  // y-pos or height
+    unsigned int x;  // x-pos or width
 };
 
 

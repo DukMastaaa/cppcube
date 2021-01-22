@@ -13,6 +13,7 @@ class BaseWindow {
         BaseViewModel& viewModel;
         static const int BORDER_WIDTH = 1;
         static Pos2D addIntToPos(Pos2D pos, int num);
+        void standardInit(BaseViewModel& vm);
 
     public:
         WINDOW* window;
@@ -34,6 +35,13 @@ class BottomRightWindow : public BaseWindow {
     public:
         Pos2D calcTopLeftPos(Pos2D heightAndWidth);
         BottomRightWindow(BaseViewModel& vm);
+};
+
+
+class BottomLeftWindow : public BaseWindow {
+    public:
+        Pos2D calcTopLeftPos(Pos2D heightAndWidth);
+        BottomLeftWindow(BaseViewModel& vm);
 };
 
 

@@ -31,7 +31,7 @@ int main() {
 
     RecordList recordList;
     RecordListViewModel rlvm(recordList);
-    DefaultWindow rlwin(rlvm, 6, 0);
+    BottomLeftWindow rlwin(rlvm);
 
     CubeViewModel cubevm(cube);
     BottomRightWindow cwin(cubevm);
