@@ -1,5 +1,7 @@
 #include "recordListViewModel.h"
 
+#include <iostream>
+#include <cstddef>
 #include <chrono>
 #include <array>
 
@@ -8,6 +10,7 @@
 #include "recordList.h"
 #include "cubeTimer.h"
 #include "myStructs.h"
+#include "colours.h"
 
 
 std::string RecordListViewModel::formatTime(std::chrono::milliseconds time, Penalty penalty) {
@@ -46,14 +49,14 @@ std::string RecordListViewModel::formatTime(std::chrono::milliseconds time, Pena
 
 
 RecordListViewModel::RecordListViewModel(RecordList& recordsRef) : records(recordsRef) {
-    recordsShown = 10UL;  // this can be changed
+    recordsShown = 13UL;  // todo: this can be changed
     selectedIndex = 0UL;
     topIndex = 0UL;
 }
 
 
 Pos2D RecordListViewModel::calcHeightWidth() {
-    return {recordsShown + 1, 14};
+    return {static_cast<unsigned int>(recordsShown) + 1, 14};
 }
 
 
@@ -72,7 +75,6 @@ void RecordListViewModel::recordAdded() {
         topIndex = 0;
         selectedIndex = 0;
     } else {
-        std::size_t bottomIndex = indexAtBottom();
         std::size_t maxIndex = indexMax();
         if (topIndex == maxIndex - 1) {
             topIndex = maxIndex;
@@ -97,26 +99,23 @@ void RecordListViewModel::recordRemoved() {
 
 void RecordListViewModel::moveUp() {
     if (records.getRecordCount() > 0) {
-        if (selectedIndex < indexMax()) {
-            selectedIndex++;
-        }
         if (topIndex < indexMax() && selectedIndex >= topIndex) {
             topIndex++;
+        }
+        if (selectedIndex < indexMax()) {
+            selectedIndex++;
         }
     }
 }
 
 
 void RecordListViewModel::moveDown() {
-    if (topIndex >= recordsShown) {
-        if (selectedIndex > 0) {
-            selectedIndex--;
-        }
-        if (topIndex - (recordsShown - 1) > 0 && selectedIndex < topIndex) {
-            topIndex--;
-        }
+    if (selectedIndex == indexAtBottom()) {
+        topIndex--;
     }
-    
+    if (selectedIndex > 0) {
+        selectedIndex--;
+    }
 }
 
 
@@ -130,7 +129,18 @@ void RecordListViewModel::drawRecords(WINDOW* window) {
             Record& thisRecord = records.getRecord(currentIndex);
 
             std::string formattedTime = formatTime(thisRecord.time, thisRecord.penalty);
-            mvwprintw(window, rowCounter + 1, 0, "%ld: %s", currentIndex + 1, formattedTime.c_str());
+            
+            // todo: what on earth is this mate
+            if (currentIndex == selectedIndex) {
+                wattron(window, COLOR_PAIR(GREEN_ON_BLACK));
+            }
+
+            mvwprintw(window, rowCounter + 1, 0, "%3ld: %s", currentIndex + 1, formattedTime.c_str());
+            
+            if (currentIndex == selectedIndex) {
+                wattroff(window, COLOR_PAIR(GREEN_ON_BLACK));
+            }
+            
             if (topIndex - rowCounter == 0) {
                 break;
             }

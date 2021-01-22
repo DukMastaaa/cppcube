@@ -11,7 +11,7 @@
 
 Pos2D ScramblerViewModel::calcHeightWidth() {
     // currently constant return value, will adapt later for larger scramble size
-    int maxY, maxX;
+    unsigned maxY, maxX;
     getmaxyx(stdscr, maxY, maxX);
     (void) maxY;  // maxY unused - doesn't matter here
     return {4, maxX - 2};

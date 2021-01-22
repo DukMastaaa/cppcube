@@ -52,6 +52,14 @@ void BaseWindow::fullRefresh(bool drawBox, bool clear, bool erase) {
 }
 
 
+void BaseWindow::standardInit(BaseViewModel& vm) {
+    /* Standard window initialisation. Don't call in ctor if window is special. */
+
+    Pos2D heightAndWidth = addIntToPos(vm.calcHeightWidth(), 2 * BORDER_WIDTH);
+    Pos2D topLeftPos = calcTopLeftPos(heightAndWidth);
+    createWindows(heightAndWidth.y, heightAndWidth.x, topLeftPos.y, topLeftPos.x);
+}
+
 
 Pos2D BaseWindow::addIntToPos(Pos2D pos, int num) {
     return {pos.y + num, pos.x + num};
@@ -78,42 +86,46 @@ Pos2D BottomRightWindow::calcTopLeftPos(Pos2D heightAndWidth) {
     /* Calculates the position (y, x) of the top-left corner of the window
     given the window's height and width. */
 
-    int maxY, maxX;
+    unsigned int maxY, maxX;
     getmaxyx(stdscr, maxY, maxX);
-    int topLeftX = maxX - heightAndWidth.x;
-    int topLeftY = maxY - heightAndWidth.y;
+    unsigned int topLeftX = maxX - heightAndWidth.x;
+    unsigned int topLeftY = maxY - heightAndWidth.y;
     return {topLeftY, topLeftX};
 }
 
 
 BottomRightWindow::BottomRightWindow(BaseViewModel& vm) : BaseWindow(vm) {
-    Pos2D heightAndWidth = addIntToPos(vm.calcHeightWidth(), 2 * BORDER_WIDTH);
-    Pos2D topLeftPos = calcTopLeftPos(heightAndWidth);
-    createWindows(heightAndWidth.y, heightAndWidth.x, topLeftPos.y, topLeftPos.x);
+    standardInit(vm);
 }
 
 
-Pos2D CentredPopupWindow::calcTopLeftPos(Pos2D heightAndWidth) {
-    int maxY, maxX;
+Pos2D BottomLeftWindow::calcTopLeftPos(Pos2D heightAndWidth) {
+    unsigned int maxY, maxX;
     getmaxyx(stdscr, maxY, maxX);
-    int topLeftX = (maxX - heightAndWidth.x) / 2;
-    int topLeftY = (maxY - heightAndWidth.y) / 2;
+    (void) maxX;  // unused
+    return {maxY - heightAndWidth.y, 0};
+}
+
+
+BottomLeftWindow::BottomLeftWindow(BaseViewModel& vm) : BaseWindow(vm) { standardInit(vm); }
+
+
+Pos2D CentredPopupWindow::calcTopLeftPos(Pos2D heightAndWidth) {
+    unsigned int maxY, maxX;
+    getmaxyx(stdscr, maxY, maxX);
+    unsigned int topLeftY = (maxY - heightAndWidth.y) / 2;
+    unsigned int topLeftX = (maxX - heightAndWidth.x) / 2;
     return {topLeftY, topLeftX};
 }
 
 
-CentredPopupWindow::CentredPopupWindow(BaseViewModel& vm) : BaseWindow(vm) {
-    // todo: blatant code duplication - will i ever need to do something different here? if not then make base method
-    Pos2D heightAndWidth = addIntToPos(vm.calcHeightWidth(), 2 * BORDER_WIDTH);
-    Pos2D topLeftPos = calcTopLeftPos(heightAndWidth);
-    createWindows(heightAndWidth.y, heightAndWidth.x, topLeftPos.y, topLeftPos.x);
-}
+CentredPopupWindow::CentredPopupWindow(BaseViewModel& vm) : BaseWindow(vm) { standardInit(vm); }
 
 
 Pos2D DefaultWindow::calcTopLeftPos(Pos2D heightAndWidth) {
     // this doesn't need to be called.
     (void) heightAndWidth;  // unused.
-    return {-1, -1};
+    return {0, 0};
 }
 
 

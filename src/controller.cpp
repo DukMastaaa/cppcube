@@ -1,3 +1,4 @@
+/*
 #include "controller.h"
 
 #include <iostream>
@@ -17,10 +18,16 @@
 #include "recordListViewModel.h"
 
 
-Controller::Controller() {  // todo: resume, no default ctor for cubemodel
-    dim = 5;
+Controller::Controller(int cubeDim) : 
+        dim(cubeDim), 
+        cubeScrambler(), cubeModel(dim), cubeViewModel(cubeModel), cubeWindow(cubeViewModel), 
+        scramblerViewModel(cubeScrambler), scramblerWindow(scramblerViewModel, 0, 0), 
+        recordList(), recordListViewModel(recordList), recordListWindow(recordListViewModel, 6, 0), 
+        cubeTimer(), timerViewModel(cubeTimer), timerWindow(timerViewModel) {
+
     doAnUpdate = false;
 
+    
     CubeScrambler cubeScrambler;
     CubeModel cubeModel(dim);
     cubeModel.parseMoves(cubeScrambler.getScramble(dim));
@@ -38,4 +45,6 @@ Controller::Controller() {  // todo: resume, no default ctor for cubemodel
     CubeTimer cubeTimer;
     TimerViewModel timerViewModel(cubeTimer);
     CentredPopupWindow timerWindow(timerViewModel);
+    
 }
+*/

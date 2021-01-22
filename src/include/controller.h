@@ -1,3 +1,4 @@
+/*
 #include <ncurses.h>
 
 #include "cubes.h"
@@ -33,9 +34,10 @@ class Controller {
         bool doAnUpdate;
 
     public:
-        Controller();
+        Controller(int cubeDim);
         void initialRefresh();
         void keyboardInput(int input);
         bool needUpdate();
 
 };
+*/
