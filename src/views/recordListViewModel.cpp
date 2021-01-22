@@ -14,10 +14,33 @@ std::string RecordListViewModel::formatTime(std::chrono::milliseconds time, Pena
     if (penalty == DNF_PENALTY) {
         return "DNF";
     } else {
-        auto offset = (penalty == PLUS_2_PENALTY) ? std::chrono::seconds(2) : std::chrono::seconds(0); 
+        bool plus2 = (penalty == PLUS_2_PENALTY);
+        auto offset = plus2 ? std::chrono::seconds(2) : std::chrono::seconds(0); 
         std::array<int, 3> times = CubeTimer::getTimeDivisions(time + offset);
 
-        // todo: resume from here
+        std::string formattedTime;
+        for (int timeSelector = 0; timeSelector < 3; timeSelector++) {
+            int thisTime = times[timeSelector];
+            int tens = thisTime / 10;
+            int ones = thisTime % 10;
+            formattedTime += std::to_string(tens) + std::to_string(ones);
+            
+            // punctuation
+            switch (timeSelector) {
+                case 0:
+                    formattedTime += ':';
+                    break;
+                case 1:
+                    formattedTime += '.';
+                    break;
+                case 2:
+                    if (plus2) {
+                        formattedTime += '+';
+                    }
+                    break;
+            }
+        }
+        return formattedTime;
     }
 }
 
@@ -34,16 +57,23 @@ Pos2D RecordListViewModel::calcHeightWidth() {
 }
 
 
+inline std::size_t RecordListViewModel::indexAtBottom() const {
+    return topIndex - (recordsShown - 1);
+}
+
+
+inline std::size_t RecordListViewModel::indexMax() const {
+    return records.getRecordCount() - 1;
+}
+
+
 void RecordListViewModel::recordAdded() {
     if (records.getRecordCount() == 1) {
         topIndex = 0;
         selectedIndex = 0;
     } else {
-        std::size_t bottomIndex = topIndex - (recordsShown - 1);  // todo: inline functions
-        std::size_t maxIndex = records.getRecordCount() - 1;
-        // if (selectedIndex > bottomIndex && bottomIndex > 0) {
-        //     topIndex++;
-        // }
+        std::size_t bottomIndex = indexAtBottom();
+        std::size_t maxIndex = indexMax();
         if (topIndex == maxIndex - 1) {
             topIndex = maxIndex;
         }
@@ -55,21 +85,22 @@ void RecordListViewModel::recordAdded() {
 
 
 void RecordListViewModel::recordRemoved() {
-    std::size_t maxIndex = records.getRecordCount() - 1;
+    std::size_t maxIndex = indexMax();
     if (topIndex > maxIndex) {
         topIndex = maxIndex;
+    }
+    if (selectedIndex > maxIndex) {
+        selectedIndex = maxIndex;
     }
 }
 
 
 void RecordListViewModel::moveUp() {
-    std::size_t recordCount = records.getRecordCount();
-    if (recordCount > 0) {
-        std::size_t maxIndex = records.getRecordCount() - 1;
-        if (selectedIndex < maxIndex) {
+    if (records.getRecordCount() > 0) {
+        if (selectedIndex < indexMax()) {
             selectedIndex++;
         }
-        if (topIndex < maxIndex && selectedIndex >= topIndex) {
+        if (topIndex < indexMax() && selectedIndex >= topIndex) {
             topIndex++;
         }
     }
@@ -77,20 +108,19 @@ void RecordListViewModel::moveUp() {
 
 
 void RecordListViewModel::moveDown() {
-    if (selectedIndex > 0) {
-        selectedIndex--;
+    if (topIndex >= recordsShown) {
+        if (selectedIndex > 0) {
+            selectedIndex--;
+        }
+        if (topIndex - (recordsShown - 1) > 0 && selectedIndex < topIndex) {
+            topIndex--;
+        }
     }
-    if (topIndex - (recordsShown - 1) > 0 && selectedIndex < topIndex) {
-        topIndex--;
-    }
+    
 }
 
 
-
-
 void RecordListViewModel::drawRecords(WINDOW* window) {
-    // for (std::size_t )  // how to fix this - it doesnt display the first record, probably off by 1 error
-
     std::size_t recordCount = records.getRecordCount();
     if (recordCount == 0) {
         mvwprintw(window, 1, 0, "none yet");
@@ -98,20 +128,18 @@ void RecordListViewModel::drawRecords(WINDOW* window) {
         for (std::size_t rowCounter = 0; rowCounter < recordsShown; rowCounter++) {
             std::size_t currentIndex = topIndex - rowCounter;
             Record& thisRecord = records.getRecord(currentIndex);
-            int time = thisRecord.time.count();
-            mvwprintw(window, rowCounter + 1, 0, "%ld: %d", currentIndex + 1, time);
+
+            std::string formattedTime = formatTime(thisRecord.time, thisRecord.penalty);
+            mvwprintw(window, rowCounter + 1, 0, "%ld: %s", currentIndex + 1, formattedTime.c_str());
             if (topIndex - rowCounter == 0) {
                 break;
             }
         }
     }
-
-    
 }
 
 
 void RecordListViewModel::draw(WINDOW* window) {
-    mvwaddstr(window, 0, 0, "History");
+    mvwprintw(window, 0, 0, "History (%ld)", records.getRecordCount());
     drawRecords(window);
-    mvwprintw(window, 9, 0, "%lu %lu %lu", topIndex, selectedIndex, records.getRecordCount());
 }

@@ -25,13 +25,13 @@ the following lists.
 - A `struct` with time, scramble and penalty fields (POD)
 - Penalty controls and display
 - Record list
+- Record list view
 
 ### Will implement
 - Window title
 - Handle terminal resize events
 - Change side length of cube during run-time
 - Shrink views if too large and display popups instead
-- Record list view
 - Record summary statistics
 - Data export/import
 - Automatic saving (location of save file most likely OS-dependent)
@@ -73,3 +73,6 @@ NxNxN cube model. There was also code to measure performance, and an equivalent
 Python implementation of the algorithm. The Python code can be found in `/python`
 and the `cubes` header/implementation are `/src/include/cubes.h` and 
 `src/model/cubes.cpp` respectively. Not much has changed since the original implementation.
+
+## Current bugs
+- Everything refreshes when scrolling through record list - flickering

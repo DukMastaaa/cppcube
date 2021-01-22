@@ -56,7 +56,7 @@ class CubeModel {
 
     public:
         int dim;
-        CubeModel(int dimension);
+        CubeModel(int dimension) = default;
         void resetState();
         void resetState(int dimension);
         std::vector<Array2DSquare>& getFaces();
