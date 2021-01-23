@@ -3,8 +3,8 @@
 #include <iostream>
 #include <array>
 
-#include "baseViewModel.h"
-#include "cubeTimer.h"
+#include "views/baseViewModel.h"
+#include "models/cubeTimer.h"
 #include "myStructs.h"
 
 

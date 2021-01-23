@@ -27,7 +27,7 @@ DEPS = $(OBJECTS:.o=.d)
 
 # flags #
 COMPILE_FLAGS = -Wall -Wextra
-INCLUDES = -I ./src/include
+INCLUDES = -I ./include
 # Space-separated pkg-config libraries used by this project
 LIBS = -lncurses
 

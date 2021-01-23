@@ -1,4 +1,4 @@
-#include "colours.h"
+#include "views/colours.h"
 
 #include <ncurses.h>
 

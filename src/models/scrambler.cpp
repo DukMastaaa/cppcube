@@ -1,4 +1,4 @@
-#include "scrambler.h"
+#include "models/scrambler.h"
 
 #include <iostream>
 #include <stdexcept>

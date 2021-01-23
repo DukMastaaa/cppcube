@@ -1,4 +1,4 @@
-#include "cubeTimer.h"
+#include "models/cubeTimer.h"
 
 #include <chrono>
 #include <array>

@@ -1,11 +1,11 @@
-#include "cubeViewModel.h"
+#include "views/cubeViewModel.h"
 
 #include <utility>
 
 #include <ncurses.h>
 
-#include "cubes.h"
-#include "colours.h"
+#include "models/cubes.h"
+#include "views/colours.h"
 
 
 Pos2D CubeViewModel::calcHeightWidth() {

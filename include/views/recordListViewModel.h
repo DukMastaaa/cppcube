@@ -4,8 +4,8 @@
 
 #include <stddef.h>
 
-#include "baseViewModel.h"
-#include "recordList.h"
+#include "views/baseViewModel.h"
+#include "models/recordList.h"
 #include "myStructs.h"
 
 
