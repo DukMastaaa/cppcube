@@ -14,13 +14,13 @@ class BaseWindow {
         static const int BORDER_WIDTH = 1;
         static Pos2D addIntToPos(Pos2D pos, int num);
         void standardInit(BaseViewModel& vm);
+        void createWindows(int fullHeight, int fullWidth, int topLeftY, int topLeftX);
 
     public:
         WINDOW* window;
         WINDOW* subwin;
         virtual Pos2D calcTopLeftPos(Pos2D heightAndWidth) = 0;
         BaseWindow(BaseViewModel& vm);
-        void createWindows(int fullHeight, int fullWidth, int topLeftY, int topLeftX);
         void wnoutrefresh();
         void makeBox();
         void draw();

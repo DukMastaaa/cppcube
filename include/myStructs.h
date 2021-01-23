@@ -1,3 +1,5 @@
+/* No .cpp file for this header. */
+
 #pragma once
 
 #include <cstddef>
