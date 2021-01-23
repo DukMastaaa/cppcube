@@ -1,13 +1,13 @@
-#include "timerViewModel.h"
+#include "views/timerViewModel.h"
 
 #include <chrono>
 #include <array>
 
 #include <ncurses.h>
 
-#include "cubeTimer.h"
+#include "models/cubeTimer.h"
 #include "myStructs.h"
-#include "colours.h"
+#include "views/colours.h"
 
 
 const std::string TimerViewModel::NUM_BLOCK[10][5] = {

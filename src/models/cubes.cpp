@@ -1,4 +1,4 @@
-#include "cubes.h"
+#include "models/cubes.h"
 
 #include <iostream>
 #include <vector>

@@ -1,11 +1,11 @@
-#include "scramblerViewModel.h"
+#include "views/scramblerViewModel.h"
 
 #include <iostream>
 #include <utility>
 
 #include <ncurses.h>
 
-#include "scrambler.h"
+#include "models/scrambler.h"
 #include "myStructs.h"
 
 

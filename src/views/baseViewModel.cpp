@@ -1,7 +1,8 @@
-#include "baseViewModel.h"
+#include "views/baseViewModel.h"
 
 #include <iostream>
 #include <sstream>
+
 #include <ncurses.h>
 
 

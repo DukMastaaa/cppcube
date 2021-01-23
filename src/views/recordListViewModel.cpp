@@ -1,4 +1,4 @@
-#include "recordListViewModel.h"
+#include "views/recordListViewModel.h"
 
 #include <iostream>
 #include <cstddef>
@@ -7,10 +7,10 @@
 
 #include <ncurses.h>
 
-#include "recordList.h"
-#include "cubeTimer.h"
+#include "models/recordList.h"
+#include "models/cubeTimer.h"
 #include "myStructs.h"
-#include "colours.h"
+#include "views/colours.h"
 
 
 std::string RecordListViewModel::formatTime(std::chrono::milliseconds time, Penalty penalty) {

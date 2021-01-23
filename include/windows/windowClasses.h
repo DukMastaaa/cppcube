@@ -4,7 +4,7 @@
 
 #include <ncurses.h>
 
-#include "baseViewModel.h"
+#include "views/baseViewModel.h"
 #include "myStructs.h"
 
 

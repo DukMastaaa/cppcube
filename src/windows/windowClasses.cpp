@@ -1,10 +1,10 @@
-#include "windowClasses.h"
+#include "windows/windowClasses.h"
 
 #include <utility>
 
 #include <ncurses.h>
 
-#include "baseViewModel.h"
+#include "views/baseViewModel.h"
 #include "myStructs.h"
 
 

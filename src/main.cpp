@@ -3,17 +3,17 @@
 
 #include <ncurses.h>
 
-#include "colours.h"
-#include "cubes.h"
-#include "scrambler.h"
-#include "cubeTimer.h"
-#include "windowClasses.h"
-#include "cubeViewModel.h"
-#include "scramblerViewModel.h"
-#include "timerViewModel.h"
 #include "myStructs.h"
-#include "recordList.h"
-#include "recordListViewModel.h"
+#include "views/colours.h"
+#include "models/cubes.h"
+#include "models/scrambler.h"
+#include "models/cubeTimer.h"
+#include "models/recordList.h"
+#include "windows/windowClasses.h"
+#include "views/cubeViewModel.h"
+#include "views/scramblerViewModel.h"
+#include "views/timerViewModel.h"
+#include "views/recordListViewModel.h"
 
 int main() {
     initscr();

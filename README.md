@@ -28,6 +28,9 @@ the following lists.
 - Record list view
 
 ### Will implement
+- Organise header files into folders
+- Restructure `main()` to use controller class
+- Tidy up codebase, specify `const` member functions
 - Window title
 - Handle terminal resize events
 - Change side length of cube during run-time
