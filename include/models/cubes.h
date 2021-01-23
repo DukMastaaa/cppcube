@@ -53,17 +53,16 @@ class CubeModel {
         std::vector<Array2DSquare> faces;
         void cycle(int face, bool reverse, int depth = 0);
         void makeTurn(int face, bool reverse, int depth = 0);
+        void parseOneMove(std::string move);
 
     public:
-        int dim;
+        int dim;  // todo: should this be std::size_t instead of int?
         CubeModel(int dimension);
         void resetState();
         void resetState(int dimension);
         std::vector<Array2DSquare>& getFaces();
         int getColourAtSticker(int face, int row, int col);
-        // void display();
-        // void displayNet();
-        void parseOneMove(std::string move);
+        void coutDisplayNet();
         void parseMoves(std::string moves);
 };
 
