@@ -75,7 +75,9 @@ The original `cppcube` was simply a header and `.cpp` file providing an
 NxNxN cube model. There was also code to measure performance, and an equivalent
 Python implementation of the algorithm. The Python code can be found in `/python`
 and the `cubes` header/implementation are `/src/include/cubes.h` and 
-`src/model/cubes.cpp` respectively. Not much has changed since the original implementation.
+`src/model/cubes.cpp` respectively. The interface has changed, but the model can
+still print a net of the cube to `std::cout` using 
+`void CubeModel::coutDisplayNet()`. 
 
 ## Current bugs
 - Everything refreshes when scrolling through record list - flickering

@@ -27,7 +27,7 @@ int main() {
 
     CubeScrambler cs;
     CubeModel cube(dim);
-    cube.parseMoves(cs.getScramble(dim));
+    cube.parseMovesReset(cs.generateScramble(dim));
 
     RecordList recordList;
     RecordListViewModel rlvm(recordList);
@@ -41,7 +41,7 @@ int main() {
 
     CubeTimer ct;
     TimerViewModel tvm(ct);
-    CentredPopupWindow twin(tvm);
+    CentredWindow twin(tvm);
 
 
     // surely i have to design a better interface instead of `true, false, false`...
@@ -53,16 +53,15 @@ int main() {
 
     int input;
     while (input != 'q') {
-        input = wgetch(cwin.window);
+        input = wgetch(cwin.fullWindow);
 
         switch (input) {
             case ' ':
                 ct.toggleTiming();
                 twin.fullRefresh(false, false, true);
                 if (!ct.isTiming) {
-                    cube.resetState();
-                    cube.parseMoves(cs.getScramble(dim));
-                    recordList.addRecord({ct.getTimeElapsed(), cs.getMostRecentScramble(), NO_PENALTY});
+                    cube.parseMovesReset(cs.generateScramble(dim));
+                    recordList.addRecord({ct.getTimeElapsed(), cs.getLatestScramble(), NO_PENALTY});
                     rlvm.recordAdded();
                     cwin.fullRefresh();
                     swin.fullRefresh();

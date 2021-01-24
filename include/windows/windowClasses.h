@@ -17,15 +17,15 @@ class BaseWindow {
         void createWindows(int fullHeight, int fullWidth, int topLeftY, int topLeftX);
 
     public:
-        WINDOW* window;
+        WINDOW* fullWindow;
         WINDOW* subwin;
         virtual Pos2D calcTopLeftPos(Pos2D heightAndWidth) = 0;
         BaseWindow(BaseViewModel& vm);
         void wnoutrefresh();
         void makeBox();
         void draw();
-        void wclear();
-        void werase();
+        void wclear();  // forces refresh
+        void werase();  // doesn't force refresh
         void fullRefresh(bool drawBox = true, bool clear = true, bool erase = false);
         ~BaseWindow();
 };
@@ -45,10 +45,10 @@ class BottomLeftWindow : public BaseWindow {
 };
 
 
-class CentredPopupWindow : public BaseWindow {
+class CentredWindow : public BaseWindow {
     public:
         Pos2D calcTopLeftPos(Pos2D heightAndWidth);
-        CentredPopupWindow(BaseViewModel& vm);
+        CentredWindow(BaseViewModel& vm);
 };
 
 

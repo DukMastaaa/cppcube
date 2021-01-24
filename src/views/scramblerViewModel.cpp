@@ -22,7 +22,7 @@ ScramblerViewModel::ScramblerViewModel(CubeScrambler& scramblerRef) : scrambler(
 
 
 void ScramblerViewModel::draw(WINDOW* window) {
-    std::string s = scrambler.getMostRecentScramble();
+    std::string s = scrambler.getLatestScramble();
     smartStringDisplay(window, s);
 }
 

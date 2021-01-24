@@ -30,7 +30,7 @@ Controller::Controller(int cubeDim) :
     
     CubeScrambler cubeScrambler;
     CubeModel cubeModel(dim);
-    cubeModel.parseMoves(cubeScrambler.getScramble(dim));
+    cubeModel.parseMoves(cubeScrambler.generateScramble(dim));
     
     CubeViewModel cubeViewModel(cubeModel);
     BottomRightWindow cubeWindow(CubeViewModel);
@@ -44,7 +44,7 @@ Controller::Controller(int cubeDim) :
 
     CubeTimer cubeTimer;
     TimerViewModel timerViewModel(cubeTimer);
-    CentredPopupWindow timerWindow(timerViewModel);
+    CentredWindow timerWindow(timerViewModel);
     
 }
 */

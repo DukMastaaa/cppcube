@@ -268,29 +268,20 @@ int CubeModel::getColourAtSticker(int face, int row, int col) {
 }
 
 
-/*
-void CubeModel::display() {
-    // displays each face of the cube
-    for (int i = 0; i < 6; i++) {
-        Array2DSquare* face = &(faces[i]);
-        std::cout << numToFace[i] << " face:\n";
-        for (int row = 0; row < dim; row++) {
-            for (int col = 0; col < dim; col++) {
-                std::cout << numToColour[(*face).at(row, col)];
-            }
-            std::cout << "\n";
-        }
+void CubeModel::coutRepeatChar(char character, int repetitions) {
+    for (int i = 0; i < repetitions; i++) {
+        std::cout << character;
     }
 }
 
 
-void CubeModel::displayNet() {
-    // display a net of the cube
+void CubeModel::coutDisplayNet() {
+    /* Prints a net of the cube to std::cout. */
     // FACE_UP
     for (int row = 0; row < dim; row++) {
-        repeatChar(' ', dim + 1);
+        coutRepeatChar(' ', dim + 1);
         for (int col = 0; col < dim; col++) {
-            std::cout << numToColour[faces[FACE_UP].at(row, col)];
+            std::cout << COLOURS[faces[FACE_UP].at(row, col)];
         }
         std::cout << "\n";
     }
@@ -301,7 +292,7 @@ void CubeModel::displayNet() {
     for (int row = 0; row < dim; row++ ) {
         for (int face : middleFaces) {
             for (int col = 0; col < dim; col++) {
-                std::cout << numToColour[faces[face].at(row, col)];
+                std::cout << COLOURS[faces[face].at(row, col)];
             }
             std::cout << " ";
         }
@@ -311,14 +302,13 @@ void CubeModel::displayNet() {
 
     // FACE_DOWN
     for (int row = 0; row < dim; row++) {
-        repeatChar(' ', dim + 1);
+        coutRepeatChar(' ', dim + 1);
         for (int col = 0; col < dim; col++) {
-            std::cout << numToColour[faces[FACE_DOWN].at(row, col)];
+            std::cout << COLOURS[faces[FACE_DOWN].at(row, col)];
         }
         std::cout << "\n";
     }
 }
-*/
 
 
 void CubeModel::parseOneMove(std::string move) {
@@ -362,7 +352,14 @@ void CubeModel::parseOneMove(std::string move) {
 }
 
 
-void CubeModel::parseMoves(std::string moves) {
+void CubeModel::parseMovesReset(std::string moves) {
+    /* Resets cube then parses moves. */
+    resetState();
+    parseMovesNoReset(moves);
+}
+
+
+void CubeModel::parseMovesNoReset(std::string moves) {
     std::string move;
     std::stringstream stream(moves);
 
