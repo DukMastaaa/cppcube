@@ -99,7 +99,7 @@ std::string CubeScrambler::generateMoveSeq(int dim,
 }
 
 
-std::string CubeScrambler::getScramble(int dim) {
+std::string CubeScrambler::generateScramble(int dim) {
     if (dim < 2) {
         throw std::runtime_error("CubeScrambler dim needs to be > 2");
     }
@@ -126,6 +126,6 @@ std::string CubeScrambler::getScramble(int dim) {
 }
 
 
-std::string& CubeScrambler::getMostRecentScramble() {
+std::string& CubeScrambler::getLatestScramble() {
     return mostRecentScramble;
 }

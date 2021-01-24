@@ -1,19 +1,17 @@
-/*
+#pragma once
+
 #include <ncurses.h>
 
-#include "cubes.h"
-#include "scrambler.h"
-#include "cubeTimer.h"
-#include "windowClasses.h"
-#include "cubeViewModel.h"
-#include "scramblerViewModel.h"
-#include "timerViewModel.h"
-#include "recordList.h"
-#include "recordListViewModel.h"
+#include "controllers/cubeController.h"
+#include "controllers/recordListController.h"
+#include "controllers/scramblerController.h"
+#include "controllers/timerController.h"
 
 
 class Controller {
     private:
+        
+        /*
         CubeModel cubeModel;
         CubeViewModel cubeViewModel;
         BottomRightWindow cubeWindow;
@@ -24,11 +22,12 @@ class Controller {
 
         CubeTimer cubeTimer;
         TimerViewModel timerViewModel;
-        CentredPopupWindow timerWindow;
+        CentredWindow timerWindow;
 
         RecordList recordList;
         RecordListViewModel recordListViewModel;
-        DefaultWindow recordListWindow;  // todo: change to BottomLeftWindow or something idk
+        DefaultWindow recordListWindow;
+        */  // todo: resume
 
         int dim;  // todo: only temporary
         bool doAnUpdate;
@@ -40,4 +39,3 @@ class Controller {
         bool needUpdate();
 
 };
-*/

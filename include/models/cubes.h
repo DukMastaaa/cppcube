@@ -23,6 +23,7 @@ static const int FACE_BACK = 3;
 static const int FACE_LEFT = 4;
 static const int FACE_DOWN = 5;
 
+// todo: is this a good idea to have top-level consts like this
 static const char FACES[] = "UFRBLD";
 static const char COLOURS[] = "WGRBOY";
 
@@ -55,6 +56,8 @@ class CubeModel {
         void makeTurn(int face, bool reverse, int depth = 0);
         void parseOneMove(std::string move);
 
+        void coutRepeatChar(char character, int repetitions);
+
     public:
         int dim;  // todo: should this be std::size_t instead of int?
         CubeModel(int dimension);
@@ -63,6 +66,7 @@ class CubeModel {
         std::vector<Array2DSquare>& getFaces();
         int getColourAtSticker(int face, int row, int col);
         void coutDisplayNet();
-        void parseMoves(std::string moves);
+        void parseMovesReset(std::string moves);
+        void parseMovesNoReset(std::string moves);
 };
 

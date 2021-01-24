@@ -12,14 +12,14 @@ BaseWindow::BaseWindow(BaseViewModel& vm) : viewModel(vm) {}
 
 
 void BaseWindow::wnoutrefresh() {
-    ::touchwin(window);
-    ::wnoutrefresh(window);
+    ::touchwin(fullWindow);
+    ::wnoutrefresh(fullWindow);
     ::wnoutrefresh(subwin);
 }
 
 
 void BaseWindow::makeBox() {
-    ::box(window, '|', '-');
+    ::box(fullWindow, '|', '-');
 }
 
 
@@ -29,12 +29,12 @@ void BaseWindow::draw() {
 
 
 void BaseWindow::wclear() {
-    ::wclear(window);
+    ::wclear(fullWindow);
 }
 
 
 void BaseWindow::werase() {
-    ::werase(window);
+    ::werase(fullWindow);
 }
 
 
@@ -67,9 +67,9 @@ Pos2D BaseWindow::addIntToPos(Pos2D pos, int num) {
 
 
 void BaseWindow::createWindows(int fullHeight, int fullWidth, int topLeftY, int topLeftX) {
-    window = newwin(fullHeight, fullWidth, topLeftY, topLeftX);
+    fullWindow = newwin(fullHeight, fullWidth, topLeftY, topLeftX);
     subwin = derwin(
-        window,  // derive from main window
+        fullWindow,  // derive from main window
         fullHeight - 2 * BORDER_WIDTH, fullWidth - 2 * BORDER_WIDTH,  // cut off both borders
         BORDER_WIDTH, BORDER_WIDTH  // start at first part after border
     );
@@ -78,7 +78,7 @@ void BaseWindow::createWindows(int fullHeight, int fullWidth, int topLeftY, int 
 
 BaseWindow::~BaseWindow() {
     delwin(subwin);
-    delwin(window);
+    delwin(fullWindow);
 }
 
 
@@ -110,7 +110,7 @@ Pos2D BottomLeftWindow::calcTopLeftPos(Pos2D heightAndWidth) {
 BottomLeftWindow::BottomLeftWindow(BaseViewModel& vm) : BaseWindow(vm) { standardInit(vm); }
 
 
-Pos2D CentredPopupWindow::calcTopLeftPos(Pos2D heightAndWidth) {
+Pos2D CentredWindow::calcTopLeftPos(Pos2D heightAndWidth) {
     unsigned int maxY, maxX;
     getmaxyx(stdscr, maxY, maxX);
     unsigned int topLeftY = (maxY - heightAndWidth.y) / 2;
@@ -119,7 +119,7 @@ Pos2D CentredPopupWindow::calcTopLeftPos(Pos2D heightAndWidth) {
 }
 
 
-CentredPopupWindow::CentredPopupWindow(BaseViewModel& vm) : BaseWindow(vm) { standardInit(vm); }
+CentredWindow::CentredWindow(BaseViewModel& vm) : BaseWindow(vm) { standardInit(vm); }
 
 
 Pos2D DefaultWindow::calcTopLeftPos(Pos2D heightAndWidth) {

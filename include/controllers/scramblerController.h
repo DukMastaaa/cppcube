@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 #include "controllers/baseController.h"
 #include "models/scrambler.h"
 #include "views/scramblerViewModel.h"
@@ -8,11 +10,13 @@
 
 class ScramblerController : public BaseController {
     private:
-        CubeScrambler scrambler;
-        ScramblerViewModel scramblerViewModel;
-        DefaultWindow scramblerWindow;
+        CubeScrambler model;
+        ScramblerViewModel viewModel;
+        DefaultWindow window;
     
     public:
         ScramblerController();
-        // todo: resume, rename getScramble -> generateScramble, getMos.. -> getLatestScramble
-}
+        std::string generateScramble(int dim);
+        std::string getLatestScramble();
+        void refresh();
+};
