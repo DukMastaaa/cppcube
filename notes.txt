@@ -74,3 +74,46 @@ NOTES
 123: 04:32.13+
 198: 69:42.01
 293: DNF
+
+
+switch (input) {
+            case ' ':
+                ct.toggleTiming();
+                twin.fullRefresh(false, false, true);
+                if (!ct.isTiming) {
+                    cube.resetState();
+                    cube.parseMoves(cs.getScramble(dim));
+                    recordList.addRecord({ct.getTimeElapsed(), cs.getMostRecentScramble(), NO_PENALTY});
+                    rlvm.recordAdded();
+                    cwin.fullRefresh();
+                    swin.fullRefresh();
+                    rlwin.fullRefresh();
+                }
+                doupdate();
+                break;
+            
+            case '2':
+            case 'd':
+                if (!ct.isTiming && recordList.getRecordCount() != 0) {
+                    Penalty appliedPenalty = (input == '2') ? PLUS_2_PENALTY : DNF_PENALTY;
+                    recordList.togglePenaltyLatestRecord(appliedPenalty);
+                    ct.togglePenalty(appliedPenalty);
+                    twin.fullRefresh(false, true, false);
+                    rlwin.fullRefresh();
+                    doupdate();
+                }
+                break;
+            
+            case 'w':
+            case 's':
+                if (!ct.isTiming) {
+                    if (input == 'w') {
+                        rlvm.moveUp();
+                    } else if (input == 's') {
+                        rlvm.moveDown();
+                    }
+                    rlwin.fullRefresh();
+                    doupdate();
+                }
+                break;
+        }

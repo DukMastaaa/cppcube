@@ -18,6 +18,8 @@ class RecordListController : public BaseController {
     public:
         RecordListController();
         std::size_t getRecordCount();
+        void moveUp();
+        void moveDown();
         void addRecord(Record record);
         void togglePenalty(Penalty penalty, std::size_t recordNum);
         void togglePenaltyLatestRecord(Penalty penalty);

@@ -8,34 +8,29 @@
 #include "controllers/timerController.h"
 
 
-class Controller {
+class App {
     private:
-        
-        /*
-        CubeModel cubeModel;
-        CubeViewModel cubeViewModel;
-        BottomRightWindow cubeWindow;
-
-        CubeScrambler cubeScrambler;
-        ScramblerViewModel scramblerViewModel;
-        DefaultWindow scramblerWindow;
-
-        CubeTimer cubeTimer;
-        TimerViewModel timerViewModel;
-        CentredWindow timerWindow;
-
-        RecordList recordList;
-        RecordListViewModel recordListViewModel;
-        DefaultWindow recordListWindow;
-        */  // todo: resume
+        CubeController cubeController;
+        RecordListController recordListController;
+        ScramblerController scramblerController;
+        TimerController timerController;
 
         int dim;  // todo: only temporary
         bool doAnUpdate;
+        bool appRunning;
+
+        // app functionality
+        void toggleTimer();
+        void togglePenalty(Penalty penalty);
+        void moveSelectedRecordUp();
+        void moveSelectedRecordDown();
 
     public:
-        Controller(int cubeDim);
-        void initialRefresh();
+        App(int cubeDim);
+        void initialRefreshUpdate();
         void keyboardInput(int input);
         bool needUpdate();
-
+        void turnOffUpdate();
+        void forceUpdate();
+        bool appIsRunning();
 };
