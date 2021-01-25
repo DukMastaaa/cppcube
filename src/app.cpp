@@ -13,15 +13,17 @@
 
 
 App::App(int cubeDim) :
-        doAnUpdate(false),
-        dim(cubeDim),
-        cubeController(dim),
+        cubeController(cubeDim),
         recordListController(),
         scramblerController(),
-        timerController() {}
+        timerController(),
+        dim(cubeDim),
+        doAnUpdate(false),
+        appRunning(true) {}
 
 
 void App::initialRefreshUpdate() {
+    cubeController.parseMovesReset(scramblerController.generateScramble(dim));
     cubeController.refresh();
     recordListController.refresh();
     scramblerController.refresh();
