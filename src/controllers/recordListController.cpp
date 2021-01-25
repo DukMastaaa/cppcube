@@ -18,8 +18,19 @@ std::size_t RecordListController::getRecordCount() {
 }
 
 
+void RecordListController::moveUp() {
+    viewModel.moveUp();
+}
+
+
+void RecordListController::moveDown() {
+    viewModel.moveDown();
+}
+
+
 void RecordListController::addRecord(Record record) {
     model.addRecord(record);
+    viewModel.recordAdded();
 }
 
 
