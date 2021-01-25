@@ -22,4 +22,5 @@ class CubeController : public BaseController {
         void resetState();
         void resetState(int dim);
         void refresh();
+        WINDOW* getWindow();
 };

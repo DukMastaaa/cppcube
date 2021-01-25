@@ -6,10 +6,10 @@
 
 CubeController::CubeController(int cubeDim) : 
         BaseController(), 
-        dim(cubeDim), 
-        model(dim), 
+        model(cubeDim), 
         viewModel(model), 
-        window(viewModel) {}
+        window(viewModel),
+        dim(cubeDim) {}
 
 
 void CubeController::parseMovesReset(std::string scramble) {
@@ -38,3 +38,7 @@ void CubeController::refresh() {
     window.wnoutrefresh();
 }
 
+
+WINDOW* CubeController::getWindow() {
+    return window.fullWindow;
+}
