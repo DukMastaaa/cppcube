@@ -17,7 +17,7 @@ std::string ScramblerController::generateScramble(int dim) {
 }
 
 
-std::string ScramblerController::getLatestScramble() {
+std::string ScramblerController::getLatestScramble() const {
     return model.getLatestScramble();
 }
 

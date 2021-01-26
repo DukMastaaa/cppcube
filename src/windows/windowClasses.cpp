@@ -11,29 +11,29 @@
 BaseWindow::BaseWindow(BaseViewModel& vm) : viewModel(vm) {}
 
 
-void BaseWindow::wnoutrefresh() {
+void BaseWindow::wnoutrefresh() const {
     ::touchwin(fullWindow);
     ::wnoutrefresh(fullWindow);
     ::wnoutrefresh(subwin);
 }
 
 
-void BaseWindow::makeBox() {
+void BaseWindow::makeBox() const {
     ::box(fullWindow, '|', '-');
 }
 
 
-void BaseWindow::draw() {
+void BaseWindow::draw() const {
     viewModel.draw(subwin);
 }
 
 
-void BaseWindow::wclear() {
+void BaseWindow::wclear() const {
     ::wclear(fullWindow);
 }
 
 
-void BaseWindow::werase() {
+void BaseWindow::werase() const {
     ::werase(fullWindow);
 }
 

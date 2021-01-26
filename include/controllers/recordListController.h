@@ -17,7 +17,7 @@ class RecordListController : public BaseController {
     
     public:
         RecordListController();
-        std::size_t getRecordCount();
+        std::size_t getRecordCount() const;
         void moveUp();
         void moveDown();
         void addRecord(Record record);

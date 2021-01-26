@@ -203,10 +203,10 @@ void TimerViewModel::draw(WINDOW* window) {
     /* Erases and draws timer window. */
     if (!timer.isTiming) {
         wclear(window);  // clear instead of erase to prevent window corruption
-        if (timer.currentPenalty == DNF_PENALTY) {
+        if (timer.currentPenalty == Penalty::DNF_PENALTY) {
             drawDNF(window);
         } else {
-            bool plus2 = (timer.currentPenalty == PLUS_2_PENALTY);
+            bool plus2 = (timer.currentPenalty == Penalty::PLUS_2_PENALTY);
             auto offset = (plus2) ? std::chrono::seconds(2) : std::chrono::seconds(0);
             std::array<int, 3> times = CubeTimer::getTimeDivisions(timer.getTimeElapsed() + offset);
             drawCharMatrix(window, times, plus2);

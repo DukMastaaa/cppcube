@@ -14,7 +14,7 @@ CubeTimer::CubeTimer() {
 
 void CubeTimer::resetTime() {
     timeElapsed = std::chrono::milliseconds(0);
-    currentPenalty = NO_PENALTY;
+    currentPenalty = Penalty::NO_PENALTY;
 }
 
 
@@ -53,7 +53,7 @@ void CubeTimer::togglePenalty(Penalty penalty) {
     if (currentPenalty != penalty) {
         currentPenalty = penalty;
     } else {
-        currentPenalty = NO_PENALTY;
+        currentPenalty = Penalty::NO_PENALTY;
     }
 }
 

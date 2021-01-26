@@ -33,13 +33,16 @@ the following lists.
 - Tidy up codebase, specify `const` member functions
 - Window title
 - Handle terminal resize events
-- Change side length of cube during run-time
+- Develop popup window classes
+- Generate info popup for scramble
+- Change side length of cube during run-time through popup
 - Shrink views if too large and display popups instead
 - Record summary statistics
 - Data export/import
 - Automatic saving (location of save file most likely OS-dependent)
 
 ### Could possibly implement
+- Arrow key navigation instead of entirely keyboard controls
 - Support for non-cubic WCA puzzles (pyraminx etc). Not likely to get visualisation
   but scrambles are possible... if i can make a model somehow..
 - Try to get orange colours to appear on terminal? Not sure if this is feasible given
@@ -57,18 +60,18 @@ highlighting of buttons etc.) but for now I'm going to just do keyboard controls
 | `<Space>`      | Start, stop timing                     |Y |
 | `2`            | Toggle +2 penalty on most recent time  |Y |
 | `d`            | Toggle DNF penalty on most recent time |Y |
-| `x`            | Delete most recent time                |  |
-| `X` (shift)    | Delete time in record list             |  |
-| `p`            | Change puzzle type                     |  |
-| `n`            | Generate new scramble                  |  |
-| `<Up-Arrow>`   | Scroll up through recorded times       |  |
-| `<Down-Arrow>` | Scroll down through recorded times     |  |
-| `i`            | Show info for selected time            |  |
-| `j`            | Jump to index in recorded times        |  |
-| `t`            | Jump to top of recorded times          |  |
-| `b`            | Jump to bottom of recorded times       |  |
-| `g`            | Generate summary statistics            |  |
-| `E` (shift)    | Export times                           |  |
+| `X` (shift)    | Delete time in record list             |N |
+| `x`            | Delete most recent time                |N |
+| `p`            | Change puzzle type                     |N |
+| `n`            | Generate new scramble                  |N |
+| `<Up-Arrow>`   | Scroll up through recorded times       |N |
+| `<Down-Arrow>` | Scroll down through recorded times     |N |
+| `i`            | Show info for selected time            |N |
+| `j`            | Jump to index in recorded times        |N |
+| `t`            | Jump to top of recorded times          |N |
+| `b`            | Jump to bottom of recorded times       |N |
+| `g`            | Generate summary statistics            |N |
+| `E` (shift)    | Export times                           |N |
 
 ## What about the previous `cppcube`?
 The original `cppcube` was simply a header and `.cpp` file providing an

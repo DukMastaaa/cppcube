@@ -13,7 +13,7 @@ RecordListController::RecordListController() :
         window(viewModel) {}
 
 
-std::size_t RecordListController::getRecordCount() {
+std::size_t RecordListController::getRecordCount() const {
     return model.getRecordCount();
 }
 
