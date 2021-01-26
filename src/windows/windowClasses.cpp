@@ -38,20 +38,6 @@ void BaseWindow::werase() {
 }
 
 
-void BaseWindow::fullRefresh(bool drawBox, bool clear, bool erase) {
-    if (clear) {
-        wclear();
-    } else if (erase) {
-        werase();
-    }
-    draw();
-    if (drawBox) {
-        makeBox();
-    }
-    wnoutrefresh();
-}
-
-
 void BaseWindow::standardInit(BaseViewModel& vm) {
     /* Standard window initialisation. Don't call in ctor if window is special. */
 

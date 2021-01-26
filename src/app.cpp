@@ -127,3 +127,8 @@ void App::forceUpdate() {
 bool App::appIsRunning() {
     return appRunning;
 }
+
+
+WINDOW* App::getWindow() {
+    return cubeController.getWindow();
+}
