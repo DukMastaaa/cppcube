@@ -21,11 +21,11 @@ class BaseWindow {
         WINDOW* subwin;
         virtual Pos2D calcTopLeftPos(Pos2D heightAndWidth) = 0;
         BaseWindow(BaseViewModel& vm);
-        void wnoutrefresh();
-        void makeBox();
-        void draw();
-        void wclear();  // forces refresh
-        void werase();  // doesn't force refresh
+        void wnoutrefresh() const;
+        void makeBox() const;
+        void draw() const;
+        void wclear() const;  // forces refresh
+        void werase() const;  // doesn't force refresh
         ~BaseWindow();
 };
 

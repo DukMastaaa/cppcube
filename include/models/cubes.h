@@ -3,29 +3,11 @@
 #include <vector>
 #include <iostream>
 
-/*
-Faces order:
-U F R B L D
-0 1 2 3 4 5
 
-Colours:
-W G R B O Y
-0 1 2 3 4 5
-
-Default colour of face is the face number itself.
-*/
-
-
-static const int FACE_UP = 0;
-static const int FACE_FRONT = 1;
-static const int FACE_RIGHT = 2;
-static const int FACE_BACK = 3;
-static const int FACE_LEFT = 4;
-static const int FACE_DOWN = 5;
-
-// todo: is this a good idea to have top-level consts like this
-static const char FACES[] = "UFRBLD";
-static const char COLOURS[] = "WGRBOY";
+// Default colour of face is the face number itself.
+enum CubeFace {
+    UP, FRONT, RIGHT, BACK, LEFT, DOWN
+};
 
 
 class Array2DSquare {
@@ -33,7 +15,7 @@ class Array2DSquare {
         std::vector<std::vector<int>> array;
 
     public:
-        int length;
+        int length;  // todo: resume, const correctness
         Array2DSquare(int sideLength);
         Array2DSquare(int sideLength, int defaultValue);
         int& at(int row, int col);
@@ -44,6 +26,9 @@ class Array2DSquare {
 
 class CubeModel {
     private:
+        static const char FACE_SYMBOLS[];
+        static const char COLOURS[];
+
         static const std::vector<std::vector<int>> facesToSwap;
         static const std::vector<std::vector<int>> facesToSwapReversed;
 
@@ -52,10 +37,10 @@ class CubeModel {
         static const std::vector<std::vector<std::vector<char>>> swapInstructionsReversed;
 
         std::vector<Array2DSquare> faces;
+
         void cycle(int face, bool reverse, int depth = 0);
         void makeTurn(int face, bool reverse, int depth = 0);
         void parseOneMove(std::string move);
-
         void coutRepeatChar(char character, int repetitions);
 
     public:
@@ -69,4 +54,3 @@ class CubeModel {
         void parseMovesReset(std::string moves);
         void parseMovesNoReset(std::string moves);
 };
-

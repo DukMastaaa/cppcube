@@ -126,6 +126,6 @@ std::string CubeScrambler::generateScramble(int dim) {
 }
 
 
-std::string& CubeScrambler::getLatestScramble() {
+std::string CubeScrambler::getLatestScramble() const {
     return mostRecentScramble;
 }

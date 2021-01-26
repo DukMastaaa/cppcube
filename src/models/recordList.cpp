@@ -5,9 +5,7 @@
 #include "myStructs.h"
 
 
-RecordList::RecordList() {
-
-}
+RecordList::RecordList() {}
 
 
 std::size_t RecordList::getRecordCount() {
@@ -24,7 +22,7 @@ void RecordList::togglePenalty(Penalty penalty, std::size_t recordNum) {
     if (recordNum <= records.size() - 1) {
         Record& selectedRecord = records.at(recordNum);
         if (selectedRecord.penalty == penalty) {
-            selectedRecord.penalty = NO_PENALTY;
+            selectedRecord.penalty = Penalty::NO_PENALTY;
         } else {
             selectedRecord.penalty = penalty;
         }

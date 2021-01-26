@@ -32,7 +32,7 @@ void CubeController::resetState(int dim) {
 }
 
 
-void CubeController::refresh() {
+void CubeController::refresh() const {
     window.makeBox();
     window.draw();
     window.wnoutrefresh();

@@ -26,11 +26,11 @@ void CubeViewModel::draw(WINDOW* window) {
 
     int yOffset = 0;  // keeps track of y pos in window after each layer
 
-    // FACE_UP
+    // UP
     int leftOffset = cube.dim + SPACING;
     for (int row = 0; row < cube.dim; row++) {
         for (int col = 0; col < cube.dim; col++) {
-            int thisColour = cube.getColourAtSticker(FACE_UP, row, col);
+            int thisColour = cube.getColourAtSticker(UP, row, col);
 
             wattron(window, COLOR_PAIR(thisColour));
             mvwaddch(window, yOffset + row, leftOffset + col, BLOCK);
@@ -40,8 +40,8 @@ void CubeViewModel::draw(WINDOW* window) {
 
     yOffset = cube.dim + SPACING;
 
-    // FACE_LEFT, FACE_FRONT, FACE_RIGHT, FACE_BACK
-    static const int middleFaces[] = {FACE_LEFT, FACE_FRONT, FACE_RIGHT, FACE_BACK};
+    // LEFT, FRONT, RIGHT, BACK
+    static const int middleFaces[] = {LEFT, FRONT, RIGHT, BACK};
     for (int row = 0; row < cube.dim; row++ ) {
         for (int faceIndex = 0; faceIndex < 4; faceIndex++) {
             leftOffset = faceIndex * (cube.dim + 1);
@@ -57,11 +57,11 @@ void CubeViewModel::draw(WINDOW* window) {
 
     yOffset = 2 * (cube.dim + SPACING);
 
-    // FACE_DOWN  // duplicated code... aeugh
+    // DOWN  // duplicated code... aeugh
     leftOffset = cube.dim + SPACING;
     for (int row = 0; row < cube.dim; row++) {
         for (int col = 0; col < cube.dim; col++) {
-            int thisColour = cube.getColourAtSticker(FACE_DOWN, row, col);
+            int thisColour = cube.getColourAtSticker(DOWN, row, col);
 
             wattron(window, COLOR_PAIR(thisColour));
             mvwaddch(window, yOffset + row, leftOffset + col, BLOCK);

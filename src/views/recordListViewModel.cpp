@@ -14,10 +14,10 @@
 
 
 std::string RecordListViewModel::formatTime(std::chrono::milliseconds time, Penalty penalty) {
-    if (penalty == DNF_PENALTY) {
+    if (penalty == Penalty::DNF_PENALTY) {
         return "DNF";
     } else {
-        bool plus2 = (penalty == PLUS_2_PENALTY);
+        bool plus2 = (penalty == Penalty::PLUS_2_PENALTY);
         auto offset = plus2 ? std::chrono::seconds(2) : std::chrono::seconds(0); 
         std::array<int, 3> times = CubeTimer::getTimeDivisions(time + offset);
 

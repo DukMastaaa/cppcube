@@ -17,6 +17,6 @@ class ScramblerController : public BaseController {
     public:
         ScramblerController();
         std::string generateScramble(int dim);
-        std::string getLatestScramble();
-        void refresh();
+        std::string getLatestScramble() const;
+        void refresh() const;
 };

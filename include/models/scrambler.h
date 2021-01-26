@@ -29,5 +29,5 @@ class CubeScrambler {
         std::string mostRecentScramble;  // saves most recent scramble so ScramblerViewModel can access
         CubeScrambler();
         std::string generateScramble(int dim);
-        std::string& getLatestScramble();
+        std::string getLatestScramble() const;
 };

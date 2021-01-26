@@ -21,6 +21,6 @@ class CubeController : public BaseController {
         void parseMovesNoReset(std::string scramble);
         void resetState();
         void resetState(int dim);
-        void refresh();
-        WINDOW* getWindow();
+        void refresh() const;
+        WINDOW* getWindow();  // todo: how to implement this as virtual function when base doesn't have access to window?
 };

@@ -15,7 +15,7 @@ void ncursesSetup() {
     leaveok(stdscr, TRUE);
     scrollok(stdscr, FALSE);
     curs_set(0);
-    // timeout(0);
+    // timeout(0);  // don't really need non-blocking wgetch()
     keypad(stdscr, TRUE);
     startColours();
 }
@@ -25,7 +25,6 @@ int main() {
     ncursesSetup();
 
     int dim = 3;
-    int counter = 0;
 
     App app(dim);
     app.initialRefreshUpdate();
