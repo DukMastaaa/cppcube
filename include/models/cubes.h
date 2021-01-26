@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <vector>
 #include <iostream>
 
@@ -15,7 +16,7 @@ class Array2DSquare {
         std::vector<std::vector<int>> array;
 
     public:
-        int length;  // todo: resume, const correctness
+        int length;
         Array2DSquare(int sideLength);
         Array2DSquare(int sideLength, int defaultValue);
         int& at(int row, int col);
@@ -26,10 +27,31 @@ class Array2DSquare {
 
 class CubeModel {
     private:
-        static const char FACE_SYMBOLS[];
-        static const char COLOURS[];
+        static constexpr std::array<char, 6> FACE_SYMBOLS = {'U', 'F', 'R', 'B', 'L', 'D'};
+        static constexpr std::array<char, 6> COLOURS = {'W', 'G', 'R', 'B', 'O', 'Y'};
 
-        static const std::vector<std::vector<int>> facesToSwap;
+        static constexpr std::array<std::array<CubeFace, 4>, 6> facesToSwap = {{
+            {RIGHT, BACK, LEFT, FRONT},  // UP
+            {LEFT, DOWN, RIGHT, UP},     // FRONT
+            {DOWN, BACK, UP, FRONT},     // RIGHT
+            {RIGHT, DOWN, LEFT, UP},     // BACK
+            {UP, BACK, DOWN, FRONT},     // LEFT
+            {LEFT, BACK, RIGHT, FRONT},  // DOWN
+        }};
+
+        static constexpr std::array<std::array<CubeFace, 4>, 6> reverseFacesToSwap() {
+            std::array<std::array<CubeFace, 4>, 6> reversed = facesToSwap;
+            for (std::size_t faceIndex = 0; faceIndex < 6; faceIndex++) {
+                for (std::size_t sideIndex = 0; sideIndex < 4; sideIndex++) {
+                    reversed[faceIndex][sideIndex] = facesToSwap[faceIndex][3 - sideIndex];
+                }
+            }
+            return reversed;
+        }
+
+        // what on earth
+        static constexpr std::array<std::array<CubeFace, 4>, 6> facesToSwapReversed = reverseFacesToSwap();
+
         static const std::vector<std::vector<int>> facesToSwapReversed;
 
         // d: depth, i: i, m: dim-1-depth, f: dim-1-i

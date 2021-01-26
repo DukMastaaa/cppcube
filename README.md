@@ -30,7 +30,9 @@ the following lists.
 - Restructure `main()` to use controller and app class
 
 ### Will implement
-- Tidy up codebase, specify `const` member functions
+- Enforce const correctness
+- Use `unique_ptr` in BaseController class, https://docs.microsoft.com/en-us/cpp/cpp/object-lifetime-and-resource-management-modern-cpp
+- Explicitly specify `override` for overriden virtual functions
 - Window title
 - Handle terminal resize events
 - Develop popup window classes
@@ -83,6 +85,9 @@ still print a net of the cube to `std::cout` using
 `void CubeModel::coutDisplayNet()`. 
 
 ## Current bugs
+- Scrolling to the bottom of record list view after the record count 
+  exceeds the displayed amount causes the first record time to be 
+  duplicated. This would be an issue with the moveDown function.
 - Noticable refresh behaviour in windows terminal, probably something
   to do with `wclear()` and `werase()`.
 - Some terminals which allow vertical scrolling display binary characters
