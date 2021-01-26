@@ -60,8 +60,8 @@ Record& RecordListController::getRecord(std::size_t recordNum) {
 
 
 void RecordListController::refresh() {
-    window.werase();  // todo: flickering?
     window.makeBox();
     window.draw();
     window.wnoutrefresh();
+    touchwin(window.fullWindow);
 }

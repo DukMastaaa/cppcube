@@ -26,7 +26,6 @@ class BaseWindow {
         void draw();
         void wclear();  // forces refresh
         void werase();  // doesn't force refresh
-        void fullRefresh(bool drawBox = true, bool clear = true, bool erase = false);
         ~BaseWindow();
 };
 

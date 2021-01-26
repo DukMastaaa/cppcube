@@ -21,6 +21,9 @@ CubeViewModel::CubeViewModel(CubeModel& cubeRef) : cube(cubeRef) { }
 
 
 void CubeViewModel::draw(WINDOW* window) {
+    /* Clears and draws cube window. */
+    wclear(window);
+
     int yOffset = 0;  // keeps track of y pos in window after each layer
 
     // FACE_UP

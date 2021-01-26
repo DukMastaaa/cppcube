@@ -36,6 +36,7 @@ void CubeController::refresh() {
     window.makeBox();
     window.draw();
     window.wnoutrefresh();
+    touchwin(window.fullWindow);
 }
 
 

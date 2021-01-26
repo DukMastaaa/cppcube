@@ -150,6 +150,8 @@ void RecordListViewModel::drawRecords(WINDOW* window) {
 
 
 void RecordListViewModel::draw(WINDOW* window) {
+    /* Draws record list window. */
+    // wclear(window);  // don't need to clear.
     mvwprintw(window, 0, 0, "History (%ld)", records.getRecordCount());
     drawRecords(window);
 }

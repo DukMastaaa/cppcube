@@ -34,7 +34,7 @@ std::chrono::milliseconds TimerController::getTimeElapsed() {
 
 
 void TimerController::refresh() {
-    window.werase();
     window.draw();
     window.wnoutrefresh();
+    touchwin(window.fullWindow);
 }

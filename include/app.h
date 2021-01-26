@@ -33,4 +33,5 @@ class App {
         void turnOffUpdate();
         void forceUpdate();
         bool appIsRunning();
+        WINDOW* getWindow();
 };

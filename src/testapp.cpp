@@ -12,7 +12,7 @@ TestApp::TestApp() :
 void TestApp::initialRefreshUpdate() {
     cubeController.parseMovesReset("R U R' F' R2 R");
     cubeController.refresh();
-    doAnUpdate = true;
+    doupdate();
 }
 
 

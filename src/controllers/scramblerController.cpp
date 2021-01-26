@@ -25,7 +25,7 @@ std::string ScramblerController::getLatestScramble() {
 void ScramblerController::refresh() {
     // todo: duplicated? maybe
     window.makeBox();
-    window.werase();
     window.draw();
     window.wnoutrefresh();
+    touchwin(window.fullWindow);
 }

@@ -200,7 +200,9 @@ void TimerViewModel::drawDNF(WINDOW* window) {
 
 
 void TimerViewModel::draw(WINDOW* window) {
+    /* Erases and draws timer window. */
     if (!timer.isTiming) {
+        wclear(window);  // clear instead of erase to prevent window corruption
         if (timer.currentPenalty == DNF_PENALTY) {
             drawDNF(window);
         } else {
@@ -210,6 +212,7 @@ void TimerViewModel::draw(WINDOW* window) {
             drawCharMatrix(window, times, plus2);
         }
     } else {
+        werase(window);  // full refresh not needed, erase will suffice
         drawEllipsis(window);
     }
 }

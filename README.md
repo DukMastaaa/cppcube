@@ -26,10 +26,10 @@ the following lists.
 - Penalty controls and display
 - Record list
 - Record list view
+- Organise header files into folders
+- Restructure `main()` to use controller and app class
 
 ### Will implement
-- Organise header files into folders
-- Restructure `main()` to use controller class
 - Tidy up codebase, specify `const` member functions
 - Window title
 - Handle terminal resize events
@@ -80,4 +80,11 @@ still print a net of the cube to `std::cout` using
 `void CubeModel::coutDisplayNet()`. 
 
 ## Current bugs
-- Everything refreshes when scrolling through record list - flickering
+- Noticable refresh behaviour in windows terminal, probably something
+  to do with `wclear()` and `werase()`.
+- Some terminals which allow vertical scrolling display binary characters
+  when the window is scrolled up during runtime. This seems like weird
+  `ncurses` behaviour, and I have tried to mitigate it by judiciously
+  choosing `wclear()` over `werase()`. Calling `clearok(curscr, TRUE)` 
+  before every `doupdate()` works but is overkill as every handled
+  keyboard input will refresh the screen, causing flickering.
