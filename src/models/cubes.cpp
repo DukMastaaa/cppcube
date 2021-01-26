@@ -44,30 +44,25 @@ void Array2DSquare::rot90() {
 }
 
 
-const char CubeModel::FACE_SYMBOLS[] = "UFRBLD";
+constexpr const std::array<std::array<CubeFace, 4>, 6> CubeModel::reverseFacesToSwap() {
+    std::array<std::array<CubeFace, 4>, 6> reversed;
+    for (std::size_t faceIndex = 0; faceIndex < 6; faceIndex++) {
+        for (std::size_t sideIndex = 0; sideIndex < 4; sideIndex++) {
+            reversed[faceIndex][sideIndex] = facesToSwap[faceIndex][3 - sideIndex];
+        }
+    }
+    return reversed;
+}
 
 
-const char CubeModel::COLOURS[] = "WGRBOY";
-
-
-const std::vector<std::vector<int>> CubeModel::facesToSwapReversed = {
-    {FRONT, LEFT, BACK, RIGHT},  // UP
-    {UP, RIGHT, DOWN, LEFT},     // FRONT
-    {FRONT, UP, BACK, DOWN},     // RIGHT
-    {UP, LEFT, DOWN, RIGHT},     // BACK
-    {FRONT, DOWN, BACK, UP},     // LEFT
-    {FRONT, RIGHT, BACK, LEFT},  // DOWN
-};
-
-
-const std::vector<std::vector<int>> CubeModel::facesToSwap = {
-    {RIGHT, BACK, LEFT, FRONT},  // UP
-    {LEFT, DOWN, RIGHT, UP},     // FRONT
-    {DOWN, BACK, UP, FRONT},     // RIGHT
-    {RIGHT, DOWN, LEFT, UP},     // BACK
-    {UP, BACK, DOWN, FRONT},     // LEFT
-    {LEFT, BACK, RIGHT, FRONT},  // DOWN
-};
+// const std::vector<std::vector<int>> CubeModel::facesToSwapReversed = {
+//     {FRONT, LEFT, BACK, RIGHT},  // UP
+//     {UP, RIGHT, DOWN, LEFT},     // FRONT
+//     {FRONT, UP, BACK, DOWN},     // RIGHT
+//     {UP, LEFT, DOWN, RIGHT},     // BACK
+//     {FRONT, DOWN, BACK, UP},     // LEFT
+//     {FRONT, RIGHT, BACK, LEFT},  // DOWN
+// };
 
 
 // d: depth, i: i, m: dim-1-depth, f: dim-1-i
