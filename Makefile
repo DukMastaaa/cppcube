@@ -26,7 +26,7 @@ OBJECTS = $(SOURCES:$(SRC_PATH)/%.$(SRC_EXT)=$(BUILD_PATH)/%.o)
 DEPS = $(OBJECTS:.o=.d)
 
 # flags #
-COMPILE_FLAGS = -Wall -Wextra
+COMPILE_FLAGS = -Wall -Wextra -std=c++17
 INCLUDES = -I ./include
 # Space-separated pkg-config libraries used by this project
 LIBS = -lncurses

@@ -1,6 +1,7 @@
 #include "models/cubes.h"
 
 #include <iostream>
+#include <array>
 #include <vector>
 #include <sstream>
 
@@ -14,6 +15,11 @@ Array2DSquare::Array2DSquare(int sideLength) {
 Array2DSquare::Array2DSquare(int sideLength, int defaultValue) {
     array = std::vector<std::vector<int>>(sideLength, std::vector<int>(sideLength, defaultValue));
     length = sideLength;
+}
+
+
+int Array2DSquare::at(int row, int col) const {
+    return array[row][col];
 }
 
 
@@ -44,109 +50,6 @@ void Array2DSquare::rot90() {
 }
 
 
-constexpr const std::array<std::array<CubeFace, 4>, 6> CubeModel::reverseFacesToSwap() {
-    std::array<std::array<CubeFace, 4>, 6> reversed;
-    for (std::size_t faceIndex = 0; faceIndex < 6; faceIndex++) {
-        for (std::size_t sideIndex = 0; sideIndex < 4; sideIndex++) {
-            reversed[faceIndex][sideIndex] = facesToSwap[faceIndex][3 - sideIndex];
-        }
-    }
-    return reversed;
-}
-
-
-// const std::vector<std::vector<int>> CubeModel::facesToSwapReversed = {
-//     {FRONT, LEFT, BACK, RIGHT},  // UP
-//     {UP, RIGHT, DOWN, LEFT},     // FRONT
-//     {FRONT, UP, BACK, DOWN},     // RIGHT
-//     {UP, LEFT, DOWN, RIGHT},     // BACK
-//     {FRONT, DOWN, BACK, UP},     // LEFT
-//     {FRONT, RIGHT, BACK, LEFT},  // DOWN
-// };
-
-
-// d: depth, i: i, m: dim-1-depth, f: dim-1-i
-const std::vector<std::vector<std::vector<char>>> CubeModel::swapInstructionsReversed = {
-    {  // UP
-        {'d', 'i'},
-        {'d', 'i'},
-        {'d', 'i'},
-        {'d', 'i'}
-    },
-    {  // FRONT
-        {'m', 'i'},
-        {'i', 'd'},
-        {'d', 'f'},
-        {'f', 'm'}
-    },
-    {  // RIGHT
-        {'i', 'm'},
-        {'i', 'm'},
-        {'f', 'd'},
-        {'i', 'm'}
-    },
-    {  // BACK
-        {'d', 'i'},
-        {'f', 'd'},
-        {'m', 'f'},
-        {'i', 'm'}
-    },
-    {  // LEFT
-        {'i', 'd'},
-        {'i', 'd'},
-        {'f', 'm'},
-        {'i', 'd'}
-    },
-    {  // DOWN
-        {'m', 'i'},
-        {'m', 'i'},
-        {'m', 'i'},
-        {'m', 'i'}
-    }
-};
-
-
-// d: depth, i: i, m: dim-1-depth, f: dim-1-i
-const std::vector<std::vector<std::vector<char>>> CubeModel::swapInstructions = {
-    {  // UP
-        {'d', 'i'},
-        {'d', 'i'},
-        {'d', 'i'},
-        {'d', 'i'}
-    },
-    {  // FRONT
-        {'f', 'm'},
-        {'d', 'f'},  //  bug, used to be d m
-        {'i', 'd'},
-        {'m', 'i'}
-    },
-    {  // RIGHT
-        {'i', 'm'},
-        {'f', 'd'},
-        {'i', 'm'},
-        {'i', 'm'}
-    },
-    {  // BACK
-        {'i', 'm'},
-        {'m', 'f'},
-        {'f', 'd'},
-        {'d', 'i'}
-    },
-    {  // LEFT
-        {'i', 'd'},
-        {'f', 'm'},
-        {'i', 'd'},
-        {'i', 'd'}
-    },
-    {  // DOWN
-        {'m', 'i'},
-        {'m', 'i'},
-        {'m', 'i'},
-        {'m', 'i'}
-    }
-};
-
-
 // CubeModel method implementations
 CubeModel::CubeModel(int dimension) {
     faces = std::vector<Array2DSquare>(6, Array2DSquare(dimension));
@@ -171,8 +74,8 @@ void CubeModel::resetState(int dimension) {
 void CubeModel::cycle(int face, bool reverse, int depth) {
     // index -1 is (dim - 1) 
 
-    const std::vector<int>* faceCycle;
-    const std::vector<std::vector<char>>* instructions;
+    const std::array<CubeFace, 4>* faceCycle;
+    const std::array<std::array<char, 2>, 4>* instructions;
     if (reverse) {
         faceCycle = &(facesToSwapReversed[face]);
         instructions = &(swapInstructionsReversed[face]);
@@ -259,24 +162,24 @@ void CubeModel::makeTurn(int face, bool reverse, int depth) {
 }
 
 
-std::vector<Array2DSquare>& CubeModel::getFaces() {
+std::vector<Array2DSquare> CubeModel::getFaces() const {
     return faces;
 }
 
 
-int CubeModel::getColourAtSticker(int face, int row, int col) {
+int CubeModel::getColourAtSticker(int face, int row, int col) const {
     return faces[face].at(row, col);
 }
 
 
-void CubeModel::coutRepeatChar(char character, int repetitions) {
+void CubeModel::coutRepeatChar(char character, int repetitions) const {
     for (int i = 0; i < repetitions; i++) {
         std::cout << character;
     }
 }
 
 
-void CubeModel::coutDisplayNet() {
+void CubeModel::coutDisplayNet() const {
     /* Prints a net of the cube to std::cout. */
     // UP
     for (int row = 0; row < dim; row++) {
