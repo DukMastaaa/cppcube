@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <memory>
 
 #include "controllers/baseController.h"
 #include "models/cubes.h"
@@ -9,10 +10,8 @@
 
 
 class CubeController : public BaseController {
-    private:
+    protected:
         CubeModel model;
-        CubeViewModel viewModel;
-        BottomRightWindow window;
         int dim;
 
     public:
@@ -21,6 +20,5 @@ class CubeController : public BaseController {
         void parseMovesNoReset(std::string scramble);
         void resetState();
         void resetState(int dim);
-        void refresh() const;
-        WINDOW* getWindow();  // todo: how to implement this as virtual function when base doesn't have access to window?
+        void refresh() const override;
 };
