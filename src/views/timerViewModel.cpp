@@ -120,7 +120,7 @@ const std::string TimerViewModel::DNF[5] = {
 };
 
 
-Pos2D TimerViewModel::calcHeightWidth() {
+Pos2D TimerViewModel::calcHeightWidth() const {
     return {5, 31};  // hardcode for now
 }
 
@@ -128,8 +128,8 @@ Pos2D TimerViewModel::calcHeightWidth() {
 TimerViewModel::TimerViewModel(CubeTimer& timerRef) : timer(timerRef) {}
 
 
-void TimerViewModel::drawCharMatrix(WINDOW* window, std::array<int, 3> times, bool plus2) {
-    // todo: move RLVM::formatTime to CubeTimer::formatTime and iterate over char. this is partially duplicated code
+void TimerViewModel::drawCharMatrix(WINDOW* window, std::array<int, 3> times, bool plus2) const {
+    // todo: meow: move RLVM::formatTime to CubeTimer::formatTime and iterate over char. this is partially duplicated code
     for (int row = 0; row < 5; row++) {
         int xPos = (plus2) ? 0 : 2;  // aligns time properly
         for (int timeSelector = 0; timeSelector < 3; timeSelector++) {
@@ -185,21 +185,21 @@ void TimerViewModel::drawCharMatrix(WINDOW* window, std::array<int, 3> times, bo
 }
 
 
-void TimerViewModel::drawEllipsis(WINDOW* window) {
+void TimerViewModel::drawEllipsis(WINDOW* window) const {
     for (int col = 0; col < 5; col += 2) {
         mvwaddch(window, 4, col, '#');
     }
 }
 
 
-void TimerViewModel::drawDNF(WINDOW* window) {
+void TimerViewModel::drawDNF(WINDOW* window) const {
     for (int row = 0; row < 5; row++) {
         mvwprintw(window, row, 0, DNF[row].c_str());
     }
 }
 
 
-void TimerViewModel::draw(WINDOW* window) {
+void TimerViewModel::draw(WINDOW* window) const {
     /* Erases and draws timer window. */
     if (!timer.isTiming) {
         wclear(window);  // clear instead of erase to prevent window corruption

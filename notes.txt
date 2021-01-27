@@ -78,3 +78,15 @@ NOTES
 
 const correct:
 windowClasses
+cubes
+cubeTimer
+recordList
+scrambler (aeugh, made things static)
+baseController (maybe `virtual void refresh()` shouldn't be const.. idk)
+baseViewModel
+colours
+myStructs
+cubeViewModel
+recordListViewModel
+scramblerViewModel
+timerViewModel

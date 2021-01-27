@@ -11,6 +11,6 @@ class ScramblerViewModel : public BaseViewModel {
 
     public:
         ScramblerViewModel(CubeScrambler& scramblerRef);
-        Pos2D calcHeightWidth();  // if not in a popup
-        void draw(WINDOW* window);
+        Pos2D calcHeightWidth() const override;  // if not in a popup
+        void draw(WINDOW* window) const override;
 };

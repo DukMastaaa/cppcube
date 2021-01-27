@@ -13,10 +13,10 @@ class CubeViewModel : public BaseViewModel {
     private:
         CubeModel& cube;
         static const char BLOCK = '#';
-        static const int SPACING = 1;
+        static const int NET_SPACING = 1;
     
     public:
         CubeViewModel(CubeModel& cubeRef);
-        Pos2D calcHeightWidth();
-        void draw(WINDOW* window);
+        Pos2D calcHeightWidth() const override;
+        void draw(WINDOW* window) const override;
 };

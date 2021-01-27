@@ -15,17 +15,17 @@ class RecordListViewModel : public BaseViewModel {
         std::size_t recordsShown;
         std::size_t selectedIndex;
         std::size_t topIndex;
-        void drawRecords(WINDOW* window);
-        std::string formatTime(std::chrono::milliseconds time, Penalty penalty);
+        void drawRecords(WINDOW* window) const;
+        static std::string formatTime(std::chrono::milliseconds time, Penalty penalty);
         inline std::size_t indexAtBottom() const;
         inline std::size_t indexMax() const;
     
     public:
         RecordListViewModel(RecordList& recordsRef);
-        Pos2D calcHeightWidth();
+        Pos2D calcHeightWidth() const override;
         void recordAdded();
         void recordRemoved();
         void moveUp();
         void moveDown();
-        void draw(WINDOW* window);
+        void draw(WINDOW* window) const override;
 };

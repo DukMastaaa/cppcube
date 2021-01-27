@@ -8,11 +8,11 @@
 #include "views/colours.h"
 
 
-Pos2D CubeViewModel::calcHeightWidth() {
+Pos2D CubeViewModel::calcHeightWidth() const {
     /* Calculates height and width of the window given the side length
     of `cube`. */
-    unsigned int height = 3 * cube.dim + 2 * SPACING;
-    unsigned int width = 4 * cube.dim + 3 * SPACING;
+    unsigned int height = 3 * cube.dim + 2 * NET_SPACING;
+    unsigned int width = 4 * cube.dim + 3 * NET_SPACING;
     return {height, width};
 }
 
@@ -20,14 +20,14 @@ Pos2D CubeViewModel::calcHeightWidth() {
 CubeViewModel::CubeViewModel(CubeModel& cubeRef) : cube(cubeRef) { }
 
 
-void CubeViewModel::draw(WINDOW* window) {
+void CubeViewModel::draw(WINDOW* window) const {
     /* Clears and draws cube window. */
     wclear(window);
 
     int yOffset = 0;  // keeps track of y pos in window after each layer
 
     // UP
-    int leftOffset = cube.dim + SPACING;
+    int leftOffset = cube.dim + NET_SPACING;
     for (int row = 0; row < cube.dim; row++) {
         for (int col = 0; col < cube.dim; col++) {
             int thisColour = cube.getColourAtSticker(UP, row, col);
@@ -38,7 +38,7 @@ void CubeViewModel::draw(WINDOW* window) {
         }
     }
 
-    yOffset = cube.dim + SPACING;
+    yOffset = cube.dim + NET_SPACING;
 
     // LEFT, FRONT, RIGHT, BACK
     static const int middleFaces[] = {LEFT, FRONT, RIGHT, BACK};
@@ -55,10 +55,10 @@ void CubeViewModel::draw(WINDOW* window) {
         }
     }
 
-    yOffset = 2 * (cube.dim + SPACING);
+    yOffset = 2 * (cube.dim + NET_SPACING);
 
     // DOWN  // duplicated code... aeugh
-    leftOffset = cube.dim + SPACING;
+    leftOffset = cube.dim + NET_SPACING;
     for (int row = 0; row < cube.dim; row++) {
         for (int col = 0; col < cube.dim; col++) {
             int thisColour = cube.getColourAtSticker(DOWN, row, col);
