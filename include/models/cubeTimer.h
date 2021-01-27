@@ -22,6 +22,6 @@ class CubeTimer {
         void stopTiming();
         void toggleTiming();
         void togglePenalty(Penalty penalty);
-        std::chrono::milliseconds getTimeElapsed();
+        std::chrono::milliseconds getTimeElapsed() const;
         static std::array<int, 3> getTimeDivisions(std::chrono::milliseconds elapsedTime);
 };

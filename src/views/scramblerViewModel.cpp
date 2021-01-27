@@ -9,7 +9,7 @@
 #include "myStructs.h"
 
 
-Pos2D ScramblerViewModel::calcHeightWidth() {
+Pos2D ScramblerViewModel::calcHeightWidth() const {
     // currently constant return value, will adapt later for larger scramble size
     unsigned maxY, maxX;
     getmaxyx(stdscr, maxY, maxX);
@@ -21,7 +21,7 @@ Pos2D ScramblerViewModel::calcHeightWidth() {
 ScramblerViewModel::ScramblerViewModel(CubeScrambler& scramblerRef) : scrambler(scramblerRef) {}
 
 
-void ScramblerViewModel::draw(WINDOW* window) {
+void ScramblerViewModel::draw(WINDOW* window) const {
     /* Clears and draws scrambler window. */
     wclear(window);
     std::string s = scrambler.getLatestScramble();

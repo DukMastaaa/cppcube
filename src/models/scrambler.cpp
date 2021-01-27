@@ -7,11 +7,25 @@
 #include <chrono>
 
 
-CubeScrambler::CubeScrambler() {
+std::mt19937 CubeScrambler::getGenerator() {
     std::random_device r;
     std::seed_seq seed{r(), r(), r(), r(), r(), r(), r(), r()};
-    mersenneGenerator = std::mt19937(seed);
-    std::uniform_int_distribution<int> uniform6(0, 5);  // inclusive
+    return std::mt19937(seed);
+}
+
+
+std::uniform_int_distribution<int> CubeScrambler::getDistribution() {
+    return std::uniform_int_distribution<int>(0, 5);
+}
+
+
+auto CubeScrambler::mersenneGenerator = CubeScrambler::getGenerator();
+
+
+auto CubeScrambler::uniform6 = CubeScrambler::getDistribution();
+
+
+CubeScrambler::CubeScrambler() {
     mostRecentScramble = "";
 }
 
@@ -46,8 +60,8 @@ int CubeScrambler::getNewAxis(int prevAxis) {
 }
 
 
-std::pair<int, std::string> CubeScrambler::generateMove(int prevAxis, int dim, 
-        std::uniform_int_distribution<int>& wideDist) {
+// todo: if i change ...`<int> &wideDist` to ...`<int>& wideDist`, do things break?
+CubeScrambler::MoveAndAxis CubeScrambler::generateMove(int prevAxis, int dim, std::uniform_int_distribution<int> &wideDist) {
     // generates a face on a new axis. dim == 2 restricts to {F, R, U}
     int newAxis = getNewAxis(prevAxis);
     int addOffset = (dim == 2) ? 0 : uniform6(mersenneGenerator) % 2;
@@ -81,7 +95,7 @@ std::pair<int, std::string> CubeScrambler::generateMove(int prevAxis, int dim,
     }
 
     std::string move = wideTurnDepth + faceString + wideIndicator + dirStr;
-    return std::make_pair(newAxis, move);
+    return CubeScrambler::MoveAndAxis{newAxis, move};
 }
 
 
@@ -90,9 +104,9 @@ std::string CubeScrambler::generateMoveSeq(int dim,
     std::string moves;
     int prevAxis = uniform6(mersenneGenerator) % 3;
     for (int i = 0; i < moveCount; ++i) {
-        std::pair<int, std::string> movePair = generateMove(prevAxis, dim, wideDist);
-        prevAxis = movePair.first;
-        moves += movePair.second;
+        auto movePair = generateMove(prevAxis, dim, wideDist);
+        prevAxis = movePair.axis;
+        moves += movePair.move;
         moves += std::string(" ");
     }
     return moves;

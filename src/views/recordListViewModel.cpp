@@ -55,7 +55,7 @@ RecordListViewModel::RecordListViewModel(RecordList& recordsRef) : records(recor
 }
 
 
-Pos2D RecordListViewModel::calcHeightWidth() {
+Pos2D RecordListViewModel::calcHeightWidth() const {
     return {static_cast<unsigned int>(recordsShown) + 1, 14};
 }
 
@@ -119,27 +119,21 @@ void RecordListViewModel::moveDown() {
 }
 
 
-void RecordListViewModel::drawRecords(WINDOW* window) {
+void RecordListViewModel::drawRecords(WINDOW* window) const {
     std::size_t recordCount = records.getRecordCount();
     if (recordCount == 0) {
         mvwprintw(window, 1, 0, "none yet");
     } else {
         for (std::size_t rowCounter = 0; rowCounter < recordsShown; rowCounter++) {
             std::size_t currentIndex = topIndex - rowCounter;
-            Record& thisRecord = records.getRecord(currentIndex);
+            const Record& thisRecord = records.getRecord(currentIndex);
 
             std::string formattedTime = formatTime(thisRecord.time, thisRecord.penalty);
             
-            // todo: what on earth is this mate
-            if (currentIndex == selectedIndex) {
-                wattron(window, COLOR_PAIR(GREEN_ON_BLACK));
-            }
-
+            Colours colourPair = (currentIndex == selectedIndex) ? GREEN_ON_BLACK : WHITE_ON_BLACK;
+            wattron(window, COLOR_PAIR(colourPair));
             mvwprintw(window, rowCounter + 1, 0, "%3ld: %s", currentIndex + 1, formattedTime.c_str());
-            
-            if (currentIndex == selectedIndex) {
-                wattroff(window, COLOR_PAIR(GREEN_ON_BLACK));
-            }
+            wattroff(window, COLOR_PAIR(colourPair));
             
             if (topIndex - rowCounter == 0) {
                 break;
@@ -149,9 +143,9 @@ void RecordListViewModel::drawRecords(WINDOW* window) {
 }
 
 
-void RecordListViewModel::draw(WINDOW* window) {
+void RecordListViewModel::draw(WINDOW* window) const {
     /* Draws record list window. */
-    // wclear(window);  // don't need to clear.
+    // wclear(window);  // don't need to clear.  // todo: I NEED TO CLEAR
     mvwprintw(window, 0, 0, "History (%ld)", records.getRecordCount());
     drawRecords(window);
 }

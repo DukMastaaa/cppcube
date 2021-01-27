@@ -14,6 +14,6 @@ class BaseViewModel {
 
     public:
         static void smartStringDisplay(WINDOW* window, const std::string& text);
-        virtual Pos2D calcHeightWidth() = 0;  // don't take borders into account
-        virtual void draw(WINDOW* window) = 0;
+        virtual Pos2D calcHeightWidth() const = 0;  // don't take borders into account
+        virtual void draw(WINDOW* window) const = 0;
 };

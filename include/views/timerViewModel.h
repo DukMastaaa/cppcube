@@ -16,12 +16,12 @@ class TimerViewModel : public BaseViewModel {
         static const std::string COLON[5];
         static const std::string PLUS[5];
         static const std::string DNF[5];
-        void drawCharMatrix(WINDOW* window, std::array<int, 3> times, bool plus2);
-        void drawEllipsis(WINDOW* window);
-        void drawDNF(WINDOW* window);
+        void drawCharMatrix(WINDOW* window, std::array<int, 3> times, bool plus2) const;
+        void drawEllipsis(WINDOW* window) const;
+        void drawDNF(WINDOW* window) const;
 
     public:
         TimerViewModel(CubeTimer& timerRef);
-        Pos2D calcHeightWidth();
-        void draw(WINDOW* window);
+        Pos2D calcHeightWidth() const override;
+        void draw(WINDOW* window) const override;
 };

@@ -8,7 +8,7 @@
 RecordList::RecordList() {}
 
 
-std::size_t RecordList::getRecordCount() {
+std::size_t RecordList::getRecordCount() const {
     return records.size();
 }
 
@@ -49,6 +49,6 @@ void RecordList::deleteLatestRecord() {
 }
 
 
-Record& RecordList::getRecord(std::size_t recordNum) {
+const Record& RecordList::getRecord(std::size_t recordNum) const {
     return records.at(recordNum);
 }

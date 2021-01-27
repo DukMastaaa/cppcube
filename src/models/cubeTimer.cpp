@@ -44,7 +44,7 @@ void CubeTimer::toggleTiming() {
 }
 
 
-std::chrono::milliseconds CubeTimer::getTimeElapsed() {
+std::chrono::milliseconds CubeTimer::getTimeElapsed() const {
     return timeElapsed;
 }
 
