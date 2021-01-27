@@ -30,7 +30,7 @@ void RecordListController::moveDown() {
 
 void RecordListController::addRecord(Record record) {
     model.addRecord(record);
-    viewModel.recordAdded();
+    viewModel->recordAdded();
 }
 
 
@@ -54,14 +54,17 @@ void RecordListController::deleteLatestRecord() {
 }
 
 
-Record& RecordListController::getRecord(std::size_t recordNum) {
+void RecordListController::deleteSelectedRecord() {
+    model.deleteRecord(viewModel)
+}
+
+
+const Record& RecordListController::getRecord(std::size_t recordNum) const {
     return model.getRecord(recordNum);
 }
 
 
-void RecordListController::refresh() {
-    window.makeBox();
-    window.draw();
-    window.wnoutrefresh();
-    touchwin(window.fullWindow);
+void RecordListController::refresh() const{
+    window->makeBox();
+    BaseController::refresh();
 }

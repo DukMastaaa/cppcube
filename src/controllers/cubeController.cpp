@@ -4,12 +4,11 @@
 
 #include "controllers/baseController.h"
 
-CubeController::CubeController(int cubeDim) : 
-        BaseController(), 
-        model(cubeDim), 
-        viewModel(model), 
-        window(viewModel),
-        dim(cubeDim) {}
+
+CubeController::CubeController(int cubeDim) : BaseController(), model(cubeDim) {
+    viewModel = std::make_unique<CubeViewModel>(model);
+    window = std::make_unique<BottomRightWindow>(viewModel);
+}
 
 
 void CubeController::parseMovesReset(std::string scramble) {
@@ -33,13 +32,8 @@ void CubeController::resetState(int dim) {
 
 
 void CubeController::refresh() const {
-    window.makeBox();
-    window.draw();
-    window.wnoutrefresh();
-    touchwin(window.fullWindow);
-}
-
-
-WINDOW* CubeController::getWindow() {
-    return window.fullWindow;
+    window->makeBox();
+    window->draw();
+    window->wnoutrefresh();
+    touchwin(window->fullWindow);
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stddef.h>
+#include <memory>
 
 #include "baseController.h"
 #include "models/recordList.h"
@@ -12,8 +13,6 @@
 class RecordListController : public BaseController {
     private:
         RecordList model;
-        RecordListViewModel viewModel;
-        BottomLeftWindow window;
     
     public:
         RecordListController();
@@ -21,11 +20,15 @@ class RecordListController : public BaseController {
         void moveUp();
         void moveDown();
         void addRecord(Record record);
+
         void togglePenalty(Penalty penalty, std::size_t recordNum);
         void togglePenaltyLatestRecord(Penalty penalty);
+        void togglePenaltySelectedRecord(Penalty penalty);
+        
         void deleteRecord(std::size_t recordNum);
         void deleteLatestRecord();
-        // todo: do i need togglePenalty and deleteRecord for selected record?
-        Record& getRecord(std::size_t recordNum);
-        void refresh();
+        void deleteSelectedRecord();
+        
+        const Record& getRecord(std::size_t recordNum) const;
+        void refresh() const override;
 };
