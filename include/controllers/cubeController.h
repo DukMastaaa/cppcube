@@ -1,7 +1,6 @@
 #pragma once
 
 #include <iostream>
-#include <memory>
 
 #include "controllers/baseController.h"
 #include "models/cubes.h"
@@ -12,6 +11,7 @@
 class CubeController : public BaseController {
     protected:
         CubeModel model;
+        CubeViewModel viewModel;
         int dim;
 
     public:

@@ -12,7 +12,6 @@ class BaseController {
     protected:
         // in derived classes of `BaseController`, we can't use initialiser lists for the 
         // unique_ptrs because they lack copy constructors. have to reassign in constructor body.
-        std::unique_ptr<BaseViewModel> viewModel;
         std::unique_ptr<BaseWindow> window;
 
     public:

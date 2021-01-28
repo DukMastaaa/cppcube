@@ -28,11 +28,12 @@ the following lists.
 - Record list view
 - Organise header files into folders
 - Restructure `main()` to use controller and app class
-
-### Will implement
 - Enforce const correctness
 - Use `unique_ptr` in BaseController class, https://docs.microsoft.com/en-us/cpp/cpp/object-lifetime-and-resource-management-modern-cpp
 - Explicitly specify `override` for overriden virtual functions
+
+### Will implement
+- More keyboard controls
 - Window title
 - Handle terminal resize events
 - Develop popup window classes
@@ -62,8 +63,10 @@ highlighting of buttons etc.) but for now I'm going to just do keyboard controls
 | `<Space>`      | Start, stop timing                     |Y |
 | `2`            | Toggle +2 penalty on most recent time  |Y |
 | `d`            | Toggle DNF penalty on most recent time |Y |
-| `X` (shift)    | Delete time in record list             |N |
 | `x`            | Delete most recent time                |N |
+| `<Shift-2>`    | Toggle +2 penalty on selected time     |N |
+| `<Shift-d>`    | Toggle DNF penalty on selected time    |N |
+| `<Shift-x>`    | Delete selected time in record list    |N |
 | `p`            | Change puzzle type                     |N |
 | `n`            | Generate new scramble                  |N |
 | `<Up-Arrow>`   | Scroll up through recorded times       |N |

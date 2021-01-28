@@ -19,10 +19,10 @@ std::uniform_int_distribution<int> CubeScrambler::getDistribution() {
 }
 
 
-auto CubeScrambler::mersenneGenerator = CubeScrambler::getGenerator();
+std::mt19937 CubeScrambler::mersenneGenerator = CubeScrambler::getGenerator();
 
 
-auto CubeScrambler::uniform6 = CubeScrambler::getDistribution();
+std::uniform_int_distribution<int> CubeScrambler::uniform6 = CubeScrambler::getDistribution();
 
 
 CubeScrambler::CubeScrambler() {

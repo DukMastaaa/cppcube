@@ -110,11 +110,11 @@ void RecordListViewModel::moveUp() {
 
 
 void RecordListViewModel::moveDown() {
-    if (selectedIndex == indexAtBottom()) {
-        topIndex--;
-    }
     if (selectedIndex > 0) {
         selectedIndex--;
+    }
+    if (selectedIndex == indexAtBottom() && selectedIndex > 0) {
+        topIndex--;
     }
 }
 
@@ -144,8 +144,13 @@ void RecordListViewModel::drawRecords(WINDOW* window) const {
 
 
 void RecordListViewModel::draw(WINDOW* window) const {
-    /* Draws record list window. */
-    // wclear(window);  // don't need to clear.  // todo: I NEED TO CLEAR
+    /* Erases and draws record list window. */
+    werase(window);
     mvwprintw(window, 0, 0, "History (%ld)", records.getRecordCount());
     drawRecords(window);
+}
+
+
+std::size_t RecordListViewModel::getSelectedIndex() const {
+    return selectedIndex;
 }

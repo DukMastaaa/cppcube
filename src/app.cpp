@@ -46,17 +46,37 @@ void App::toggleTimer() {
         scramblerController.refresh();
         recordListController.refresh();
     }
-    doAnUpdate = true;
 }
 
 
-void App::togglePenalty(Penalty penalty) {
+// todo: duplicated
+void App::togglePenaltyLatestRecord(Penalty penalty) {
     if (!timerController.isTiming() && recordListController.getRecordCount() != 0) {
         recordListController.togglePenaltyLatestRecord(penalty);
         timerController.togglePenalty(penalty);
         timerController.refresh();
         recordListController.refresh();
-        doAnUpdate = true;
+    }
+}
+
+
+void App::togglePenaltySelectedRecord(Penalty penalty) {
+    if (!timerController.isTiming() && recordListController.getRecordCount() != 0) {
+        recordListController.togglePenaltySelectedRecord(penalty);
+        recordListController.refresh();
+    }
+}
+
+
+void App::togglePenalty(Penalty penalty, std::size_t recordNum) {
+    if (!timerController.isTiming() && recordListController.getRecordCount() != 0) {
+        recordListController.togglePenalty(penalty, recordNum);
+
+        if (recordNum == recordListController.getRecordCount() - 1) {
+            timerController.togglePenalty(penalty);
+            timerController.refresh();
+        }
+        recordListController.refresh();
     }
 }
 
@@ -65,7 +85,6 @@ void App::moveSelectedRecordUp() {
     if (!timerController.isTiming()) {
         recordListController.moveUp();
         recordListController.refresh();
-        doAnUpdate = true;
     }
 }
 
@@ -75,23 +94,34 @@ void App::moveSelectedRecordDown() {
     if (!timerController.isTiming()) {
         recordListController.moveDown();
         recordListController.refresh();
-        doAnUpdate = true;
     }
 }
 
 
 void App::keyboardInput(int input) {
     switch (input) {
+        case ERR:
+            return;
+            break;
+
         case ' ':
             toggleTimer();
             break;
         
         case '2':
-            togglePenalty(Penalty::PLUS_2_PENALTY);
+            togglePenaltyLatestRecord(Penalty::PLUS_2_PENALTY);
             break;
         
         case 'd':
-            togglePenalty(Penalty::DNF_PENALTY);
+            togglePenaltyLatestRecord(Penalty::DNF_PENALTY);
+            break;
+
+        case '@':
+            togglePenaltySelectedRecord(Penalty::PLUS_2_PENALTY);
+            break;
+
+        case 'D':
+            togglePenaltySelectedRecord(Penalty::DNF_PENALTY);
             break;
         
         case 'w':
@@ -106,10 +136,11 @@ void App::keyboardInput(int input) {
             appRunning = false;
             break;
     }
+    doAnUpdate = true;
 }
 
 
-bool App::needUpdate() {
+bool App::needUpdate() const {
     return doAnUpdate;
 }
 
@@ -124,11 +155,11 @@ void App::forceUpdate() {
 }
 
 
-bool App::appIsRunning() {
+bool App::appIsRunning() const {
     return appRunning;
 }
 
 
-WINDOW* App::getWindow() {
+WINDOW* App::getWindow() const {
     return cubeController.getWindow();
 }

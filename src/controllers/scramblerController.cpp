@@ -1,6 +1,7 @@
 #include "controllers/scramblerController.h"
 
 #include <iostream>
+#include <memory>
 
 #include "controllers/baseController.h"
 
@@ -8,8 +9,9 @@
 ScramblerController::ScramblerController() : 
         BaseController(), 
         model(), 
-        viewModel(model), 
-        window(viewModel, 0, 0) {}
+        viewModel(model) {
+    window = std::make_unique<DefaultWindow>(viewModel, 0, 0);
+}
 
 
 std::string ScramblerController::generateScramble(int dim) {
@@ -22,10 +24,7 @@ std::string ScramblerController::getLatestScramble() const {
 }
 
 
-void ScramblerController::refresh() {
-    // todo: duplicated? maybe
-    window.makeBox();
-    window.draw();
-    window.wnoutrefresh();
-    touchwin(window.fullWindow);
+void ScramblerController::refresh() const {
+    window->makeBox();
+    BaseController::refresh();
 }

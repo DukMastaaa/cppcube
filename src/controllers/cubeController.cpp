@@ -5,8 +5,7 @@
 #include "controllers/baseController.h"
 
 
-CubeController::CubeController(int cubeDim) : BaseController(), model(cubeDim) {
-    viewModel = std::make_unique<CubeViewModel>(model);
+CubeController::CubeController(int cubeDim) : BaseController(), model(cubeDim), viewModel(model) {
     window = std::make_unique<BottomRightWindow>(viewModel);
 }
 
@@ -33,7 +32,5 @@ void CubeController::resetState(int dim) {
 
 void CubeController::refresh() const {
     window->makeBox();
-    window->draw();
-    window->wnoutrefresh();
-    touchwin(window->fullWindow);
+    BaseController::refresh();
 }
