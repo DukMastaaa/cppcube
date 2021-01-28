@@ -9,8 +9,9 @@
 RecordListController::RecordListController() :
         BaseController(),
         model(),
-        viewModel(model),
-        window(viewModel) {}
+        viewModel(model) {
+    window = std::make_unique<BottomLeftWindow>(viewModel);
+}
 
 
 std::size_t RecordListController::getRecordCount() const {
@@ -30,7 +31,7 @@ void RecordListController::moveDown() {
 
 void RecordListController::addRecord(Record record) {
     model.addRecord(record);
-    viewModel->recordAdded();
+    viewModel.recordAdded();
 }
 
 
@@ -41,6 +42,11 @@ void RecordListController::togglePenalty(Penalty penalty, std::size_t recordNum)
 
 void RecordListController::togglePenaltyLatestRecord(Penalty penalty) {
     model.togglePenaltyLatestRecord(penalty);
+}
+
+
+void RecordListController::togglePenaltySelectedRecord(Penalty penalty) {
+    model.togglePenalty(penalty, viewModel.getSelectedIndex());
 }
 
 
@@ -55,7 +61,7 @@ void RecordListController::deleteLatestRecord() {
 
 
 void RecordListController::deleteSelectedRecord() {
-    model.deleteRecord(viewModel)
+    model.deleteRecord(viewModel.getSelectedIndex());
 }
 
 

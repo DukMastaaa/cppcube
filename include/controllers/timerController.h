@@ -14,13 +14,11 @@ class TimerController : public BaseController {
     private:
         CubeTimer model;
         TimerViewModel viewModel;
-        CentredWindow window;
 
     public:
         TimerController();
-        bool isTiming();
+        bool isTiming() const;
         void toggleTiming();
         void togglePenalty(Penalty penalty);
-        std::chrono::milliseconds getTimeElapsed();
-        void refresh();
+        std::chrono::milliseconds getTimeElapsed() const;
 };

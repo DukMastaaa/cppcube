@@ -1,7 +1,6 @@
 #pragma once
 
 #include <stddef.h>
-#include <memory>
 
 #include "baseController.h"
 #include "models/recordList.h"
@@ -13,6 +12,7 @@
 class RecordListController : public BaseController {
     private:
         RecordList model;
+        RecordListViewModel viewModel;
     
     public:
         RecordListController();

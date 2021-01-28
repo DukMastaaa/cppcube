@@ -90,3 +90,11 @@ cubeViewModel
 recordListViewModel
 scramblerViewModel
 timerViewModel
+recordListController
+cubeController
+timerController
+scramblerController
+app
+main
+
+CONST CORRECTNESS FINISHED

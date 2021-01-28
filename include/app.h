@@ -21,7 +21,9 @@ class App {
 
         // app functionality
         void toggleTimer();
-        void togglePenalty(Penalty penalty);
+        void togglePenaltyLatestRecord(Penalty penalty);
+        void togglePenaltySelectedRecord(Penalty penalty);
+        void togglePenalty(Penalty penalty, std::size_t recordNum);
         void moveSelectedRecordUp();
         void moveSelectedRecordDown();
 
@@ -29,9 +31,9 @@ class App {
         App(int cubeDim);
         void initialRefreshUpdate();
         void keyboardInput(int input);
-        bool needUpdate();
+        bool needUpdate() const;
         void turnOffUpdate();
         void forceUpdate();
-        bool appIsRunning();
-        WINDOW* getWindow();
+        bool appIsRunning() const;
+        WINDOW* getWindow() const;
 };

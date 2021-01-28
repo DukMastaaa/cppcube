@@ -1,6 +1,7 @@
 #include "controllers/timerController.h"
 
 #include <chrono>
+#include <memory>
 
 #include "controllers/baseController.h"
 #include "myStructs.h"
@@ -9,11 +10,11 @@
 TimerController::TimerController() :
         BaseController(),
         model(),
-        viewModel(model),
-        window(viewModel) {}
+        viewModel(model) {
+    window = std::make_unique<CentredWindow>(viewModel);
+}
 
-
-bool TimerController::isTiming() {
+bool TimerController::isTiming() const {
     return model.isTiming;
 }
 
@@ -28,13 +29,6 @@ void TimerController::togglePenalty(Penalty penalty) {
 }
 
 
-std::chrono::milliseconds TimerController::getTimeElapsed() {
+std::chrono::milliseconds TimerController::getTimeElapsed() const {
     return model.getTimeElapsed();
-}
-
-
-void TimerController::refresh() {
-    window.draw();
-    window.wnoutrefresh();
-    touchwin(window.fullWindow);
 }
