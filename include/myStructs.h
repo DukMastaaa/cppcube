@@ -22,3 +22,8 @@ struct Record {
     std::string scramble;
     Penalty penalty;
 };
+
+
+enum Direction {  // do i really need this
+    UP_DIR = 'u', DOWN_DIR = 'd', LEFT_DIR = 'l', RIGHT_DIR = 'l'
+};

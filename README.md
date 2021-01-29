@@ -69,12 +69,12 @@ highlighting of buttons etc.) but for now I'm going to just do keyboard controls
 | `<Shift-x>`    | Delete selected time in record list    |N |
 | `p`            | Change puzzle type                     |N |
 | `n`            | Generate new scramble                  |Y |
-| `<Up-Arrow>`   | Scroll up through recorded times  2     |Y |
+| `<Up-Arrow>`   | Scroll up through recorded times       |Y |
 | `<Down-Arrow>` | Scroll down through recorded times     |Y |
 | `i`            | Show info for selected time            |N |
 | `j`            | Jump to index in recorded times        |N |
-| `t`            | Jump to top of recorded times          |N |
-| `b`            | Jump to bottom of recorded times       |N |
+| `t`            | Jump to top of recorded times          |Y |
+| `b`            | Jump to bottom of recorded times       |Y |
 | `g`            | Generate summary statistics            |N |
 | `E` (shift)    | Export times                           |N |
 | `h`            | Display help pop-up                    |N |

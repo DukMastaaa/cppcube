@@ -27,6 +27,7 @@ class RecordListViewModel : public BaseViewModel {
         void recordRemoved();
         void moveUp();
         void moveDown();
+        void jumpToIndex(std::size_t index);
         void draw(WINDOW* window) const override;
         std::size_t getSelectedIndex() const;
 };
