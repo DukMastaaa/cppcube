@@ -26,6 +26,7 @@ class App {
         void togglePenalty(Penalty penalty, std::size_t recordNum);
         void moveSelectedRecordUp();
         void moveSelectedRecordDown();
+        void generateNewScramble();
 
     public:
         App(int cubeDim);

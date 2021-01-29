@@ -59,6 +59,7 @@ void BaseWindow::createWindows(int fullHeight, int fullWidth, int topLeftY, int 
         fullHeight - 2 * BORDER_WIDTH, fullWidth - 2 * BORDER_WIDTH,  // cut off both borders
         BORDER_WIDTH, BORDER_WIDTH  // start at first part after border
     );
+    keypad(fullWindow, true);  // allows special keys to work
 }
 
 

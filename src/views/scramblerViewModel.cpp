@@ -22,8 +22,8 @@ ScramblerViewModel::ScramblerViewModel(CubeScrambler& scramblerRef) : scrambler(
 
 
 void ScramblerViewModel::draw(WINDOW* window) const {
-    /* Clears and draws scrambler window. */
-    wclear(window);
+    /* Erases and draws scrambler window. */
+    werase(window);
     std::string s = scrambler.getLatestScramble();
     smartStringDisplay(window, s);
 }
