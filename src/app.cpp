@@ -47,25 +47,6 @@ void App::toggleTimer() {
 }
 
 
-// todo: duplicated
-void App::togglePenaltyLatestRecord(Penalty penalty) {
-    if (!timerController.isTiming() && recordListController.getRecordCount() != 0) {
-        recordListController.togglePenaltyLatestRecord(penalty);
-        timerController.togglePenalty(penalty);
-        timerController.refresh();
-        recordListController.refresh();
-    }
-}
-
-
-void App::togglePenaltySelectedRecord(Penalty penalty) {
-    if (!timerController.isTiming() && recordListController.getRecordCount() != 0) {
-        recordListController.togglePenaltySelectedRecord(penalty);
-        recordListController.refresh();
-    }
-}
-
-
 void App::togglePenalty(Penalty penalty, std::size_t recordNum) {
     if (!timerController.isTiming() && recordListController.getRecordCount() != 0) {
         recordListController.togglePenalty(penalty, recordNum);
@@ -79,18 +60,44 @@ void App::togglePenalty(Penalty penalty, std::size_t recordNum) {
 }
 
 
-void App::moveSelectedRecordUp() {
+void App::moveSelectedRecord(Direction direction) {
+    // todo: huh
     if (!timerController.isTiming()) {
-        recordListController.moveUp();
+        switch (direction) {
+            case Direction::UP_DIR:
+                recordListController.moveUp();
+                break;
+            case Direction::DOWN_DIR:
+                recordListController.moveDown();
+                break;
+            default:
+                break;
+        }
         recordListController.refresh();
     }
 }
 
 
-void App::moveSelectedRecordDown() {
-    // todo: duplicated
+void App::moveToEndsOfRecords(Direction direction) {
     if (!timerController.isTiming()) {
-        recordListController.moveDown();
+        switch (direction) {
+            case Direction::UP_DIR:
+                recordListController.moveToTop();
+                break;
+            case Direction::DOWN_DIR:
+                recordListController.moveToBottom();
+                break;
+            default:
+                break;
+        }
+        recordListController.refresh();
+    }
+}
+
+
+void App::jumpSelectedIndex(std::size_t index) {
+    if (!timerController.isTiming()) {
+        recordListController.jumpToIndex(index);
         recordListController.refresh();
     }
 }
@@ -107,45 +114,25 @@ void App::generateNewScramble() {
 
 void App::keyboardInput(int input) {
     switch (input) {
-        case ERR:
-            return;
-            break;
+        case ERR: return; break;
 
-        case ' ':
-            toggleTimer();
-            break;
+        case ' ': toggleTimer(); break;
         
-        case '2':
-            togglePenaltyLatestRecord(Penalty::PLUS_2_PENALTY);
-            break;
-        
-        case 'd':
-            togglePenaltyLatestRecord(Penalty::DNF_PENALTY);
-            break;
+        case '2': togglePenalty(Penalty::PLUS_2_PENALTY, recordListController.getRecordCount() - 1); break;
+        case 'd': togglePenalty(Penalty::DNF_PENALTY, recordListController.getRecordCount() - 1); break;
 
-        case '@':
-            togglePenaltySelectedRecord(Penalty::PLUS_2_PENALTY);
-            break;
+        case '@': togglePenalty(Penalty::PLUS_2_PENALTY, recordListController.getSelectedIndex()); break;
+        case 'D': togglePenalty(Penalty::DNF_PENALTY, recordListController.getSelectedIndex()); break;
+        
+        case KEY_UP: moveSelectedRecord(Direction::UP_DIR); break;
+        case KEY_DOWN: moveSelectedRecord(Direction::DOWN_DIR); break;
+        
+        case 'n': generateNewScramble(); break;
 
-        case 'D':
-            togglePenaltySelectedRecord(Penalty::DNF_PENALTY);
-            break;
-        
-        case KEY_UP:
-            moveSelectedRecordUp();
-            break;
-        
-        case KEY_DOWN:
-            moveSelectedRecordDown();
-            break;
-        
-        case 'n':
-            generateNewScramble();
-            break;
-        
-        case 'q':
-            appRunning = false;
-            break;
+        case 't': moveToEndsOfRecords(Direction::UP_DIR); break;
+        case 'b': moveToEndsOfRecords(Direction::DOWN_DIR); break;
+
+        case 'q': appRunning = false; break;
     }
     doAnUpdate = true;
 }

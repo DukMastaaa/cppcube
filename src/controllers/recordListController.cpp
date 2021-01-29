@@ -29,6 +29,21 @@ void RecordListController::moveDown() {
 }
 
 
+void RecordListController::moveToTop() {
+    viewModel.jumpToIndex(model.getRecordCount() - 1);
+}
+
+
+void RecordListController::moveToBottom() {
+    viewModel.jumpToIndex(0);
+}
+
+
+void RecordListController::jumpToIndex(std::size_t index) {
+    viewModel.jumpToIndex(index);
+}
+
+
 void RecordListController::addRecord(Record record) {
     model.addRecord(record);
     viewModel.recordAdded();
@@ -67,6 +82,11 @@ void RecordListController::deleteSelectedRecord() {
 
 const Record& RecordListController::getRecord(std::size_t recordNum) const {
     return model.getRecord(recordNum);
+}
+
+
+std::size_t RecordListController::getSelectedIndex() const {
+    return viewModel.getSelectedIndex();
 }
 
 

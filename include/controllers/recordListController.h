@@ -16,9 +16,13 @@ class RecordListController : public BaseController {
     
     public:
         RecordListController();
-        std::size_t getRecordCount() const;
+        
         void moveUp();
         void moveDown();
+        void moveToTop();
+        void moveToBottom();
+        void jumpToIndex(std::size_t index);
+
         void addRecord(Record record);
 
         void togglePenalty(Penalty penalty, std::size_t recordNum);
@@ -29,6 +33,8 @@ class RecordListController : public BaseController {
         void deleteLatestRecord();
         void deleteSelectedRecord();
         
+        std::size_t getRecordCount() const;
         const Record& getRecord(std::size_t recordNum) const;
+        std::size_t getSelectedIndex() const;
         void refresh() const override;
 };

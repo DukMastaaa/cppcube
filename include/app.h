@@ -6,6 +6,7 @@
 #include "controllers/recordListController.h"
 #include "controllers/scramblerController.h"
 #include "controllers/timerController.h"
+#include "myStructs.h"
 
 
 class App {
@@ -21,11 +22,10 @@ class App {
 
         // app functionality
         void toggleTimer();
-        void togglePenaltyLatestRecord(Penalty penalty);
-        void togglePenaltySelectedRecord(Penalty penalty);
         void togglePenalty(Penalty penalty, std::size_t recordNum);
-        void moveSelectedRecordUp();
-        void moveSelectedRecordDown();
+        void moveSelectedRecord(Direction direction);
+        void moveToEndsOfRecords(Direction direction);
+        void jumpSelectedIndex(std::size_t index);
         void generateNewScramble();
 
     public:

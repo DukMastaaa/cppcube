@@ -1,5 +1,6 @@
 #include "views/recordListViewModel.h"
 
+#include <algorithm>
 #include <iostream>
 #include <cstddef>
 #include <chrono>
@@ -115,6 +116,18 @@ void RecordListViewModel::moveDown() {
     }
     if (selectedIndex == indexAtBottom() && selectedIndex > 0) {
         topIndex--;
+    }
+}
+
+
+void RecordListViewModel::jumpToIndex(std::size_t index) {
+    if (index < records.getRecordCount()) {
+        selectedIndex = index;
+        if (index < recordsShown - 1) {
+            topIndex = std::min(recordsShown - 1, records.getRecordCount() - 1);
+        } else {
+            topIndex = index;
+        }
     }
 }
 
