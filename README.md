@@ -31,9 +31,9 @@ the following lists.
 - Enforce const correctness
 - Use `unique_ptr` in BaseController class, https://docs.microsoft.com/en-us/cpp/cpp/object-lifetime-and-resource-management-modern-cpp
 - Explicitly specify `override` for overriden virtual functions
+- More keyboard controls
 
 ### Will implement
-- More keyboard controls
 - Window title
 - Handle terminal resize events
 - Develop popup window classes
@@ -64,19 +64,20 @@ highlighting of buttons etc.) but for now I'm going to just do keyboard controls
 | `2`            | Toggle +2 penalty on most recent time  |Y |
 | `d`            | Toggle DNF penalty on most recent time |Y |
 | `x`            | Delete most recent time                |N |
-| `<Shift-2>`    | Toggle +2 penalty on selected time     |N |
-| `<Shift-d>`    | Toggle DNF penalty on selected time    |N |
+| `<Shift-2>`    | Toggle +2 penalty on selected time     |Y |
+| `<Shift-d>`    | Toggle DNF penalty on selected time    |Y |
 | `<Shift-x>`    | Delete selected time in record list    |N |
 | `p`            | Change puzzle type                     |N |
-| `n`            | Generate new scramble                  |N |
-| `<Up-Arrow>`   | Scroll up through recorded times       |N |
-| `<Down-Arrow>` | Scroll down through recorded times     |N |
+| `n`            | Generate new scramble                  |Y |
+| `<Up-Arrow>`   | Scroll up through recorded times  2     |Y |
+| `<Down-Arrow>` | Scroll down through recorded times     |Y |
 | `i`            | Show info for selected time            |N |
 | `j`            | Jump to index in recorded times        |N |
 | `t`            | Jump to top of recorded times          |N |
 | `b`            | Jump to bottom of recorded times       |N |
 | `g`            | Generate summary statistics            |N |
 | `E` (shift)    | Export times                           |N |
+| `h`            | Display help pop-up                    |N |
 
 ## What about the previous `cppcube`?
 The original `cppcube` was simply a header and `.cpp` file providing an
@@ -88,11 +89,9 @@ still print a net of the cube to `std::cout` using
 `void CubeModel::coutDisplayNet()`. 
 
 ## Current bugs
-- Scrolling to the bottom of record list view after the record count 
-  exceeds the displayed amount causes the first record time to be 
-  duplicated. This would be an issue with the moveDown function.
-- Noticable refresh behaviour in windows terminal, probably something
-  to do with `wclear()` and `werase()`.
+- Changing penalty on selected time when selected time is most recent doesn't
+  update timer view.
+- Screen refreshes agressively when generating new scramble (`n`).
 - Some terminals which allow vertical scrolling display binary characters
   when the window is scrolled up during runtime. This seems like weird
   `ncurses` behaviour, and I have tried to mitigate it by judiciously

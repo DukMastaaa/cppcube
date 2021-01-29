@@ -10,14 +10,14 @@
 
 void ncursesSetup() {
     initscr();
+    startColours();
     noecho();
     cbreak();
-    leaveok(stdscr, TRUE);
-    scrollok(stdscr, FALSE);
+    // leaveok(stdscr, true);
+    // scrollok(stdscr, false);
     curs_set(0);
     // timeout(0);  // don't really need non-blocking wgetch()
-    keypad(stdscr, TRUE);
-    startColours();
+    keypad(stdscr, true);
 }
 
 
@@ -32,7 +32,7 @@ int main() {
     int input;
     while (app.appIsRunning()) {
         if (app.needUpdate()) {
-            // clearok(curscr, TRUE);  // todo: temporary solution to ncurses bug?
+            // clearok(curscr, true);  // todo: temporary solution to ncurses bug?
             doupdate();
             app.turnOffUpdate();
         }

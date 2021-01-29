@@ -36,14 +36,12 @@ void App::toggleTimer() {
     timerController.toggleTiming();
     timerController.refresh();
     if (!timerController.isTiming()) {
-        cubeController.parseMovesReset(scramblerController.generateScramble(dim));
+        generateNewScramble();
         recordListController.addRecord({
             timerController.getTimeElapsed(), 
             scramblerController.getLatestScramble(), 
             Penalty::NO_PENALTY
         });
-        cubeController.refresh();
-        scramblerController.refresh();
         recordListController.refresh();
     }
 }
@@ -98,6 +96,15 @@ void App::moveSelectedRecordDown() {
 }
 
 
+void App::generateNewScramble() {
+    if (!timerController.isTiming()) {
+        cubeController.parseMovesReset(scramblerController.generateScramble(dim));
+        cubeController.refresh();
+        scramblerController.refresh();
+    }
+}
+
+
 void App::keyboardInput(int input) {
     switch (input) {
         case ERR:
@@ -124,12 +131,16 @@ void App::keyboardInput(int input) {
             togglePenaltySelectedRecord(Penalty::DNF_PENALTY);
             break;
         
-        case 'w':
+        case KEY_UP:
             moveSelectedRecordUp();
             break;
         
-        case 's':
+        case KEY_DOWN:
             moveSelectedRecordDown();
+            break;
+        
+        case 'n':
+            generateNewScramble();
             break;
         
         case 'q':

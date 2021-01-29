@@ -202,7 +202,7 @@ void TimerViewModel::drawDNF(WINDOW* window) const {
 void TimerViewModel::draw(WINDOW* window) const {
     /* Erases and draws timer window. */
     if (!timer.isTiming) {
-        wclear(window);  // clear instead of erase to prevent window corruption
+        werase(window);  // clear instead of erase to prevent window corruption
         if (timer.currentPenalty == Penalty::DNF_PENALTY) {
             drawDNF(window);
         } else {

@@ -70,7 +70,7 @@ const Record& RecordListController::getRecord(std::size_t recordNum) const {
 }
 
 
-void RecordListController::refresh() const{
+void RecordListController::refresh() const {
     window->makeBox();
     BaseController::refresh();
 }
