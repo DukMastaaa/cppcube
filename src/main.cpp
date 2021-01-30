@@ -32,7 +32,6 @@ int main() {
     int input;
     while (app.appIsRunning()) {
         if (app.needUpdate()) {
-            // clearok(curscr, true);  // todo: temporary solution to ncurses bug?
             doupdate();
             app.turnOffUpdate();
         }

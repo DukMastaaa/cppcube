@@ -14,41 +14,6 @@
 #include "views/colours.h"
 
 
-std::string RecordListViewModel::formatTime(std::chrono::milliseconds time, Penalty penalty) {
-    if (penalty == Penalty::DNF_PENALTY) {
-        return "DNF";
-    } else {
-        bool plus2 = (penalty == Penalty::PLUS_2_PENALTY);
-        auto offset = plus2 ? std::chrono::seconds(2) : std::chrono::seconds(0); 
-        std::array<int, 3> times = CubeTimer::getTimeDivisions(time + offset);
-
-        std::string formattedTime;
-        for (int timeSelector = 0; timeSelector < 3; timeSelector++) {
-            int thisTime = times[timeSelector];
-            int tens = thisTime / 10;
-            int ones = thisTime % 10;
-            formattedTime += std::to_string(tens) + std::to_string(ones);
-            
-            // punctuation
-            switch (timeSelector) {
-                case 0:
-                    formattedTime += ':';
-                    break;
-                case 1:
-                    formattedTime += '.';
-                    break;
-                case 2:
-                    if (plus2) {
-                        formattedTime += '+';
-                    }
-                    break;
-            }
-        }
-        return formattedTime;
-    }
-}
-
-
 RecordListViewModel::RecordListViewModel(RecordList& recordsRef) : records(recordsRef) {
     recordsShown = 13UL;  // todo: this can be changed
     selectedIndex = 0UL;
@@ -141,7 +106,7 @@ void RecordListViewModel::drawRecords(WINDOW* window) const {
             std::size_t currentIndex = topIndex - rowCounter;
             const Record& thisRecord = records.getRecord(currentIndex);
 
-            std::string formattedTime = formatTime(thisRecord.time, thisRecord.penalty);
+            std::string formattedTime = CubeTimer::formatTime(thisRecord.time, thisRecord.penalty);
             
             Colours colourPair = (currentIndex == selectedIndex) ? GREEN_ON_BLACK : WHITE_ON_BLACK;
             wattron(window, COLOR_PAIR(colourPair));
