@@ -32,10 +32,11 @@ the following lists.
 - Use `unique_ptr` in BaseController class, https://docs.microsoft.com/en-us/cpp/cpp/object-lifetime-and-resource-management-modern-cpp
 - Explicitly specify `override` for overriden virtual functions
 - More keyboard controls
+- Window title
 
 ### Will implement
-- Window title
 - Handle terminal resize events
+- Refactor `cubes.cpp` and `cubes.h`
 - Develop popup window classes
 - Generate info popup for scramble
 - Change side length of cube during run-time through popup

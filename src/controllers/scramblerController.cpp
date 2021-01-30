@@ -26,5 +26,6 @@ std::string ScramblerController::getLatestScramble() const {
 
 void ScramblerController::refresh() const {
     window->makeBox();
+    window->title("cppcube");
     BaseController::refresh();
 }

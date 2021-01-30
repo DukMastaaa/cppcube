@@ -1,6 +1,7 @@
 #pragma once
 
 #include <utility>
+#include <iostream>
 
 #include <ncurses.h>
 
@@ -24,6 +25,7 @@ class BaseWindow {
         void wnoutrefresh() const;
         void makeBox() const;
         void draw() const;
+        void title(std::string titleText) const;
         void wclear() const;  // forces refresh
         void werase() const;  // doesn't force refresh
         ~BaseWindow();
