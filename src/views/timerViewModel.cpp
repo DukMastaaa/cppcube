@@ -183,17 +183,6 @@ Pos2D TimerViewModel::calcHeightWidth() const {
 TimerViewModel::TimerViewModel(CubeTimer& timerRef) : timer(timerRef) {}
 
 
-// int TimerViewModel::charDigitToInt(char digit) {
-//     /* Converts a digit character to its corresponding integer literal.
-//     Returns -1 if character is not a digit. */
-//     if ('0' <= digit && digit <= '9') {
-//         return digit - '0';
-//     } else {
-//         return -1;
-//     }
-// }
-
-
 void TimerViewModel::drawCharMatrix(WINDOW* window, std::string formattedTime) const {
     for (int row = 0; row < 5; row++) {
         int xPos = (formattedTime.back() == '+') ? 0 : 2;  // aligns time properly

@@ -1,6 +1,7 @@
 #include "windows/windowClasses.h"
 
 #include <utility>
+#include <algorithm>
 
 #include <ncurses.h>
 
@@ -25,6 +26,16 @@ void BaseWindow::makeBox() const {
 
 void BaseWindow::draw() const {
     viewModel.draw(subwin);
+}
+
+
+void BaseWindow::title(std::string titleText) const {
+    unsigned int winHeight, winWidth;
+    getmaxyx(fullWindow, winHeight, winWidth);
+    (void) winHeight;  // unused
+    unsigned int titleLen = titleText.length();
+    unsigned int startCol = (titleLen < winWidth) ? (winWidth - titleLen) / 2 : 0;
+    mvwprintw(fullWindow, 0, startCol, titleText.c_str());
 }
 
 
