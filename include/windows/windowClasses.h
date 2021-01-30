@@ -10,6 +10,9 @@
 
 
 class BaseWindow {
+    private:
+        void createSubwin(int fullHeight, int fullWidth);
+
     protected:
         BaseViewModel& viewModel;
         static const int BORDER_WIDTH = 1;
@@ -20,7 +23,7 @@ class BaseWindow {
     public:
         WINDOW* fullWindow;
         WINDOW* subwin;
-        virtual Pos2D calcTopLeftPos(Pos2D heightAndWidth) = 0;
+        virtual Pos2D calcTopLeftPos(Pos2D heightAndWidth) const = 0;
         BaseWindow(BaseViewModel& vm);
         void wnoutrefresh() const;
         void makeBox() const;
@@ -28,33 +31,34 @@ class BaseWindow {
         void title(std::string titleText) const;
         void wclear() const;  // forces refresh
         void werase() const;  // doesn't force refresh
+        void handleResize();
         ~BaseWindow();
 };
 
 
 class BottomRightWindow : public BaseWindow {
     public:
-        Pos2D calcTopLeftPos(Pos2D heightAndWidth);
+        Pos2D calcTopLeftPos(Pos2D heightAndWidth) const override;
         BottomRightWindow(BaseViewModel& vm);
 };
 
 
 class BottomLeftWindow : public BaseWindow {
     public:
-        Pos2D calcTopLeftPos(Pos2D heightAndWidth);
+        Pos2D calcTopLeftPos(Pos2D heightAndWidth) const override;
         BottomLeftWindow(BaseViewModel& vm);
 };
 
 
 class CentredWindow : public BaseWindow {
     public:
-        Pos2D calcTopLeftPos(Pos2D heightAndWidth);
+        Pos2D calcTopLeftPos(Pos2D heightAndWidth) const override;
         CentredWindow(BaseViewModel& vm);
 };
 
 
 class DefaultWindow : public BaseWindow {
     public:
-        Pos2D calcTopLeftPos(Pos2D heightAndWidth);
+        Pos2D calcTopLeftPos(Pos2D heightAndWidth) const override;
         DefaultWindow(BaseViewModel& vm, int topLeftY, int topLeftX);
 };

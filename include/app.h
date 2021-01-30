@@ -21,6 +21,7 @@ class App {
         bool appRunning;
 
         // app functionality
+        void handleTerminalResize();
         void toggleTimer();
         void togglePenalty(Penalty penalty, std::size_t recordNum);
         void moveSelectedRecord(Direction direction);

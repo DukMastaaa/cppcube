@@ -16,3 +16,8 @@ void BaseController::refresh() const {
     window->wnoutrefresh();
     touchwin(window->fullWindow);
 }
+
+
+void BaseController::handleResize() {
+    window->handleResize();
+}

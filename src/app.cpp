@@ -32,6 +32,11 @@ void App::initialRefreshUpdate() {
 }
 
 
+void App::handleTerminalResize() {
+    return;  // todo: resume
+}
+
+
 void App::toggleTimer() {
     timerController.toggleTiming();
     timerController.refresh();
@@ -116,6 +121,8 @@ void App::keyboardInput(int input) {
     switch (input) {
         case ERR: return; break;
 
+        case KEY_RESIZE: handleTerminalResize(); break;
+
         case ' ': toggleTimer(); break;
 
         case '2': togglePenalty(Penalty::PLUS_2_PENALTY, recordListController.getRecordCount() - 1); break;
@@ -159,5 +166,6 @@ bool App::appIsRunning() const {
 
 
 WINDOW* App::getWindow() const {
-    return cubeController.getWindow();
+    // doesn't really matter what controller, any window other than stdscr will do
+    return cubeController.getWindow();  
 }
