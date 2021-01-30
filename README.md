@@ -96,3 +96,5 @@ still print a net of the cube to `std::cout` using
   choosing `wclear()` over `werase()`. Calling `clearok(curscr, TRUE)` 
   before every `doupdate()` works but is overkill as every handled
   keyboard input will refresh the screen, causing flickering.
+
+test
