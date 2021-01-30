@@ -75,3 +75,38 @@ std::array<int, 3> CubeTimer::getTimeDivisions(std::chrono::milliseconds elapsed
     }
     return {min, sec, centisec};
 }
+
+
+std::string CubeTimer::formatTime(std::chrono::milliseconds time, Penalty penalty) {
+    if (penalty == Penalty::DNF_PENALTY) {
+        return "DNF";
+    } else {
+        bool plus2 = (penalty == Penalty::PLUS_2_PENALTY);
+        auto offset = plus2 ? std::chrono::seconds(2) : std::chrono::seconds(0); 
+        std::array<int, 3> times = CubeTimer::getTimeDivisions(time + offset);
+
+        std::string formattedTime;
+        for (int timeSelector = 0; timeSelector < 3; timeSelector++) {
+            int thisTime = times[timeSelector];
+            int tens = thisTime / 10;
+            int ones = thisTime % 10;
+            formattedTime += std::to_string(tens) + std::to_string(ones);
+            
+            // punctuation
+            switch (timeSelector) {
+                case 0:
+                    formattedTime += ':';
+                    break;
+                case 1:
+                    formattedTime += '.';
+                    break;
+                case 2:
+                    if (plus2) {
+                        formattedTime += '+';
+                    }
+                    break;
+            }
+        }
+        return formattedTime;
+    }
+}

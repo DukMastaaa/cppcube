@@ -16,7 +16,6 @@ class RecordListViewModel : public BaseViewModel {
         std::size_t selectedIndex;
         std::size_t topIndex;
         void drawRecords(WINDOW* window) const;
-        static std::string formatTime(std::chrono::milliseconds time, Penalty penalty);
         inline std::size_t indexAtBottom() const;
         inline std::size_t indexMax() const;
     

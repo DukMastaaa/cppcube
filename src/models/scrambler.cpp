@@ -60,8 +60,7 @@ int CubeScrambler::getNewAxis(int prevAxis) {
 }
 
 
-// todo: if i change ...`<int> &wideDist` to ...`<int>& wideDist`, do things break?
-CubeScrambler::MoveAndAxis CubeScrambler::generateMove(int prevAxis, int dim, std::uniform_int_distribution<int> &wideDist) {
+CubeScrambler::MoveAndAxis CubeScrambler::generateMove(int prevAxis, int dim, std::uniform_int_distribution<int>& wideDist) {
     // generates a face on a new axis. dim == 2 restricts to {F, R, U}
     int newAxis = getNewAxis(prevAxis);
     int addOffset = (dim == 2) ? 0 : uniform6(mersenneGenerator) % 2;

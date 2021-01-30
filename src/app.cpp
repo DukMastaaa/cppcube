@@ -117,16 +117,16 @@ void App::keyboardInput(int input) {
         case ERR: return; break;
 
         case ' ': toggleTimer(); break;
-        
+
         case '2': togglePenalty(Penalty::PLUS_2_PENALTY, recordListController.getRecordCount() - 1); break;
         case 'd': togglePenalty(Penalty::DNF_PENALTY, recordListController.getRecordCount() - 1); break;
 
         case '@': togglePenalty(Penalty::PLUS_2_PENALTY, recordListController.getSelectedIndex()); break;
         case 'D': togglePenalty(Penalty::DNF_PENALTY, recordListController.getSelectedIndex()); break;
-        
+
         case KEY_UP: moveSelectedRecord(Direction::UP_DIR); break;
         case KEY_DOWN: moveSelectedRecord(Direction::DOWN_DIR); break;
-        
+
         case 'n': generateNewScramble(); break;
 
         case 't': moveToEndsOfRecords(Direction::UP_DIR); break;

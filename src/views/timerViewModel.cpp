@@ -2,6 +2,7 @@
 
 #include <chrono>
 #include <array>
+#include <map>
 
 #include <ncurses.h>
 
@@ -10,113 +11,167 @@
 #include "views/colours.h"
 
 
-const std::string TimerViewModel::NUM_BLOCK[10][5] = {
+const std::map<char, std::array<std::string, 5>> TimerViewModel::SYMBOL_BLOCKS = {
     {
-        "###",
-        "# #",
-        "# #",
-        "# #",
-        "###",
+        '0', 
+        {
+            "###",
+            "# #",
+            "# #",
+            "# #",
+            "###",
+        },
     },
     {
-        "## ",
-        " # ",
-        " # ",
-        " # ",
-        "###",
+        '1',
+        {
+            "## ",
+            " # ",
+            " # ",
+            " # ",
+            "###",
+        },
     },
     {
-        "## ",
-        "  #",
-        " # ",
-        "#  ",
-        "###",
+        '2',
+        {
+            "## ",
+            "  #",
+            " # ",
+            "#  ",
+            "###",
+        },
     },
     {
-        "## ",
-        "  #",
-        "## ",
-        "  #",
-        "## ",
+        '3',
+        {
+            "## ",
+            "  #",
+            "## ",
+            "  #",
+            "## ",
+        },
     },
     {
-        "# #",
-        "# #",
-        "###",
-        "  #",
-        "  #",
+        '4',
+        {
+            "# #",
+            "# #",
+            "###",
+            "  #",
+            "  #",
+        },
     },
     {
-        "###",
-        "#  ",
-        "###",
-        "  #",
-        "###",
+        '5',
+        {
+            "###",
+            "#  ",
+            "###",
+            "  #",
+            "###",
+        },
     },
     {
-        "###",
-        "#  ",
-        "###",
-        "# #",
-        "###",
+        '6',
+        {
+            "###",
+            "#  ",
+            "###",
+            "# #",
+            "###",
+        },
     },
     {
-        "###",
-        "  #",
-        "  #",
-        "  #",
-        "  #",
+        '7',
+        {
+            "###",
+            "  #",
+            "  #",
+            "  #",
+            "  #",
+        },
     },
     {
-        "###",
-        "# #",
-        "###",
-        "# #",
-        "###",
+        '8',
+        {
+            "###",
+            "# #",
+            "###",
+            "# #",
+            "###",
+        },
     },
     {
-        "###",
-        "# #",
-        "###",
-        "  #",
-        "  #",
-    }
-};
-
-
-const std::string TimerViewModel::FULL_STOP[5] = {
-    " ",
-    " ",
-    " ",
-    " ",
-    "#"
-};
-
-
-const std::string TimerViewModel::COLON[5] = {
-    " ",
-    "#",
-    " ",
-    "#",
-    " "
-};
-
-
-const std::string TimerViewModel::PLUS[5] = {
-    "   ",
-    " # ",
-    "###",
-    " # ",
-    "   "
-};
-
-
-const std::string TimerViewModel::DNF[5] = {
-    "##      ###",
-    "# # ### #  ",
-    "# # # # ###",
-    "# # # # #  ",  
-    "##  # # #  ",
+        '9',
+        {
+            "###",
+            "# #",
+            "###",
+            "  #",
+            "  #",
+        },  
+    },
+    {
+        '.',
+        {
+            " ",
+            " ",
+            " ",
+            " ",
+            "#"
+        },
+    },
+    {
+        ':',
+        {
+            " ",
+            "#",
+            " ",
+            "#",
+            " "
+        },
+    },
+    {
+        '+',
+        {
+            "   ",
+            " # ",
+            "###",
+            " # ",
+            "   "
+        },
+    },
+    {
+        'D',
+        {
+            "## ",
+            "# #",
+            "# #",
+            "# #",
+            "## ",
+        },
+    },
+    {
+        'N',
+        {
+            "   ",
+            "###",
+            "# #",
+            "# #",
+            "# #",
+        },
+    },
+    {
+        'F',
+        {
+            "###",
+            "#  ",
+            "###",
+            "#  ",
+            "#  ",
+        },
+    },
 };
 
 
@@ -128,58 +183,25 @@ Pos2D TimerViewModel::calcHeightWidth() const {
 TimerViewModel::TimerViewModel(CubeTimer& timerRef) : timer(timerRef) {}
 
 
-void TimerViewModel::drawCharMatrix(WINDOW* window, std::array<int, 3> times, bool plus2) const {
-    // todo: meow: move RLVM::formatTime to CubeTimer::formatTime and iterate over char. this is partially duplicated code
+// int TimerViewModel::charDigitToInt(char digit) {
+//     /* Converts a digit character to its corresponding integer literal.
+//     Returns -1 if character is not a digit. */
+//     if ('0' <= digit && digit <= '9') {
+//         return digit - '0';
+//     } else {
+//         return -1;
+//     }
+// }
+
+
+void TimerViewModel::drawCharMatrix(WINDOW* window, std::string formattedTime) const {
     for (int row = 0; row < 5; row++) {
-        int xPos = (plus2) ? 0 : 2;  // aligns time properly
-        for (int timeSelector = 0; timeSelector < 3; timeSelector++) {
-            int time = times[timeSelector];
-            int tens, ones;
-            if (time < 10) {
-                tens = 0;
-                ones = time;
-            } else {
-                tens = time / 10;
-                ones = time % 10;
-            }
-            int digits[2] = {tens, ones};
-
-            // actual digits
-            for (int placeVal = 0; placeVal < 2; placeVal++) {
-                for (char block : NUM_BLOCK[digits[placeVal]][row]) {
-                    // inverse colour - switch symbols around
-                    // block = (block == '#') ? ' ' : '█';
-                    int colour = (block == '#') ? GREEN_ON_BLACK : WHITE_ON_BLACK;
-                    wattron(window, COLOR_PAIR(colour));
-                    mvwaddch(window, row, xPos, block);
-                    wattroff(window, COLOR_PAIR(colour));
-                    xPos++;
-                }
-                mvwaddch(window, row, xPos, ' ');  // spacing
-                xPos++;
-            }
-
-            // punctuation
-            const std::string* punctuation;
-            switch (timeSelector) {
-                case 0:
-                    punctuation = COLON;
-                    break;
-                case 1:
-                    punctuation = FULL_STOP;
-                    break;
-                case 2:
-                    punctuation = PLUS;
-                    break;
-            }
-            if (timeSelector != 2 || plus2) {
-                for (const char& symbol : punctuation[row]) {
-                    mvwaddch(window, row, xPos, symbol);
-                    xPos++;
-                }
-                mvwaddch(window, row, xPos, ' ');  // spacing
-                xPos++;
-            }
+        int xPos = (formattedTime.back() == '+') ? 0 : 2;  // aligns time properly
+        for (const char& symbol: formattedTime) {
+            const std::string& block = SYMBOL_BLOCKS.at(symbol).at(row);
+            std::size_t length = block.length();
+            mvwprintw(window, row, xPos, block.c_str());
+            xPos += length + 1;
         }
     }
 }
@@ -192,27 +214,13 @@ void TimerViewModel::drawEllipsis(WINDOW* window) const {
 }
 
 
-void TimerViewModel::drawDNF(WINDOW* window) const {
-    for (int row = 0; row < 5; row++) {
-        mvwprintw(window, row, 0, DNF[row].c_str());
-    }
-}
-
-
 void TimerViewModel::draw(WINDOW* window) const {
     /* Erases and draws timer window. */
+    werase(window);
     if (!timer.isTiming) {
-        werase(window);  // clear instead of erase to prevent window corruption
-        if (timer.currentPenalty == Penalty::DNF_PENALTY) {
-            drawDNF(window);
-        } else {
-            bool plus2 = (timer.currentPenalty == Penalty::PLUS_2_PENALTY);
-            auto offset = (plus2) ? std::chrono::seconds(2) : std::chrono::seconds(0);
-            std::array<int, 3> times = CubeTimer::getTimeDivisions(timer.getTimeElapsed() + offset);
-            drawCharMatrix(window, times, plus2);
-        }
+        std::string formattedTime = CubeTimer::formatTime(timer.getTimeElapsed(), timer.currentPenalty);
+        drawCharMatrix(window, formattedTime);
     } else {
-        werase(window);  // full refresh not needed, erase will suffice
         drawEllipsis(window);
     }
 }
