@@ -89,8 +89,6 @@ still print a net of the cube to `std::cout` using
 `void CubeModel::coutDisplayNet()`. 
 
 ## Current bugs
-- Changing penalty on selected time when selected time is most recent doesn't
-  update timer view.
 - Screen refreshes agressively when generating new scramble (`n`).
 - Some terminals which allow vertical scrolling display binary characters
   when the window is scrolled up during runtime. This seems like weird
@@ -98,5 +96,3 @@ still print a net of the cube to `std::cout` using
   choosing `wclear()` over `werase()`. Calling `clearok(curscr, TRUE)` 
   before every `doupdate()` works but is overkill as every handled
   keyboard input will refresh the screen, causing flickering.
-
-test234567

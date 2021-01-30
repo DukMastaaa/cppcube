@@ -13,7 +13,6 @@ class TimerViewModel : public BaseViewModel {
     private:
         CubeTimer& timer;
         static const std::map<char, std::array<std::string, 5>> SYMBOL_BLOCKS;
-        // static int charDigitToInt(char digit);  // todo: deprecate lol
         void drawCharMatrix(WINDOW* window, std::string formattedTime) const;
         void drawEllipsis(WINDOW* window) const;
 
