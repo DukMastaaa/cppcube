@@ -11,35 +11,9 @@ enum CubeFace {
 };
 
 
-// have to define these outside of CubeModel because of constexpr semantics
-static constexpr const std::array<std::array<CubeFace, 4>, 6> reverseFacesToSwap(const std::array<std::array<CubeFace, 4>, 6> facesToSwap) {
-    auto reversed = std::array<std::array<CubeFace, 4>, 6>();
-    for (std::size_t faceIndex = 0; faceIndex < 6; faceIndex++) {
-        for (std::size_t sideIndex = 0; sideIndex < 4; sideIndex++) {
-            reversed[faceIndex][sideIndex] = facesToSwap[faceIndex][3 - sideIndex];
-        }
-    }
-    return reversed;
-}
-
-
-// aeugh
-static constexpr const std::array<std::array<std::array<char, 2>, 4>, 6> reverseSwapInstructions(const std::array<std::array<std::array<char, 2>, 4>, 6> swapInstructions) {
-    auto reversed = std::array<std::array<std::array<char, 2>, 4>, 6>();
-    for (std::size_t faceIndex = 0; faceIndex < 6; faceIndex++) {
-        for (std::size_t sideIndex = 0; sideIndex < 4; sideIndex++) {
-            for (std::size_t instructionIndex = 0; instructionIndex < 2; instructionIndex++) {  // todo: replace this with copy operation?
-                reversed[faceIndex][sideIndex][instructionIndex] = swapInstructions[faceIndex][3 - sideIndex][instructionIndex];
-            }
-        }
-    }
-    return reversed;
-}
-
-
 class Array2DSquare {
     private:
-        std::vector<std::vector<int>> array;
+        std::vector<std::vector<int>> array;  // todo: change to cubeface
 
     public:
         int length;
@@ -52,11 +26,34 @@ class Array2DSquare {
 };
 
 
-class CubeModel {
-    private:
-        static constexpr std::array<char, 6> FACE_SYMBOLS = {'U', 'F', 'R', 'B', 'L', 'D'};
-        static constexpr std::array<char, 6> COLOURS = {'W', 'G', 'R', 'B', 'O', 'Y'};
+class CycleCalculateReversed {
+    public:
+        static constexpr const std::array<std::array<CubeFace, 4>, 6> reverseFacesToSwap(const std::array<std::array<CubeFace, 4>, 6> facesToSwap) {
+            auto reversed = std::array<std::array<CubeFace, 4>, 6>();
+            for (std::size_t faceIndex = 0; faceIndex < 6; faceIndex++) {
+                for (std::size_t sideIndex = 0; sideIndex < 4; sideIndex++) {
+                    reversed[faceIndex][sideIndex] = facesToSwap[faceIndex][3 - sideIndex];
+                }
+            }
+            return reversed;
+        }
 
+        static constexpr const std::array<std::array<std::array<char, 2>, 4>, 6> reverseSwapInstructions(const std::array<std::array<std::array<char, 2>, 4>, 6> swapInstructions) {
+            auto reversed = std::array<std::array<std::array<char, 2>, 4>, 6>();
+            for (std::size_t faceIndex = 0; faceIndex < 6; faceIndex++) {
+                for (std::size_t sideIndex = 0; sideIndex < 4; sideIndex++) {
+                    for (std::size_t instructionIndex = 0; instructionIndex < 2; instructionIndex++) {  // todo: replace this with copy operation?
+                        reversed[faceIndex][sideIndex][instructionIndex] = swapInstructions[faceIndex][3 - sideIndex][instructionIndex];
+                    }
+                }
+            }
+            return reversed;
+        }
+};
+
+
+class CycleHelper {
+    private:
         static constexpr const std::array<std::array<CubeFace, 4>, 6> facesToSwap = {{  // double brace
             {RIGHT, BACK, LEFT, FRONT},  // UP
             {LEFT, DOWN, RIGHT, UP},     // FRONT
@@ -66,7 +63,7 @@ class CubeModel {
             {LEFT, BACK, RIGHT, FRONT},  // DOWN
         }};
 
-        static constexpr const std::array<std::array<CubeFace, 4>, 6> facesToSwapReversed = reverseFacesToSwap(facesToSwap);
+        static constexpr const std::array<std::array<CubeFace, 4>, 6> facesToSwapReversed = CycleCalculateReversed::reverseFacesToSwap(facesToSwap);
 
         // d: depth, i: i, m: dim-1-depth, f: dim-1-i
 
@@ -109,12 +106,25 @@ class CubeModel {
             }}
         }};
 
-        static constexpr const std::array<std::array<std::array<char, 2>, 4>, 6> swapInstructionsReversed = reverseSwapInstructions(swapInstructions);
+        static constexpr const std::array<std::array<std::array<char, 2>, 4>, 6> swapInstructionsReversed = CycleCalculateReversed::reverseSwapInstructions(swapInstructions);
 
+        static int translateOneSwapInstruction(char instruction, int dim, int depth, int layer);
+        static std::array<int, 2> getPosFromSwapInstruction(const std::array<char, 2>& instructions, int dim, int depth, int layer);
+
+    public:
+        static void cycle(std::vector<Array2DSquare>& faces, int dim, CubeFace face, bool reverse, int depth = 0);
+};
+
+
+class CubeModel {
+    private:
+        static constexpr std::array<char, 6> FACE_SYMBOLS = {'U', 'F', 'R', 'B', 'L', 'D'};
+        static constexpr std::array<char, 6> COLOURS = {'W', 'G', 'R', 'B', 'O', 'Y'};
+        
         std::vector<Array2DSquare> faces;
 
         void cycle(int face, bool reverse, int depth = 0);
-        void makeTurn(int face, bool reverse, int depth = 0);
+        void makeTurn(CubeFace face, bool reverse, int depth = 0);
         void parseOneMove(std::string move);
         void coutRepeatChar(char character, int repetitions) const;
 
@@ -124,7 +134,7 @@ class CubeModel {
         void resetState();
         void resetState(int dimension);
         std::vector<Array2DSquare> getFaces() const;
-        int getColourAtSticker(int face, int row, int col) const;
+        int getColourAtSticker(CubeFace face, int row, int col) const;
         void coutDisplayNet() const;
         void parseMovesReset(std::string moves);
         void parseMovesNoReset(std::string moves);
