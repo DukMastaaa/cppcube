@@ -50,6 +50,85 @@ void Array2DSquare::rot90() {
 }
 
 
+int CycleHelper::translateOneSwapInstruction(char instruction, int dim, int depth, int layer) {
+    switch (instruction) {
+        case 'd':
+            return depth;
+            break;
+        case 'i':
+            return layer;
+            break;
+        case 'm':
+            return dim - 1 - depth;
+            break;
+        case 'f':
+            return dim - 1 - layer;
+            break;
+        default:
+            return -1;
+            break;
+    }
+}
+
+
+std::array<int, 2> CycleHelper::getPosFromSwapInstruction(const std::array<char, 2>& instructions, int dim, int depth, int layer) {
+    int row = translateOneSwapInstruction(instructions[0], dim, depth, layer);
+    int col = translateOneSwapInstruction(instructions[1], dim, depth, layer);
+    return {row, col};
+}
+
+
+void CycleHelper::cycle(std::vector<Array2DSquare>& faces, int dim, CubeFace face, bool reverse, int depth) {
+    // index -1 is (dim - 1) 
+
+    const auto& faceCycle = (reverse) ? facesToSwapReversed[face] : facesToSwap[face];
+    const auto& instructions = (reverse) ? swapInstructionsReversed[face] : swapInstructions[face];
+
+    int* stickers[2];
+    int*& thisSticker = stickers[0];
+    int*& nextSticker = stickers[1];
+
+    CubeFace thisFace, nextFace;
+
+    int bufferValue;  // Keeps track of the value at the buffer because it gets replaced.
+    
+    for (int layer = 0; layer < dim; layer++) {  // loops over stickers along each layer
+        for (int cycleStep = 0; cycleStep < 4; cycleStep++) {  // loops over cycle replacements
+
+            thisFace = faceCycle[cycleStep];
+            if (cycleStep < 3) {  // if statement necessary as index error will be raised if cycleStep == 3
+                nextFace = faceCycle[cycleStep+1];
+            }
+
+            // todo: refactor more??!
+            auto [row, col] = getPosFromSwapInstruction(instructions[cycleStep], dim, depth, layer);
+            thisSticker = &(faces[thisFace].at(row, col));
+
+            // note: when cycleStep == 3, cycleStep+1 will cause index error
+            if (cycleStep < 3) {
+                // add 1 to look forward to next instruction.
+                auto [row, col] = getPosFromSwapInstruction(instructions[cycleStep+1], dim, depth, layer);
+                nextSticker = &(faces[thisFace].at(row, col));
+            }
+        
+            if (cycleStep == 0) {
+                bufferValue = *thisSticker;
+            }
+
+            if (cycleStep < 3) {
+                // Now, thisSticker and nextSticker have been set, so we replace:
+                *thisSticker = *nextSticker;
+            } else {
+                // Now we need to fix the cycle by putting the first element of the cycle (buffer)
+                // in the last cycle position. There is no more nextSticker.
+                *thisSticker = bufferValue;
+            }
+            // Cycle fixed.
+        }
+    }
+}
+
+
 // CubeModel method implementations
 CubeModel::CubeModel(int dimension) {
     faces = std::vector<Array2DSquare>(6, Array2DSquare(dimension));
@@ -71,94 +150,13 @@ void CubeModel::resetState(int dimension) {
 }
 
 
-void CubeModel::cycle(int face, bool reverse, int depth) {
-    // index -1 is (dim - 1) 
-
-    const std::array<CubeFace, 4>* faceCycle;
-    const std::array<std::array<char, 2>, 4>* instructions;
-    if (reverse) {
-        faceCycle = &(facesToSwapReversed[face]);
-        instructions = &(swapInstructionsReversed[face]);
-    } else {
-        faceCycle = &(facesToSwap[face]);
-        instructions = &(swapInstructions[face]);
-    }
-
-    int* stickers[2];
-    int*& thisSticker = stickers[0];
-    int*& nextSticker = stickers[1];
-
-    int selectedFaces[2];
-
-    // Keeps track of the value at the buffer because it gets replaced.
-    int bufferValue;
-    
-    for (int layer = 0; layer < dim; layer++) {  // loops over stickers along each layer
-        
-        for (int cycleStep = 0; cycleStep < 4; cycleStep++) {  // loops over cycle replacements
-
-            selectedFaces[0] = (*faceCycle)[cycleStep];
-            if (cycleStep < 3) {  // if statement necessary as index error will be raised if cycleStep == 3
-                selectedFaces[1] = (*faceCycle)[cycleStep+1];
-            }
-
-            for (int k = 0; k < 2; k++) {  // loops over `this` and `next` stickers
-                int rowAndCol[2];
-
-                for (int m = 0; m < 2; m++) {  // loops over row and col swap instructions
-
-                    // this is ridiculous. cycleStep+k is because i need to increment
-                    // cycleStep by 1 when looking forward to the next instruction.
-                    switch ((*instructions)[cycleStep+k][m]) {
-                        case 'd':
-                            rowAndCol[m] = depth;
-                            break;
-                        case 'i':
-                            rowAndCol[m] = layer;
-                            break;
-                        case 'm':
-                            rowAndCol[m] = dim - 1 - depth;
-                            break;
-                        case 'f':
-                            rowAndCol[m] = dim - 1 - layer;
-                            break;
-                    }
-                }
-                // i have a feeling the line below will cause bugs because 
-                // at() returns a reference, and i'm using & on that.
-                // note: for the loop where cycleStep == 3, k will only be 0.
-                stickers[k] = &(faces[selectedFaces[k]].at(rowAndCol[0], rowAndCol[1]));
-
-                if (cycleStep == 3) {
-                    break;  // this is horrible.
-                }
-            }
-
-            if (cycleStep == 0) {
-                bufferValue = *thisSticker;
-            }
-            
-            if (cycleStep < 3) {
-                // Now, thisSticker and nextSticker have been set, so we replace:
-                *thisSticker = *nextSticker;
-            } else {
-                // Now we need to fix the cycle by putting the first element of the cycle (buffer)
-                // in the last cycle position. There is no more nextSticker.
-                *thisSticker = bufferValue;
-            }
-            // Cycle fixed.
-        }
-    }
-}
-
-
-void CubeModel::makeTurn(int face, bool reverse, int depth) {
+void CubeModel::makeTurn(CubeFace face, bool reverse, int depth) {
     if (depth == 0) {
         for (int i = 0; i < (reverse ? 3 : 1); i++) {
             faces[face].rot90(); 
         }
     }
-    cycle(face, reverse, depth);
+    CycleHelper::cycle(faces, dim, face, reverse, depth);
 }
 
 
@@ -167,7 +165,7 @@ std::vector<Array2DSquare> CubeModel::getFaces() const {
 }
 
 
-int CubeModel::getColourAtSticker(int face, int row, int col) const {
+int CubeModel::getColourAtSticker(CubeFace face, int row, int col) const {
     return faces[face].at(row, col);
 }
 
@@ -217,7 +215,8 @@ void CubeModel::coutDisplayNet() const {
 
 void CubeModel::parseOneMove(std::string move) {
     // todo: inefficient since it searches multiple times
-    int depth, face;
+    int depth;
+    CubeFace face;
     std::string depthAcc;
 
     bool doubleTurn = (move.back() == '2');
@@ -242,7 +241,7 @@ void CubeModel::parseOneMove(std::string move) {
 
     for (int i = 0; i < 6; i++) {
         if (move.find(FACE_SYMBOLS[i]) != std::string::npos) {
-            face = i;
+            face = static_cast<CubeFace>(i);  // `i` will definitely be in enum range, static_cast acceptable
             break;  // this can't handle invalid input, but oh well
         }
     }

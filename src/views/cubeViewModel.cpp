@@ -46,7 +46,8 @@ void CubeViewModel::draw(WINDOW* window) const {
         for (int faceIndex = 0; faceIndex < 4; faceIndex++) {
             leftOffset = faceIndex * (cube.dim + 1);
             for (int col = 0; col < cube.dim; col++) {
-                int thisColour = cube.getColourAtSticker(middleFaces[faceIndex], row, col);
+                auto cubeFace = static_cast<CubeFace>(middleFaces[faceIndex]);  // acceptable conversion, guaranteed to be in enum range
+                int thisColour = cube.getColourAtSticker(cubeFace, row, col);
 
                 wattron(window, COLOR_PAIR(thisColour));
                 mvwaddch(window, yOffset + row, leftOffset + col, BLOCK);
