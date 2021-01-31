@@ -20,6 +20,9 @@ class App {
         bool doAnUpdate;
         bool appRunning;
 
+        // helper
+        void refreshAllControllers() const;
+
         // app functionality
         void handleTerminalResize();
         void toggleTimer();

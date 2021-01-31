@@ -22,18 +22,34 @@ App::App(int cubeDim) :
         appRunning(true) {}
 
 
-void App::initialRefreshUpdate() {
-    cubeController.parseMovesReset(scramblerController.generateScramble(dim));
+void App::refreshAllControllers() const {
+    // todo: scaling issues?
     cubeController.refresh();
     recordListController.refresh();
     scramblerController.refresh();
     timerController.refresh();
+}
+
+void App::initialRefreshUpdate() {
+    cubeController.parseMovesReset(scramblerController.generateScramble(dim));
+    refreshAllControllers();
     doupdate();
 }
 
 
 void App::handleTerminalResize() {
-    return;  // todo: resume
+    /* To handle terminal resize events, clear() must be called, followed by
+    refresh(). This order is to ensure that the old screen image of windows is
+    cleared before the new locations are drawn to the screen. */
+
+    cubeController.handleResize();
+    recordListController.handleResize();
+    scramblerController.handleResize();
+    timerController.handleResize();
+    clear();  // stdscr clear
+    refresh();  // stdscr refresh
+    refreshAllControllers();  // wnoutrefresh for each window
+    doupdate();
 }
 
 
