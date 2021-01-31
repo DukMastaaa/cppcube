@@ -34,7 +34,7 @@ void BaseWindow::createSubwin(int fullHeight, int fullWidth) {
 
 void BaseWindow::createWindows(int fullHeight, int fullWidth, int topLeftY, int topLeftX) {
     fullWindow = newwin(fullHeight, fullWidth, topLeftY, topLeftX);
-    createSubwin(fullWindow, fullHeight, fullWidth);
+    createSubwin(fullHeight, fullWidth);
     keypad(fullWindow, true);  // allows special keys to work
 }
 
@@ -78,7 +78,8 @@ void BaseWindow::werase() const {
 
 void BaseWindow::handleResize() {
     delwin(subwin);
-    Pos2D heightAndWidth = viewModel.calcHeightWidth();
+    wclear();
+    Pos2D heightAndWidth = addIntToPos(viewModel.calcHeightWidth(), 2 * BORDER_WIDTH);
     Pos2D topLeftPos = calcTopLeftPos(heightAndWidth);
     mvwin(fullWindow, topLeftPos.y, topLeftPos.x);
     wresize(fullWindow, heightAndWidth.y, heightAndWidth.x);

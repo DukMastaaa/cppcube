@@ -33,9 +33,9 @@ the following lists.
 - Explicitly specify `override` for overriden virtual functions
 - More keyboard controls
 - Window title
+- Handle terminal resize events
 
 ### Will implement
-- Handle terminal resize events
 - Refactor `cubes.cpp` and `cubes.h`
 - Develop popup window classes
 - Generate info popup for scramble
@@ -97,3 +97,6 @@ still print a net of the cube to `std::cout` using
   choosing `wclear()` over `werase()`. Calling `clearok(curscr, TRUE)` 
   before every `doupdate()` works but is overkill as every handled
   keyboard input will refresh the screen, causing flickering.
+  - Similar bug using windows terminal (may not be isolated to this emulator)
+    where agressively changing window size will eventually lead to very slow
+    resizing behaviour, lagging the mouse around the terminal window.
