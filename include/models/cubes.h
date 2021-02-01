@@ -26,6 +26,7 @@ class Array2DSquare {
 };
 
 
+// Provides constexpr function    4s to assist with reversing cycle instructions in `CycleHelper`.
 class CycleCalculateReversed {
     public:
         static constexpr const std::array<std::array<CubeFace, 4>, 6> reverseFacesToSwap(const std::array<std::array<CubeFace, 4>, 6> facesToSwap) {

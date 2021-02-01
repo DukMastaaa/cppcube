@@ -108,7 +108,7 @@ void CycleHelper::cycle(std::vector<Array2DSquare>& faces, int dim, CubeFace fac
             if (cycleStep < 3) {
                 // add 1 to look forward to next instruction.
                 auto [row, col] = getPosFromSwapInstruction(instructions[cycleStep+1], dim, depth, layer);
-                nextSticker = &(faces[thisFace].at(row, col));
+                nextSticker = &(faces[nextFace].at(row, col));
             }
         
             if (cycleStep == 0) {

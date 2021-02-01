@@ -32,9 +32,3 @@ void TimerController::togglePenalty(Penalty penalty) {
 std::chrono::milliseconds TimerController::getTimeElapsed() const {
     return model.getTimeElapsed();
 }
-
-
-void TimerController::refresh() const {
-    window->makeBox();
-    BaseController::refresh();
-}

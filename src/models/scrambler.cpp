@@ -123,7 +123,7 @@ std::string CubeScrambler::generateScramble(int dim) {
             mostRecentScramble = generateMoveSeq(2, wideDist, 10);
             break;
         case 3:
-            mostRecentScramble = generateMoveSeq(3, wideDist, 20);  // or 25?
+            mostRecentScramble = generateMoveSeq(3, wideDist, 25);  // or 25?
             break;
         case 4:
             // 20 moves without wide moves, 25 moves with
@@ -135,6 +135,7 @@ std::string CubeScrambler::generateScramble(int dim) {
             break;
     }
 
+    // mostRecentScramble = "R U R' U' R' F R2 U' R' U' R U R' F'";
     return mostRecentScramble;
 }
 
