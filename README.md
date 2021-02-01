@@ -34,9 +34,9 @@ the following lists.
 - More keyboard controls
 - Window title
 - Handle terminal resize events
+- Refactor `cubes.cpp` and `cubes.h`
 
 ### Will implement
-- Refactor `cubes.cpp` and `cubes.h`
 - Develop popup window classes
 - Generate info popup for scramble
 - Change side length of cube during run-time through popup

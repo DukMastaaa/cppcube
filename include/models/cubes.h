@@ -11,22 +11,33 @@ enum CubeFace {
 };
 
 
-class Array2DSquare {
+enum StickerColour {
+    WHITE, GREEN, RED, BLUE, ORANGE, YELLOW
+};
+
+
+template <typename T>
+class Vector2DSquare {
     private:
-        std::vector<std::vector<int>> array;  // todo: change to cubeface
+        int length;
+        std::vector<std::vector<T>> vec;
 
     public:
-        int length;
-        Array2DSquare(int sideLength);
-        Array2DSquare(int sideLength, int defaultValue);
-        int at(int row, int col) const;
-        int& at(int row, int col);
-        void set(int row, int col, int value);
+        Vector2DSquare(int length);
+        Vector2DSquare(int length, T defaultValue);
+        const T& at(int row, int col) const;
+        T& at(int row, int col);
+        void set(int row, int col, T value);
+        void reset(T defaultValue);
+        void resetAndResize(int newLength, T defaultValue);
         void rot90();
 };
 
 
-// Provides constexpr function    4s to assist with reversing cycle instructions in `CycleHelper`.
+#include "cubes.tpp"
+
+
+// Provides constexpr functions to assist with reversing cycle instructions in `CycleHelper`.
 class CycleCalculateReversed {
     public:
         static constexpr const std::array<std::array<CubeFace, 4>, 6> reverseFacesToSwap(const std::array<std::array<CubeFace, 4>, 6> facesToSwap) {
@@ -113,7 +124,7 @@ class CycleHelper {
         static std::array<int, 2> getPosFromSwapInstruction(const std::array<char, 2>& instructions, int dim, int depth, int layer);
 
     public:
-        static void cycle(std::vector<Array2DSquare>& faces, int dim, CubeFace face, bool reverse, int depth = 0);
+        static void cycle(std::vector<Vector2DSquare<StickerColour>>& faces, int dim, CubeFace face, bool reverse, int depth = 0);
 };
 
 
@@ -122,7 +133,10 @@ class CubeModel {
         static constexpr std::array<char, 6> FACE_SYMBOLS = {'U', 'F', 'R', 'B', 'L', 'D'};
         static constexpr std::array<char, 6> COLOURS = {'W', 'G', 'R', 'B', 'O', 'Y'};
         
-        std::vector<Array2DSquare> faces;
+        // not doing this with `std::array<Vector2DSquare<StickerColour>, 6>>`.
+        // that requires me to provide some default constructor for `Vector2DSquare<StickerColour>` which
+        // i have no idea how to do.
+        std::vector<Vector2DSquare<StickerColour>> faces;
 
         void cycle(int face, bool reverse, int depth = 0);
         void makeTurn(CubeFace face, bool reverse, int depth = 0);
@@ -134,8 +148,8 @@ class CubeModel {
         CubeModel(int dimension);
         void resetState();
         void resetState(int dimension);
-        std::vector<Array2DSquare> getFaces() const;
-        int getColourAtSticker(CubeFace face, int row, int col) const;
+        const std::vector<Vector2DSquare<StickerColour>>& getFaces() const;
+        StickerColour getColourAtSticker(CubeFace face, int row, int col) const;
         void coutDisplayNet() const;
         void parseMovesReset(std::string moves);
         void parseMovesNoReset(std::string moves);

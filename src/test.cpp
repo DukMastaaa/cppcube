@@ -1,4 +1,5 @@
-// #include <ncurses.h>
+#include <ncurses.h>
+#include <iostream>
 
 /*
 basically, to handle window moving:
@@ -53,6 +54,16 @@ int main() {
             counter++;
         }
     }
+    endwin();
+}
+*/
+
+/*
+int main() {
+    int col;
+    initscr();
+    start_color();
+    std::cout << COLORS << '\n';
     endwin();
 }
 */
