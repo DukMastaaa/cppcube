@@ -6,34 +6,35 @@
 #include <sstream>
 
 
-Array2DSquare::Array2DSquare(int sideLength) {
+/*
+Vector2DSquare::Vector2DSquare(int sideLength) {
     array = std::vector<std::vector<int>>(sideLength, std::vector<int>(sideLength));
     length = sideLength;
 }
 
 
-Array2DSquare::Array2DSquare(int sideLength, int defaultValue) {
+Vector2DSquare::Vector2DSquare(int sideLength, int defaultValue) {
     array = std::vector<std::vector<int>>(sideLength, std::vector<int>(sideLength, defaultValue));
     length = sideLength;
 }
 
 
-int Array2DSquare::at(int row, int col) const {
+int Vector2DSquare::at(int row, int col) const {
     return array[row][col];
 }
 
 
-int& Array2DSquare::at(int row, int col) {
+int& Vector2DSquare::at(int row, int col) {
     return array[row][col];
 }
 
 
-void Array2DSquare::set(int row, int col, int value) {
+void Vector2DSquare::set(int row, int col, int value) {
     array[row][col] = value;
 }
 
 
-void Array2DSquare::rot90() {
+void Vector2DSquare::rot90() {
     // Code yoinked from 
     // https://www.geeksforgeeks.org/rotate-a-matrix-by-90-degree-in-clockwise-direction-without-using-any-extra-space/
 
@@ -48,6 +49,8 @@ void Array2DSquare::rot90() {
         } 
     } 
 }
+
+*/
 
 
 int CycleHelper::translateOneSwapInstruction(char instruction, int dim, int depth, int layer) {
@@ -78,19 +81,18 @@ std::array<int, 2> CycleHelper::getPosFromSwapInstruction(const std::array<char,
 }
 
 
-void CycleHelper::cycle(std::vector<Array2DSquare>& faces, int dim, CubeFace face, bool reverse, int depth) {
+void CycleHelper::cycle(std::vector<Vector2DSquare<StickerColour>>& faces, int dim, CubeFace face, bool reverse, int depth) {
     // index -1 is (dim - 1) 
 
     const auto& faceCycle = (reverse) ? facesToSwapReversed[face] : facesToSwap[face];
     const auto& instructions = (reverse) ? swapInstructionsReversed[face] : swapInstructions[face];
 
-    int* stickers[2];
-    int*& thisSticker = stickers[0];
-    int*& nextSticker = stickers[1];
+    StickerColour* thisSticker;
+    StickerColour* nextSticker;
 
-    CubeFace thisFace, nextFace;
+    CubeFace thisFace, nextFace;  // faces
 
-    int bufferValue;  // Keeps track of the value at the buffer because it gets replaced.
+    StickerColour bufferValue;  // Keeps track of the value at the buffer because it gets replaced.
     
     for (int layer = 0; layer < dim; layer++) {  // loops over stickers along each layer
         for (int cycleStep = 0; cycleStep < 4; cycleStep++) {  // loops over cycle replacements
@@ -130,23 +132,24 @@ void CycleHelper::cycle(std::vector<Array2DSquare>& faces, int dim, CubeFace fac
 
 
 // CubeModel method implementations
-CubeModel::CubeModel(int dimension) {
-    faces = std::vector<Array2DSquare>(6, Array2DSquare(dimension));
-    dim = dimension;
+CubeModel::CubeModel(int dimension) : faces(6, Vector2DSquare<StickerColour>(dimension)), dim(dimension) {
     resetState();
 }
 
 
 void CubeModel::resetState() {
     for (int i = 0; i < 6; i++) {
-        faces[i] = Array2DSquare(dim, i);  // does this cause memory leaks? what happens to the old Array2DSquare?
+        // does this cause memory leaks? what happens to the old Vector2DSquare?
+        faces[i].reset(static_cast<StickerColour>(i));
     }
 }
 
 
 void CubeModel::resetState(int dimension) {
     dim = dimension;
-    resetState();
+    for (int i = 0; i < 6; i++) {
+        faces[i].resetAndResize(dim, static_cast<StickerColour>(i));
+    }
 }
 
 
@@ -160,12 +163,12 @@ void CubeModel::makeTurn(CubeFace face, bool reverse, int depth) {
 }
 
 
-std::vector<Array2DSquare> CubeModel::getFaces() const {
+const std::vector<Vector2DSquare<StickerColour>>& CubeModel::getFaces() const {
     return faces;
 }
 
 
-int CubeModel::getColourAtSticker(CubeFace face, int row, int col) const {
+StickerColour CubeModel::getColourAtSticker(CubeFace face, int row, int col) const {
     return faces[face].at(row, col);
 }
 

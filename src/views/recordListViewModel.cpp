@@ -108,7 +108,7 @@ void RecordListViewModel::drawRecords(WINDOW* window) const {
 
             std::string formattedTime = CubeTimer::formatTime(thisRecord.time, thisRecord.penalty);
             
-            Colours colourPair = (currentIndex == selectedIndex) ? GREEN_ON_BLACK : WHITE_ON_BLACK;
+            TextColours colourPair = (currentIndex == selectedIndex) ? GREEN_ON_BLACK : WHITE_ON_BLACK;
             wattron(window, COLOR_PAIR(colourPair));
             mvwprintw(window, rowCounter + 1, 0, "%3ld: %s", currentIndex + 1, formattedTime.c_str());
             wattroff(window, COLOR_PAIR(colourPair));
