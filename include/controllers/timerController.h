@@ -21,5 +21,4 @@ class TimerController : public BaseController {
         void toggleTiming();
         void togglePenalty(Penalty penalty);
         std::chrono::milliseconds getTimeElapsed() const;
-        void refresh() const override;
 };
