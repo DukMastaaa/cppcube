@@ -56,7 +56,9 @@ void Vector2DSquare<T>::rot90() {
 
 template <typename T>
 void Vector2DSquare<T>::reset(T defaultValue) {
-    std::fill(vec.begin(), vec.end(), defaultValue);
+    for (auto& row : vec) {
+        std::fill(row.begin(), row.end(), defaultValue);
+    }
 }
 
 
