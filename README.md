@@ -35,6 +35,7 @@ the following lists.
 - Window title
 - Handle terminal resize events
 - Refactor `cubes.cpp` and `cubes.h`
+- Templatise `cubes.h` into `cubes.tpp`
 
 ### Will implement
 - Develop popup window classes
