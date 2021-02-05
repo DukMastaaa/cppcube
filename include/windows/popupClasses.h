@@ -1,8 +1,11 @@
 #pragma once
 
+#include <iostream>
+
 #include "windows/windowClasses.h"
 
 
-class BasePopup : public BaseWindow {
-
+class BasePopupWindow : public BaseWindow {
+    public:
+        std::string get  // todo: resume
 };
