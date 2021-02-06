@@ -1,7 +1,10 @@
 #pragma once
 
+#include <vector>
+
 #include <ncurses.h>
 
+#include "controllers/baseController.h"
 #include "controllers/cubeController.h"
 #include "controllers/recordListController.h"
 #include "controllers/scramblerController.h"
@@ -15,6 +18,9 @@ class App {
         RecordListController recordListController;
         ScramblerController scramblerController;
         TimerController timerController;
+
+        std::vector<BaseController*> mainControllers;
+        std::vector<BaseController*> popupControllers;
 
         int dim;  // todo: only temporary
         bool doAnUpdate;

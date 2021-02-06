@@ -6,6 +6,13 @@
 #include <ncurses.h>
 
 
+void BaseViewModel::receiveKeyboardInput(int input) {
+    /* Default behaviour is to do nothing. */
+    (void) input;  // unused
+    return;
+}
+
+
 void BaseViewModel::smartStringDisplay(WINDOW* window, const std::string& text) {
     /* Writes the text to window but breaks the line on a space, 
     not in the middle of a word, unlike `wprintw`. */
