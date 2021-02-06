@@ -17,17 +17,20 @@ App::App(int cubeDim) :
         recordListController(),
         scramblerController(),
         timerController(),
+        mainControllers{&cubeController, &recordListController, &scramblerController, &timerController},
+        popupControllers(),
         dim(cubeDim),
         doAnUpdate(false),
         appRunning(true) {}
 
 
 void App::refreshAllControllers() const {
-    // todo: scaling issues?
-    cubeController.refresh();
-    recordListController.refresh();
-    scramblerController.refresh();
-    timerController.refresh();
+    for (const auto& controller : mainControllers) {
+        controller->refresh();
+    }
+    for (const auto& controller : popupControllers) {
+        controller->refresh();
+    }
 }
 
 void App::initialRefreshUpdate() {
@@ -42,10 +45,13 @@ void App::handleTerminalResize() {
     refresh(). This order is to ensure that the old screen image of windows is
     cleared before the new locations are drawn to the screen. */
 
-    cubeController.handleResize();
-    recordListController.handleResize();
-    scramblerController.handleResize();
-    timerController.handleResize();
+    for (const auto& controller : mainControllers) {
+        controller->handleResize();
+    }
+    for (const auto& controller : popupControllers) {
+        controller->handleResize();
+    }
+
     clear();  // stdscr clear
     refresh();  // stdscr refresh
     refreshAllControllers();  // wnoutrefresh for each window
@@ -182,6 +188,7 @@ bool App::appIsRunning() const {
 
 
 WINDOW* App::getWindow() const {
+    // todo: is below comment still true after popups?
     // doesn't really matter what controller, any window other than stdscr will do
     return cubeController.getWindow();  
 }
