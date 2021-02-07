@@ -92,6 +92,11 @@ Pos2D BaseWindow::addIntToPos(Pos2D pos, int num) {
 }
 
 
+PopupState BaseWindow::receiveKeyboardInput(int input) {
+    return viewModel.receiveKeyboardInput(input);
+}
+
+
 BaseWindow::~BaseWindow() {
     delwin(subwin);
     delwin(fullWindow);

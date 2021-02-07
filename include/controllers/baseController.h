@@ -18,5 +18,6 @@ class BaseController {
         BaseController();
         virtual void refresh() const;  // if you want to draw box, override, draw box and call base function
         void handleResize();
+        void receiveKeyboardInput(int input);
         WINDOW* getWindow() const;
 };

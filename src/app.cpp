@@ -139,7 +139,7 @@ void App::generateNewScramble() {
 }
 
 
-void App::keyboardInput(int input) {
+void App::mainWindowKeyboardInput(int input) {
     switch (input) {
         case ERR: return; break;
 
@@ -164,6 +164,15 @@ void App::keyboardInput(int input) {
         case 'q': appRunning = false; break;
     }
     doAnUpdate = true;
+}
+
+
+void App::keyboardInput(int input) {
+    if (popupControllers.size() == 0) {
+        mainWindowKeyboardInput(input);
+    } else {
+        popupControllers.back()->receiveKeyboardInput(input);
+    }
 }
 
 

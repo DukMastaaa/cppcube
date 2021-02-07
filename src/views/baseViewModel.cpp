@@ -6,10 +6,19 @@
 #include <ncurses.h>
 
 
-void BaseViewModel::receiveKeyboardInput(int input) {
-    /* Default behaviour is to do nothing. */
-    (void) input;  // unused
-    return;
+PopupState BaseViewModel::receiveKeyboardInput(int input) {
+    /* Default behaviour is to do nothing unless enter key pressed,
+    which closes window. 
+    
+    This method should not be called unless this view model is in a 
+    window used as a popup.
+    */
+
+    if (input == KEY_ENTER) {
+        return PopupState::CLOSE;
+    } else {
+        return PopupState::NOREFRESH;
+    }
 }
 
 
