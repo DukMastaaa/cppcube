@@ -32,6 +32,7 @@ class BaseWindow {
         void wclear() const;  // forces refresh
         void werase() const;  // doesn't force refresh
         void handleResize();
+        PopupState receiveKeyboardInput(int input);
         ~BaseWindow();
 };
 

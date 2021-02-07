@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <memory>
 
 #include <ncurses.h>
 
@@ -20,7 +21,7 @@ class App {
         TimerController timerController;
 
         std::vector<BaseController*> mainControllers;
-        std::vector<BaseController*> popupControllers;
+        std::vector<std::unique_ptr<BaseController>> popupControllers;
 
         int dim;  // todo: only temporary
         bool doAnUpdate;
@@ -28,6 +29,9 @@ class App {
 
         // helper
         void refreshAllControllers() const;
+
+        // handles keyboard inputs for main window (no popups)
+        void mainWindowKeyboardInput(int input);
 
         // app functionality
         void handleTerminalResize();
