@@ -4,6 +4,7 @@
 
 #include <ncurses.h>
 
+#include "controllers/basePopupController.h"
 #include "controllers/cubeController.h"
 #include "controllers/recordListController.h"
 #include "controllers/scramblerController.h"
@@ -139,6 +140,11 @@ void App::generateNewScramble() {
 }
 
 
+void App::makeCubeViewPopup() {
+    popupControllers.push_back(std::make_unique)  // todo: resume
+}
+
+
 void App::mainWindowKeyboardInput(int input) {
     switch (input) {
         case ERR: return; break;
@@ -171,7 +177,15 @@ void App::keyboardInput(int input) {
     if (popupControllers.size() == 0) {
         mainWindowKeyboardInput(input);
     } else {
-        popupControllers.back()->receiveKeyboardInput(input);
+        auto& topPopupPtr = popupControllers.back();
+        PopupState popupState = topPopupPtr->receiveKeyboardInput(input);
+
+        if (popupState == PopupState::CLOSE) {
+            std::string returnData = topPopupPtr->getPopupReturnData();
+            // todo: transfer this information back to above popup and app class??
+            topPopupPtr.reset();
+            popupControllers.pop_back();
+        }
     }
 }
 

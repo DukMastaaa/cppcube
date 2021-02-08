@@ -32,7 +32,12 @@ class BaseWindow {
         void wclear() const;  // forces refresh
         void werase() const;  // doesn't force refresh
         void handleResize();
+
+        // popup-specific
+
         PopupState receiveKeyboardInput(int input);
+        std::string getPopupReturnData();
+
         ~BaseWindow();
 };
 
