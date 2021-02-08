@@ -36,9 +36,9 @@ the following lists.
 - Handle terminal resize events
 - Refactor `cubes.cpp` and `cubes.h`
 - Templatise `cubes.h` into `cubes.tpp`
+- Develop popup window classes (kind of)
 
 ### Will implement
-- Develop popup window classes
 - Generate info popup for scramble
 - Change side length of cube during run-time through popup
 - Shrink views if too large and display popups instead
@@ -80,6 +80,7 @@ highlighting of buttons etc.) but for now I'm going to just do keyboard controls
 | `g`            | Generate summary statistics            |N |
 | `E` (shift)    | Export times                           |N |
 | `h`            | Display help pop-up                    |N |
+| `n`            | Display cube view in pop-up            |N |
 
 ## What about the previous `cppcube`?
 The original `cppcube` was simply a header and `.cpp` file providing an

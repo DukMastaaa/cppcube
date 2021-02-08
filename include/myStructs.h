@@ -27,3 +27,9 @@ struct Record {
 enum Direction {  // do i really need this
     UP_DIR = 'u', DOWN_DIR = 'd', LEFT_DIR = 'l', RIGHT_DIR = 'l'
 };
+
+
+// used to define what state a popup window is in after keyboard input.
+enum PopupState {
+    REFRESH, NOREFRESH, CLOSE
+};

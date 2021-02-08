@@ -6,6 +6,7 @@
 #include <ncurses.h>
 
 #include "controllers/baseController.h"
+#include "controllers/basePopupController.h"
 #include "controllers/cubeController.h"
 #include "controllers/recordListController.h"
 #include "controllers/scramblerController.h"
@@ -21,7 +22,7 @@ class App {
         TimerController timerController;
 
         std::vector<BaseController*> mainControllers;
-        std::vector<std::unique_ptr<BaseController>> popupControllers;
+        std::vector<std::unique_ptr<BasePopupController>> popupControllers;
 
         int dim;  // todo: only temporary
         bool doAnUpdate;
@@ -34,6 +35,8 @@ class App {
         void mainWindowKeyboardInput(int input);
 
         // app functionality
+        
+        // main window functionality
         void handleTerminalResize();
         void toggleTimer();
         void togglePenalty(Penalty penalty, std::size_t recordNum);
@@ -41,6 +44,9 @@ class App {
         void moveToEndsOfRecords(Direction direction);
         void jumpSelectedIndex(std::size_t index);
         void generateNewScramble();
+
+        // popup window functionality
+        void makeCubeViewPopup();
 
     public:
         App(int cubeDim);

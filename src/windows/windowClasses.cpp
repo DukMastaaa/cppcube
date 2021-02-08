@@ -97,6 +97,11 @@ PopupState BaseWindow::receiveKeyboardInput(int input) {
 }
 
 
+std::string BaseWindow::getPopupReturnData() {
+    return viewModel.getPopupReturnData();
+}
+
+
 BaseWindow::~BaseWindow() {
     delwin(subwin);
     delwin(fullWindow);

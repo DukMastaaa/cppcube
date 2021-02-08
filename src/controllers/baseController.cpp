@@ -21,18 +21,3 @@ void BaseController::refresh() const {
 void BaseController::handleResize() {
     window->handleResize();
 }
-
-
-void BaseController::receiveKeyboardInput(int input) {
-    PopupState popupState = window->receiveKeyboardInput(input);
-    switch (popupState) {
-        case PopupState::CLOSE:
-            break;
-        
-        case PopupState::NOREFRESH:
-            break;
-        
-        case PopupState::REFRESH:
-            break;
-    }
-}
