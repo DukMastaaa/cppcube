@@ -33,3 +33,9 @@ enum Direction {  // do i really need this
 enum PopupState {
     REFRESH, NOREFRESH, CLOSE
 };
+
+
+typedef void (*PopupCallback)(std::string);
+
+
+void dummyPopupCallback(std::string returnVal) {}

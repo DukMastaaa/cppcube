@@ -2,10 +2,10 @@
 
 #include "myStructs.h"
 
+#include "app.h"
 
-BasePopupController::BasePopupController() {
 
-}
+BasePopupController::BasePopupController(App& appRef) : app(appRef) {}
 
 
 PopupState BasePopupController::receiveKeyboardInput(int input) {
@@ -13,6 +13,7 @@ PopupState BasePopupController::receiveKeyboardInput(int input) {
     switch (popupState) {
         case PopupState::REFRESH:
             refresh();
+            app.forceUpdate();
             break;
         
         case PopupState::NOREFRESH:

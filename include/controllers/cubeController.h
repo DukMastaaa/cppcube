@@ -9,16 +9,16 @@
 
 
 class CubeController : public BaseController {
-    protected:
-        CubeModel model;
-        CubeViewModel viewModel;
-        int dim;
-
     public:
+        CubeModel model;
         CubeController(int cubeDim);
         void parseMovesReset(std::string scramble);
         void parseMovesNoReset(std::string scramble);
         void resetState();
         void resetState(int dim);
         void refresh() const override;
+
+    protected:
+        CubeViewModel viewModel;
+        int dim;
 };

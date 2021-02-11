@@ -5,9 +5,10 @@
 #include <vector>
 
 #include "myStructs.h"
+#include "models/baseModel.h"
 
 
-class RecordList {
+class RecordList : public BaseModel {
     private:
         std::vector<Record> records;
 

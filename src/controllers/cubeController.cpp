@@ -5,7 +5,7 @@
 #include "controllers/baseController.h"
 
 
-CubeController::CubeController(int cubeDim) : BaseController(), model(cubeDim), viewModel(model) {
+CubeController::CubeController(int cubeDim) : BaseController(), model(cubeDim), viewModel(model), dim(cubeDim) {
     window = std::make_unique<BottomRightWindow>(viewModel);
 }
 

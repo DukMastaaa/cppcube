@@ -4,8 +4,10 @@
 #include <random>
 #include <utility>
 
+#include "models/baseModel.h"
 
-class CubeScrambler {
+
+class CubeScrambler : public BaseModel {
     private:
         struct MoveAndAxis {
             int axis;
