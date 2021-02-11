@@ -1,11 +1,15 @@
 #pragma once
 
-#include "controllers/baseController.h"
+#include <type_traits>
 
 #include "myStructs.h"
+#include "controllers/baseController.h"
+#include "views/baseViewModel.h"
+#include "windows/windowClasses.h"
 
 
 class App;  // aeugh
+
 
 
 class BasePopupController : public BaseController {
