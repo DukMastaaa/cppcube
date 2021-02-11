@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <utility>
 #include <memory>
 
 #include <ncurses.h>
@@ -22,7 +23,7 @@ class App {
         TimerController timerController;
 
         std::vector<BaseController*> mainControllers;
-        std::vector<std::unique_ptr<BasePopupController>> popupControllers;
+        std::vector<std::pair<PopupCallback, std::unique_ptr<BasePopupController>>> popupControllers;
 
         int dim;  // todo: only temporary
         bool doAnUpdate;
@@ -57,4 +58,7 @@ class App {
         void forceUpdate();
         bool appIsRunning() const;
         WINDOW* getWindow() const;
+
+        template<typename T>
+        void createPopup(PopupCallback callback);
 };

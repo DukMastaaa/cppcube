@@ -1,5 +1,6 @@
 #include "app.h"
 
+#include <utility>
 #include <iostream>
 
 #include <ncurses.h>
@@ -29,8 +30,9 @@ void App::refreshAllControllers() const {
     for (const auto& controller : mainControllers) {
         controller->refresh();
     }
-    for (const auto& controller : popupControllers) {
-        controller->refresh();
+    for (const auto& pair : popupControllers) {
+        const auto& controllerPtr = pair.second;
+        controllerPtr->refresh();
     }
 }
 
@@ -49,8 +51,9 @@ void App::handleTerminalResize() {
     for (const auto& controller : mainControllers) {
         controller->handleResize();
     }
-    for (const auto& controller : popupControllers) {
-        controller->handleResize();
+    for (const auto& pair : popupControllers) {
+        const auto& controllerPtr = pair.second;
+        controllerPtr->handleResize();
     }
 
     clear();  // stdscr clear
@@ -141,7 +144,7 @@ void App::generateNewScramble() {
 
 
 void App::makeCubeViewPopup() {
-    popupControllers.push_back(std::make_unique)  // todo: resume
+    // popupControllers.push_back(std::make_unique)  // todo: resume
 }
 
 
@@ -167,6 +170,8 @@ void App::mainWindowKeyboardInput(int input) {
         case 't': moveToEndsOfRecords(Direction::UP_DIR); break;
         case 'b': moveToEndsOfRecords(Direction::DOWN_DIR); break;
 
+        case 'v': createPopup<
+
         case 'q': appRunning = false; break;
     }
     doAnUpdate = true;
@@ -177,14 +182,17 @@ void App::keyboardInput(int input) {
     if (popupControllers.size() == 0) {
         mainWindowKeyboardInput(input);
     } else {
-        auto& topPopupPtr = popupControllers.back();
-        PopupState popupState = topPopupPtr->receiveKeyboardInput(input);
+        auto& lastItem = popupControllers.back();
+
+        PopupCallback callback = lastItem.first;
+        auto& controllerPtr = lastItem.second;
+        PopupState popupState = controllerPtr->receiveKeyboardInput(input);
 
         if (popupState == PopupState::CLOSE) {
-            std::string returnData = topPopupPtr->getPopupReturnData();
-            // todo: transfer this information back to above popup and app class??
-            topPopupPtr.reset();
+            std::string returnData = controllerPtr->getPopupReturnData();
+            controllerPtr.reset();
             popupControllers.pop_back();
+            callback(returnData);
         }
     }
 }
@@ -214,4 +222,10 @@ WINDOW* App::getWindow() const {
     // todo: is below comment still true after popups?
     // doesn't really matter what controller, any window other than stdscr will do
     return cubeController.getWindow();  
+}
+
+
+template<typename T>
+void App::createPopup(PopupCallback callback) {
+    popupControllers.push_back(std::make_pair(callback, std::make_unique<T>()));  // todo: constructor for T
 }

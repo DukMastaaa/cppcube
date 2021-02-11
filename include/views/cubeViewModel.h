@@ -11,7 +11,7 @@
 
 class CubeViewModel : public BaseViewModel {
     private:
-        CubeModel& cube;
+        CubeModel& model;
         static const char BLOCK = '#';
         static const int NET_SPACING = 1;
     

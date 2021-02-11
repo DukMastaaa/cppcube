@@ -4,6 +4,8 @@
 #include <vector>
 #include <iostream>
 
+#include "models/baseModel.h"
+
 
 // Default colour of face is the face number itself.
 enum CubeFace {
@@ -128,7 +130,7 @@ class CycleHelper {
 };
 
 
-class CubeModel {
+class CubeModel : public BaseModel {
     private:
         static constexpr std::array<char, 6> FACE_SYMBOLS = {'U', 'F', 'R', 'B', 'L', 'D'};
         static constexpr std::array<char, 6> COLOURS = {'W', 'G', 'R', 'B', 'O', 'Y'};

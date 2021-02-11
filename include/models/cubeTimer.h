@@ -3,10 +3,11 @@
 #include <chrono>
 #include <array>
 
+#include "models/baseModel.h"
 #include "myStructs.h"
 
 
-class CubeTimer {
+class CubeTimer : public BaseModel {
     private:
         static std::chrono::steady_clock clock;
         std::chrono::steady_clock::time_point startingTime;

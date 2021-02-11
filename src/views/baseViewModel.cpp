@@ -6,6 +6,9 @@
 #include <ncurses.h>
 
 
+BaseViewModel::BaseViewModel(BaseModel& modelRef) : model(modelRef) {}
+
+
 PopupState BaseViewModel::receiveKeyboardInput(int input) {
     /* Default behaviour is to do nothing unless enter key pressed,
     which closes window. 
