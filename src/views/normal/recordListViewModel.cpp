@@ -1,4 +1,4 @@
-#include "views/recordListViewModel.h"
+#include "views/normal/recordListViewModel.h"
 
 #include <algorithm>
 #include <iostream>

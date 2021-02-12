@@ -4,7 +4,7 @@
 
 #include "controllers/baseController.h"
 #include "models/cubes.h"
-#include "views/cubeViewModel.h"
+#include "views/normal/cubeViewModel.h"
 #include "windows/windowClasses.h"
 
 

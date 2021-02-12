@@ -1,4 +1,4 @@
-#include "views/cubeViewModel.h"
+#include "views/normal/cubeViewModel.h"
 
 #include <utility>
 

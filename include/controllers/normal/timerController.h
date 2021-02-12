@@ -5,7 +5,7 @@
 #include <chrono>
 
 #include "models/cubeTimer.h"
-#include "views/timerViewModel.h"
+#include "views/normal/timerViewModel.h"
 #include "windows/windowClasses.h"
 #include "myStructs.h"
 

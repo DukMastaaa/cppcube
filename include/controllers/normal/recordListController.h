@@ -4,7 +4,7 @@
 
 #include "baseController.h"
 #include "models/recordList.h"
-#include "views/recordListViewModel.h"
+#include "views/normal/recordListViewModel.h"
 #include "windows/windowClasses.h"
 #include "myStructs.h"
 
