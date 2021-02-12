@@ -1,3 +1,4 @@
+/*
 #pragma once
 
 #include <ncurses.h>
@@ -20,3 +21,4 @@ class TestApp {
         bool appIsRunning();
         WINDOW* getWindow();
 };
+*/

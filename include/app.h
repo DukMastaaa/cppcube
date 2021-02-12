@@ -8,10 +8,10 @@
 
 #include "controllers/baseController.h"
 #include "controllers/basePopupController.h"
-#include "controllers/cubeController.h"
-#include "controllers/recordListController.h"
-#include "controllers/scramblerController.h"
-#include "controllers/timerController.h"
+#include "controllers/normal/cubeController.h"
+#include "controllers/normal/recordListController.h"
+#include "controllers/normal/scramblerController.h"
+#include "controllers/normal/timerController.h"
 #include "myStructs.h"
 
 

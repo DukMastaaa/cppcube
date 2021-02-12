@@ -2,7 +2,7 @@
 
 #include <stddef.h>
 
-#include "baseController.h"
+#include "controllers/baseController.h"
 #include "models/recordList.h"
 #include "views/normal/recordListViewModel.h"
 #include "windows/windowClasses.h"

@@ -1,4 +1,4 @@
-#include "controllers/recordListController.h"
+#include "controllers/normal/recordListController.h"
 
 #include <stddef.h>
 

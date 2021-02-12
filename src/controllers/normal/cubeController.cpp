@@ -1,4 +1,4 @@
-#include "controllers/cubeController.h"
+#include "controllers/normal/cubeController.h"
 
 #include <iostream>
 

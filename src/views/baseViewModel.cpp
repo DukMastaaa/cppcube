@@ -6,7 +6,8 @@
 #include <ncurses.h>
 
 
-BaseViewModel::BaseViewModel(BaseModel& modelRef) : model(modelRef) {}
+// BaseViewModel::BaseViewModel(BaseModel& modelRef) : model(modelRef) {}
+BaseViewModel::BaseViewModel() {}
 
 
 PopupState BaseViewModel::receiveKeyboardInput(int input) {

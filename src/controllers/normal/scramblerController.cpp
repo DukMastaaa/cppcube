@@ -1,4 +1,4 @@
-#include "controllers/scramblerController.h"
+#include "controllers/normal/scramblerController.h"
 
 #include <iostream>
 #include <memory>
