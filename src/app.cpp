@@ -6,10 +6,10 @@
 #include <ncurses.h>
 
 #include "controllers/basePopupController.h"
-#include "controllers/cubeController.h"
-#include "controllers/recordListController.h"
-#include "controllers/scramblerController.h"
-#include "controllers/timerController.h"
+#include "controllers/normal/cubeController.h"
+#include "controllers/normal/recordListController.h"
+#include "controllers/normal/scramblerController.h"
+#include "controllers/normal/timerController.h"
 #include "views/colours.h"
 #include "myStructs.h"
 
@@ -170,7 +170,7 @@ void App::mainWindowKeyboardInput(int input) {
         case 't': moveToEndsOfRecords(Direction::UP_DIR); break;
         case 'b': moveToEndsOfRecords(Direction::DOWN_DIR); break;
 
-        case 'v': createPopup<
+        // case 'v': createPopup<
 
         case 'q': appRunning = false; break;
     }
