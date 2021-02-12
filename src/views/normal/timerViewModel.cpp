@@ -1,4 +1,4 @@
-#include "views/timerViewModel.h"
+#include "views/normal/timerViewModel.h"
 
 #include <chrono>
 #include <array>

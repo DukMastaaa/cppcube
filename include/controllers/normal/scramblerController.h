@@ -4,7 +4,7 @@
 
 #include "controllers/baseController.h"
 #include "models/scrambler.h"
-#include "views/scramblerViewModel.h"
+#include "views/normal/scramblerViewModel.h"
 #include "windows/windowClasses.h"
 
 

@@ -1,4 +1,4 @@
-#include "views/scramblerViewModel.h"
+#include "views/normal/scramblerViewModel.h"
 
 #include <iostream>
 #include <utility>
