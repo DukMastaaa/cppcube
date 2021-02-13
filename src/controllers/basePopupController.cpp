@@ -5,10 +5,10 @@
 #include "app.h"
 
 
-BasePopupController::BasePopupController(App& appRef) : app(appRef) {}
+PopupControllerInterface::PopupControllerInterface(App& appRef) : app(appRef) {}
 
 
-PopupState BasePopupController::receiveKeyboardInput(int input) {
+PopupState PopupControllerInterface::receiveKeyboardInput(int input) {
     PopupState popupState = window->receiveKeyboardInput(input);
     switch (popupState) {
         case PopupState::REFRESH:
@@ -24,6 +24,6 @@ PopupState BasePopupController::receiveKeyboardInput(int input) {
 }
 
 
-std::string BasePopupController::getPopupReturnData() {
+std::string PopupControllerInterface::getPopupReturnData() {
     return window->getPopupReturnData();
 }
