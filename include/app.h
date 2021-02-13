@@ -23,7 +23,7 @@ class App {
         TimerController timerController;
 
         std::vector<BaseController*> mainControllers;
-        std::vector<std::pair<PopupCallback, std::unique_ptr<BasePopupController>>> popupControllers;
+        std::vector<std::pair<PopupCallback, std::unique_ptr<PopupControllerInterface>>> popupControllers;
 
         int dim;  // todo: only temporary
         bool doAnUpdate;

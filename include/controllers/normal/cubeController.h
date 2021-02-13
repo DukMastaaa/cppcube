@@ -10,7 +10,6 @@
 
 class CubeController : public BaseController {
     public:
-        CubeModel model;
         CubeController(int cubeDim);
         void parseMovesReset(std::string scramble);
         void parseMovesNoReset(std::string scramble);
@@ -19,6 +18,7 @@ class CubeController : public BaseController {
         void refresh() const override;
 
     protected:
+        CubeModel model;
         CubeViewModel viewModel;
         int dim;
 };

@@ -12,7 +12,6 @@
 class BaseViewModel {
     protected:
         static const int BORDER_THICKNESS = 1;
-        // BaseModel& model;
 
     public:
         BaseViewModel();

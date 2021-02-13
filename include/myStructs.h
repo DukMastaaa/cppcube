@@ -38,4 +38,4 @@ enum PopupState {
 typedef void (*PopupCallback)(std::string);
 
 
-void dummyPopupCallback(std::string returnVal) { (void) returnVal; /* unused */ }
+void dummyPopupCallback(std::string returnVal);
