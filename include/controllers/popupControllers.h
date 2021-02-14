@@ -19,6 +19,7 @@ class PopupControllerInterface : public BaseController {
         PopupControllerInterface(App& appRef);
         virtual PopupState receiveKeyboardInput(int input);
         virtual std::string getPopupReturnData();  // todo: does this need to be virtual?
+        virtual void refresh() const override;
 };
 
 
@@ -28,7 +29,6 @@ class PopupController : public PopupControllerInterface {
         PopupController(App& appRef, ModelClass& modelRef);
 
     private:
-        ModelClass& model; 
         ViewModel viewModel;
 };
 

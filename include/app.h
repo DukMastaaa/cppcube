@@ -59,11 +59,8 @@ class App {
         bool appIsRunning() const;
         WINDOW* getWindow() const;
 
-        // template<typename ViewModel, typename ModelClass, typename Window = CentredWindow>
-        // void createPopup(PopupCallback callback, ModelClass& modelRef);
-
-        // template<typename ViewModel, typename ModelClass>
-        // void createPopup(PopupCallback callback, ModelClass& modelRef);
+        template<typename ViewModel, typename ModelClass, typename Window = CentredWindow>
+        void createPopup(PopupCallback callback, ModelClass& modelRef);
 
         template<typename ViewModel>
         void createPopup(PopupCallback callback);
