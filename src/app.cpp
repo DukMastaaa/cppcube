@@ -5,11 +5,12 @@
 
 #include <ncurses.h>
 
-#include "controllers/basePopupController.h"
+#include "controllers/popupControllers.h"
 #include "controllers/normal/cubeController.h"
 #include "controllers/normal/recordListController.h"
 #include "controllers/normal/scramblerController.h"
 #include "controllers/normal/timerController.h"
+#include "views/normal/simpleViewModel.h"
 #include "views/colours.h"
 #include "myStructs.h"
 
@@ -170,7 +171,8 @@ void App::mainWindowKeyboardInput(int input) {
         case 't': moveToEndsOfRecords(Direction::UP_DIR); break;
         case 'b': moveToEndsOfRecords(Direction::DOWN_DIR); break;
 
-        // case 'v': createPopup<
+        // case 'v': createPopup<CubeViewModel, CubeModel>(dummyPopupCallback, cubeController.getModelRef());
+        case 'v': createPopup<SimpleViewModel>(dummyPopupCallback); break;
 
         case 'q': appRunning = false; break;
     }
@@ -193,6 +195,9 @@ void App::keyboardInput(int input) {
             controllerPtr.reset();
             popupControllers.pop_back();
             callback(returnData);
+            clear();
+            refresh();
+            refreshAllControllers();
         }
     }
 }
@@ -220,12 +225,9 @@ bool App::appIsRunning() const {
 
 WINDOW* App::getWindow() const {
     // todo: is below comment still true after popups?
-    // doesn't really matter what controller, any window other than stdscr will do
-    return cubeController.getWindow();  
-}
-
-
-template<typename T>
-void App::createPopup(PopupCallback callback) {
-    popupControllers.push_back(std::make_pair(callback, std::make_unique<T>()));  // todo: constructor for T
+    if (popupControllers.size() == 0) {
+        return cubeController.getWindow();
+    } else {
+        return popupControllers.back().second->getWindow();
+    }
 }

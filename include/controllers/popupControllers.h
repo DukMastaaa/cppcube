@@ -2,8 +2,6 @@
 
 #pragma once
 
-#include <type_traits>
-
 #include "myStructs.h"
 #include "controllers/baseController.h"
 #include "views/baseViewModel.h"
@@ -11,7 +9,6 @@
 
 
 class App;  // aeugh
-
 
 
 class PopupControllerInterface : public BaseController {

@@ -16,6 +16,7 @@ class CubeController : public BaseController {
         void resetState();
         void resetState(int dim);
         void refresh() const override;
+        const CubeModel& getModelRef();
 
     protected:
         CubeModel model;
