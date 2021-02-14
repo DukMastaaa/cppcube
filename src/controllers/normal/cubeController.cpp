@@ -36,6 +36,6 @@ void CubeController::refresh() const {
 }
 
 
-const CubeModel& CubeController::getModelRef() {
+CubeModel& CubeController::getModelRef() {
     return model;
 }

@@ -27,3 +27,9 @@ PopupState PopupControllerInterface::receiveKeyboardInput(int input) {
 std::string PopupControllerInterface::getPopupReturnData() {
     return window->getPopupReturnData();
 }
+
+
+void PopupControllerInterface::refresh() const {
+    window->makeBox();
+    BaseController::refresh();
+}

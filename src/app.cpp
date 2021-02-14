@@ -80,7 +80,7 @@ void App::toggleTimer() {
 
 
 void App::togglePenalty(Penalty penalty, std::size_t recordNum) {
-    if (!timerController.isTiming() && recordListController.getRecordCount() != 0) {
+    if (recordListController.getRecordCount() != 0) {
         recordListController.togglePenalty(penalty, recordNum);
 
         if (recordNum == recordListController.getRecordCount() - 1) {
@@ -94,53 +94,45 @@ void App::togglePenalty(Penalty penalty, std::size_t recordNum) {
 
 void App::moveSelectedRecord(Direction direction) {
     // todo: huh
-    if (!timerController.isTiming()) {
-        switch (direction) {
-            case Direction::UP_DIR:
-                recordListController.moveUp();
-                break;
-            case Direction::DOWN_DIR:
-                recordListController.moveDown();
-                break;
-            default:
-                break;
-        }
-        recordListController.refresh();
+    switch (direction) {
+        case Direction::UP_DIR:
+            recordListController.moveUp();
+            break;
+        case Direction::DOWN_DIR:
+            recordListController.moveDown();
+            break;
+        default:
+            break;
     }
+    recordListController.refresh();
 }
 
 
 void App::moveToEndsOfRecords(Direction direction) {
-    if (!timerController.isTiming()) {
-        switch (direction) {
-            case Direction::UP_DIR:
-                recordListController.moveToTop();
-                break;
-            case Direction::DOWN_DIR:
-                recordListController.moveToBottom();
-                break;
-            default:
-                break;
-        }
-        recordListController.refresh();
+    switch (direction) {
+        case Direction::UP_DIR:
+            recordListController.moveToTop();
+            break;
+        case Direction::DOWN_DIR:
+            recordListController.moveToBottom();
+            break;
+        default:
+            break;
     }
+    recordListController.refresh();
 }
 
 
 void App::jumpSelectedIndex(std::size_t index) {
-    if (!timerController.isTiming()) {
-        recordListController.jumpToIndex(index);
-        recordListController.refresh();
-    }
+    recordListController.jumpToIndex(index);
+    recordListController.refresh();
 }
 
 
 void App::generateNewScramble() {
-    if (!timerController.isTiming()) {
-        cubeController.parseMovesReset(scramblerController.generateScramble(dim));
-        cubeController.refresh();
-        scramblerController.refresh();
-    }
+    cubeController.parseMovesReset(scramblerController.generateScramble(dim));
+    cubeController.refresh();
+    scramblerController.refresh();
 }
 
 
@@ -150,32 +142,39 @@ void App::makeCubeViewPopup() {
 
 
 void App::mainWindowKeyboardInput(int input) {
-    switch (input) {
-        case ERR: return; break;
+    if (timerController.isTiming()) {
+        switch (input) {
+            // nothing here yet
+        }
+    } else {
+        switch (input) {
+            case '2': togglePenalty(Penalty::PLUS_2_PENALTY, recordListController.getRecordCount() - 1); break;
+            case 'd': togglePenalty(Penalty::DNF_PENALTY, recordListController.getRecordCount() - 1); break;
 
-        case KEY_RESIZE: handleTerminalResize(); break;
+            case '@': togglePenalty(Penalty::PLUS_2_PENALTY, recordListController.getSelectedIndex()); break;
+            case 'D': togglePenalty(Penalty::DNF_PENALTY, recordListController.getSelectedIndex()); break;
 
-        case ' ': toggleTimer(); break;
+            case KEY_UP: moveSelectedRecord(Direction::UP_DIR); break;
+            case KEY_DOWN: moveSelectedRecord(Direction::DOWN_DIR); break;
 
-        case '2': togglePenalty(Penalty::PLUS_2_PENALTY, recordListController.getRecordCount() - 1); break;
-        case 'd': togglePenalty(Penalty::DNF_PENALTY, recordListController.getRecordCount() - 1); break;
+            case 'n': generateNewScramble(); break;
 
-        case '@': togglePenalty(Penalty::PLUS_2_PENALTY, recordListController.getSelectedIndex()); break;
-        case 'D': togglePenalty(Penalty::DNF_PENALTY, recordListController.getSelectedIndex()); break;
+            case 't': moveToEndsOfRecords(Direction::UP_DIR); break;
+            case 'b': moveToEndsOfRecords(Direction::DOWN_DIR); break;
 
-        case KEY_UP: moveSelectedRecord(Direction::UP_DIR); break;
-        case KEY_DOWN: moveSelectedRecord(Direction::DOWN_DIR); break;
+            case 'v': createPopup<CubeViewModel, CubeModel>(dummyPopupCallback, cubeController.getModelRef()); break;
+            // case 'v': createPopup<SimpleViewModel>(dummyPopupCallback); break;
 
-        case 'n': generateNewScramble(); break;
-
-        case 't': moveToEndsOfRecords(Direction::UP_DIR); break;
-        case 'b': moveToEndsOfRecords(Direction::DOWN_DIR); break;
-
-        // case 'v': createPopup<CubeViewModel, CubeModel>(dummyPopupCallback, cubeController.getModelRef());
-        case 'v': createPopup<SimpleViewModel>(dummyPopupCallback); break;
-
-        case 'q': appRunning = false; break;
+            case 'q': appRunning = false; break;
+        }
     }
+
+    switch (input) {
+        case ERR: return;
+        case KEY_RESIZE: handleTerminalResize(); break;
+        case ' ': toggleTimer(); break;
+    }
+
     doAnUpdate = true;
 }
 
@@ -195,6 +194,7 @@ void App::keyboardInput(int input) {
             controllerPtr.reset();
             popupControllers.pop_back();
             callback(returnData);
+
             clear();
             refresh();
             refreshAllControllers();
@@ -224,7 +224,6 @@ bool App::appIsRunning() const {
 
 
 WINDOW* App::getWindow() const {
-    // todo: is below comment still true after popups?
     if (popupControllers.size() == 0) {
         return cubeController.getWindow();
     } else {
