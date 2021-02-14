@@ -7,7 +7,7 @@
 #include <ncurses.h>
 
 #include "controllers/baseController.h"
-#include "controllers/basePopupController.h"
+#include "controllers/popupControllers.h"
 #include "controllers/normal/cubeController.h"
 #include "controllers/normal/recordListController.h"
 #include "controllers/normal/scramblerController.h"
@@ -59,6 +59,15 @@ class App {
         bool appIsRunning() const;
         WINDOW* getWindow() const;
 
-        template<typename T>
+        // template<typename ViewModel, typename ModelClass, typename Window = CentredWindow>
+        // void createPopup(PopupCallback callback, ModelClass& modelRef);
+
+        // template<typename ViewModel, typename ModelClass>
+        // void createPopup(PopupCallback callback, ModelClass& modelRef);
+
+        template<typename ViewModel>
         void createPopup(PopupCallback callback);
 };
+
+
+#include "app.tpp"

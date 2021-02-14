@@ -34,3 +34,8 @@ void CubeController::refresh() const {
     window->makeBox();
     BaseController::refresh();
 }
+
+
+const CubeModel& CubeController::getModelRef() {
+    return model;
+}

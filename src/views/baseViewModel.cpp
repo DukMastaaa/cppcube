@@ -18,7 +18,7 @@ PopupState BaseViewModel::receiveKeyboardInput(int input) {
     window used as a popup.
     */
 
-    if (input == KEY_ENTER) {
+    if (input == '\n') {
         return PopupState::CLOSE;
     } else {
         return PopupState::NOREFRESH;
