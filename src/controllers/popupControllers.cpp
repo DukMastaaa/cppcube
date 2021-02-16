@@ -29,6 +29,11 @@ std::string PopupControllerInterface::getPopupReturnData() {
 }
 
 
+void PopupControllerInterface::receiveData(std::string data) {
+    window->receiveData(data);
+}
+
+
 void PopupControllerInterface::refresh() const {
     window->makeBox();
     BaseController::refresh();

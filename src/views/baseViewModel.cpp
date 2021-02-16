@@ -35,6 +35,11 @@ std::string BaseViewModel::getPopupReturnData() {
 }
 
 
+void BaseViewModel::receiveData(std::string data) {
+    (void) data;  // unused
+}
+
+
 void BaseViewModel::smartStringDisplay(WINDOW* window, const std::string& text) {
     /* Writes the text to window but breaks the line on a space, 
     not in the middle of a word, unlike `wprintw`. */

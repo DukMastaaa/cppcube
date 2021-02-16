@@ -102,6 +102,11 @@ std::string BaseWindow::getPopupReturnData() {
 }
 
 
+void BaseWindow::receiveData(std::string data) {
+    viewModel.receiveData(data);
+}
+
+
 BaseWindow::~BaseWindow() {
     delwin(subwin);
     delwin(fullWindow);
