@@ -1,6 +1,6 @@
-// todo: rename this file
-
 #pragma once
+
+#include <iostream>
 
 #include "myStructs.h"
 #include "controllers/baseController.h"
@@ -20,6 +20,7 @@ class PopupControllerInterface : public BaseController {
         virtual PopupState receiveKeyboardInput(int input);
         virtual std::string getPopupReturnData();  // todo: does this need to be virtual?
         virtual void refresh() const override;
+        void receiveData(std::string data);
 };
 
 
