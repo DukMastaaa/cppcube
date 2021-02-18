@@ -6,13 +6,18 @@
 
 class InputPopupViewModel : public BaseViewModel {
     public:
-        // todo: resume, implement this
+        InputPopupViewModel();
+
         virtual Pos2D calcHeightWidth() const override;  // don't take borders into account
         virtual void draw(WINDOW* window) const override;
 
         virtual PopupState receiveKeyboardInput(int input);
         virtual std::string getPopupReturnData();
         virtual void receiveData(std::string data);
+    
+    protected:
+        std::string inputText;
+        std::string description;
 };
 
 
