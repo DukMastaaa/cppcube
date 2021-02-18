@@ -26,7 +26,7 @@ PopupState BaseViewModel::receiveKeyboardInput(int input) {
 }
 
 
-std::string BaseViewModel::getPopupReturnData() {
+std::string BaseViewModel::getPopupReturnData() const {
     /* This method returns the data stored in the popup window, ready to be
     sent to the popup window below (or App class). This method should be called
     immediately before the window is closed. */
@@ -35,8 +35,9 @@ std::string BaseViewModel::getPopupReturnData() {
 }
 
 
-void BaseViewModel::receiveData(std::string data) {
+PopupState BaseViewModel::receiveData(std::string data) {
     (void) data;  // unused
+    return PopupState::REFRESH;
 }
 
 

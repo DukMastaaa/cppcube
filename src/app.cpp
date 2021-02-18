@@ -18,6 +18,17 @@
 #include "myStructs.h"
 
 
+// CubeController App::cubeController{3};
+// int App::dim = 3;
+// RecordListController App::recordListController{};
+// ScramblerController App::scramblerController{};
+// TimerController App::timerController{};
+// std::vector<BaseController*> App::mainControllers{&cubeController, &recordListController, &scramblerController, &timerController};
+// std::vector<std::pair<PopupCallback, std::unique_ptr<PopupControllerInterface>>> App::popupControllers{};
+// bool App::doAnUpdate = false;
+// bool App::appRunning = true;
+
+
 App::App(int cubeDim) :
         cubeController(cubeDim),
         recordListController(),
@@ -95,33 +106,26 @@ void App::togglePenalty(Penalty penalty, std::size_t recordNum) {
 }
 
 
-void App::moveSelectedRecord(Direction direction) {
-    // todo: huh
-    switch (direction) {
-        case Direction::UP_DIR:
-            recordListController.moveUp();
-            break;
-        case Direction::DOWN_DIR:
-            recordListController.moveDown();
-            break;
-        default:
-            break;
-    }
+void App::moveSelectedRecordUp() {
+    recordListController.moveUp();
     recordListController.refresh();
 }
 
 
-void App::moveToEndsOfRecords(Direction direction) {
-    switch (direction) {
-        case Direction::UP_DIR:
-            recordListController.moveToTop();
-            break;
-        case Direction::DOWN_DIR:
-            recordListController.moveToBottom();
-            break;
-        default:
-            break;
-    }
+void App::moveSelectedRecordDown() {
+    recordListController.moveDown();
+    recordListController.refresh();
+}
+
+
+void App::moveSelectedRecordTop() {
+    recordListController.moveToTop();
+    recordListController.refresh();
+}
+
+
+void App::moveSelectedRecordBottom() {
+    recordListController.moveToBottom();
     recordListController.refresh();
 }
 
@@ -139,9 +143,10 @@ void App::generateNewScramble() {
 }
 
 
-void App::makeCubeViewPopup() {
-    // popupControllers.push_back(std::make_unique)  // todo: resume
+void App::changeCubeDim(std::string popupReturnData) {
+
 }
+
 
 
 void App::mainWindowKeyboardInput(int input) {
@@ -157,21 +162,19 @@ void App::mainWindowKeyboardInput(int input) {
             case '@': togglePenalty(Penalty::PLUS_2_PENALTY, recordListController.getSelectedIndex()); break;
             case 'D': togglePenalty(Penalty::DNF_PENALTY, recordListController.getSelectedIndex()); break;
 
-            case KEY_UP: moveSelectedRecord(Direction::UP_DIR); break;
-            case KEY_DOWN: moveSelectedRecord(Direction::DOWN_DIR); break;
+            case KEY_UP: moveSelectedRecordUp(); break;
+            case KEY_DOWN: moveSelectedRecordDown(); break;
 
             case 'n': generateNewScramble(); break;
 
-            case 't': moveToEndsOfRecords(Direction::UP_DIR); break;
-            case 'b': moveToEndsOfRecords(Direction::DOWN_DIR); break;
+            case 't': moveSelectedRecordTop(); break;
+            case 'b': moveSelectedRecordBottom(); break;
 
             case 'v': createPopup<CubeViewModel, CubeModel>(dummyPopupCallback, cubeController.getModelRef()); break;
             // case 'v': createPopup<SimpleViewModel>(dummyPopupCallback); break;
 
-            case 'p': createPopup<InputPopupViewModel>(dummyPopupCallback); 
-                      popupControllers.back().second->receiveData("Side length:");
-                      handleTerminalResize();
-                      break;
+            case 'p': createPopup<NumericInputPopupViewModel>(dummyPopupCallback); sendDataToLatestPopup("Input side length:"); break;
+            // case 'p': createPopup<NumericInputPopupViewModel>(&changeCubeDim); sendDataToLatestPopup("Input side length:"); break;
 
             case 'q': appRunning = false; break;
         }
@@ -243,5 +246,19 @@ WINDOW* App::getWindow() const {
         return cubeController.getWindow();
     } else {
         return popupControllers.back().second->getWindow();
+    }
+}
+
+
+void App::sendDataToLatestPopup(std::string data) {
+    if (popupControllers.size() != 0) {
+        auto& controllerPtr = popupControllers.back().second;
+        PopupState receiveState = controllerPtr->receiveData(data);
+        if (receiveState == PopupState::RESIZE) {
+            handleTerminalResize();
+        } else {
+            controllerPtr->refresh();
+            forceUpdate();
+        }
     }
 }

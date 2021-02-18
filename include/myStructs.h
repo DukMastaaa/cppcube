@@ -31,7 +31,7 @@ enum Direction {  // do i really need this
 
 // used to define what state a popup window is in after keyboard input.
 enum PopupState {
-    REFRESH, NOREFRESH, CLOSE
+    REFRESH, NOREFRESH, CLOSE, RESIZE
 };
 
 

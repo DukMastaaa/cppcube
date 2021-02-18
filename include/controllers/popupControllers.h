@@ -20,7 +20,7 @@ class PopupControllerInterface : public BaseController {
         virtual PopupState receiveKeyboardInput(int input);
         virtual std::string getPopupReturnData();  // todo: does this need to be virtual?
         virtual void refresh() const override;
-        void receiveData(std::string data);
+        PopupState receiveData(std::string data);
 };
 
 
