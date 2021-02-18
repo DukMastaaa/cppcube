@@ -18,30 +18,30 @@
 #include "myStructs.h"
 
 
-// CubeController App::cubeController{3};
-// int App::dim = 3;
-// RecordListController App::recordListController{};
-// ScramblerController App::scramblerController{};
-// TimerController App::timerController{};
-// std::vector<BaseController*> App::mainControllers{&cubeController, &recordListController, &scramblerController, &timerController};
-// std::vector<std::pair<PopupCallback, std::unique_ptr<PopupControllerInterface>>> App::popupControllers{};
-// bool App::doAnUpdate = false;
-// bool App::appRunning = true;
+CubeController App::cubeController{3};
+int App::dim = 3;
+RecordListController App::recordListController{};
+ScramblerController App::scramblerController{};
+TimerController App::timerController{};
+std::vector<BaseController*> App::mainControllers{&cubeController, &recordListController, &scramblerController, &timerController};
+std::vector<std::pair<PopupCallback, std::unique_ptr<PopupControllerInterface>>> App::popupControllers{};
+bool App::doAnUpdate = false;
+bool App::appRunning = true;
 
 
-App::App(int cubeDim) :
-        cubeController(cubeDim),
-        recordListController(),
-        scramblerController(),
-        timerController(),
-        mainControllers{&cubeController, &recordListController, &scramblerController, &timerController},
-        popupControllers(),
-        dim(cubeDim),
-        doAnUpdate(false),
-        appRunning(true) {}
+// App::App(int cubeDim) :
+//         cubeController(cubeDim),
+//         recordListController(),
+//         scramblerController(),
+//         timerController(),
+//         mainControllers{&cubeController, &recordListController, &scramblerController, &timerController},
+//         popupControllers(),
+//         dim(cubeDim),
+//         doAnUpdate(false),
+//         appRunning(true) {}
 
 
-void App::refreshAllControllers() const {
+void App::refreshAllControllers() {
     for (const auto& controller : mainControllers) {
         controller->refresh();
     }
@@ -221,7 +221,7 @@ void App::keyboardInput(int input) {
 }
 
 
-bool App::needUpdate() const {
+bool App::needUpdate() {
     return doAnUpdate;
 }
 
@@ -236,12 +236,12 @@ void App::forceUpdate() {
 }
 
 
-bool App::appIsRunning() const {
+bool App::appIsRunning() {
     return appRunning;
 }
 
 
-WINDOW* App::getWindow() const {
+WINDOW* App::getWindow() {
     if (popupControllers.size() == 0) {
         return cubeController.getWindow();
     } else {

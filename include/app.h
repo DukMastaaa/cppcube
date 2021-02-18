@@ -17,57 +17,57 @@
 
 class App {
     private:
-        CubeController cubeController;
-        RecordListController recordListController;
-        ScramblerController scramblerController;
-        TimerController timerController;
+        static CubeController cubeController;
+        static RecordListController recordListController;
+        static ScramblerController scramblerController;
+        static TimerController timerController;
 
-        std::vector<BaseController*> mainControllers;
-        std::vector<std::pair<PopupCallback, std::unique_ptr<PopupControllerInterface>>> popupControllers;
-
-        int dim;  // todo: only temporary
-        bool doAnUpdate;
-        bool appRunning;
+        static std::vector<BaseController*> mainControllers;
+        static std::vector<std::pair<PopupCallback, std::unique_ptr<PopupControllerInterface>>> popupControllers;
+ 
+        static int dim;  // todo: only temporary
+        static bool doAnUpdate;
+        static bool appRunning;
 
         // helper
-        void refreshAllControllers() const;
+        static void refreshAllControllers();
 
         // handles keyboard inputs for main window (no popups)
-        void mainWindowKeyboardInput(int input);
+        static void mainWindowKeyboardInput(int input);
 
         // app functionality
-        void handleTerminalResize();
-        void toggleTimer();
-        void togglePenalty(Penalty penalty, std::size_t recordNum);
+        static void handleTerminalResize();
+        static void toggleTimer();
+        static void togglePenalty(Penalty penalty, std::size_t recordNum);
 
-        void moveSelectedRecordUp();
-        void moveSelectedRecordDown();
-        void moveSelectedRecordTop();
-        void moveSelectedRecordBottom();
+        static void moveSelectedRecordUp();
+        static void moveSelectedRecordDown();
+        static void moveSelectedRecordTop();
+        static void moveSelectedRecordBottom();
 
-        void jumpSelectedIndex(std::size_t index);
-        void generateNewScramble();
+        static void jumpSelectedIndex(std::size_t index);
+        static void generateNewScramble();
 
         // popup callbacks
-        void changeCubeDim(std::string popupReturnData);
+        static void changeCubeDim(std::string popupReturnData);
 
     public:
-        App(int cubeDim);
-        void initialRefreshUpdate();
-        void keyboardInput(int input);
-        bool needUpdate() const;
-        void turnOffUpdate();
-        void forceUpdate();
-        bool appIsRunning() const;
-        WINDOW* getWindow() const;
+        // App(int cubeDim);
+        static void initialRefreshUpdate();
+        static void keyboardInput(int input);
+        static bool needUpdate();
+        static void turnOffUpdate();
+        static void forceUpdate();
+        static bool appIsRunning();
+        static WINDOW* getWindow();
 
         template<typename ViewModel, typename ModelClass, typename Window = CentredWindow>
-        void createPopup(PopupCallback callback, ModelClass& modelRef);
+        static void createPopup(PopupCallback callback, ModelClass& modelRef);
 
         template<typename ViewModel>
-        void createPopup(PopupCallback callback);
+        static void createPopup(PopupCallback callback);
 
-        void sendDataToLatestPopup(std::string data);
+        static void sendDataToLatestPopup(std::string data);
 };
 
 
