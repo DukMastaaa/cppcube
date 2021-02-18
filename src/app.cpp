@@ -10,7 +10,10 @@
 #include "controllers/normal/recordListController.h"
 #include "controllers/normal/scramblerController.h"
 #include "controllers/normal/timerController.h"
+
 #include "views/normal/simpleViewModel.h"
+#include "views/popups/inputPopupViewModel.h"
+
 #include "views/colours.h"
 #include "myStructs.h"
 
@@ -165,21 +168,33 @@ void App::mainWindowKeyboardInput(int input) {
             case 'v': createPopup<CubeViewModel, CubeModel>(dummyPopupCallback, cubeController.getModelRef()); break;
             // case 'v': createPopup<SimpleViewModel>(dummyPopupCallback); break;
 
+            case 'p': createPopup<InputPopupViewModel>(dummyPopupCallback); 
+                      popupControllers.back().second->receiveData("Side length:");
+                      handleTerminalResize();
+                      break;
+
             case 'q': appRunning = false; break;
         }
     }
 
     switch (input) {
         case ERR: return;
-        case KEY_RESIZE: handleTerminalResize(); break;
         case ' ': toggleTimer(); break;
     }
 
-    doAnUpdate = true;
+    forceUpdate();
 }
 
 
 void App::keyboardInput(int input) {
+
+    // this should be caught before any delegation to popups
+    if (input == KEY_RESIZE) {
+        handleTerminalResize();
+        forceUpdate();
+        return;
+    }
+
     if (popupControllers.size() == 0) {
         mainWindowKeyboardInput(input);
     } else {
