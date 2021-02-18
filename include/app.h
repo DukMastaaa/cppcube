@@ -36,18 +36,20 @@ class App {
         void mainWindowKeyboardInput(int input);
 
         // app functionality
-        
-        // main window functionality
         void handleTerminalResize();
         void toggleTimer();
         void togglePenalty(Penalty penalty, std::size_t recordNum);
-        void moveSelectedRecord(Direction direction);
-        void moveToEndsOfRecords(Direction direction);
+
+        void moveSelectedRecordUp();
+        void moveSelectedRecordDown();
+        void moveSelectedRecordTop();
+        void moveSelectedRecordBottom();
+
         void jumpSelectedIndex(std::size_t index);
         void generateNewScramble();
 
-        // popup window functionality
-        void makeCubeViewPopup();
+        // popup callbacks
+        void changeCubeDim(std::string popupReturnData);
 
     public:
         App(int cubeDim);
@@ -64,6 +66,8 @@ class App {
 
         template<typename ViewModel>
         void createPopup(PopupCallback callback);
+
+        void sendDataToLatestPopup(std::string data);
 };
 
 

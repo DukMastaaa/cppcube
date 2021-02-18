@@ -24,9 +24,7 @@ void ncursesSetup() {
 int main() {
     ncursesSetup();
 
-    int dim = 3;
-
-    App app(dim);
+    App app(3);
     app.initialRefreshUpdate();
 
     int input;
