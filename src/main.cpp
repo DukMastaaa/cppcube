@@ -24,7 +24,7 @@ void ncursesSetup() {
 int main() {
     ncursesSetup();
 
-    App app(3);
+    App app;
     app.initialRefreshUpdate();
 
     int input;
