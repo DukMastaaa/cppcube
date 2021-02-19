@@ -5,7 +5,7 @@
 #include "app.h"
 
 
-PopupControllerInterface::PopupControllerInterface(App& appRef) : app(appRef) {}
+PopupControllerInterface::PopupControllerInterface() {}
 
 
 PopupState PopupControllerInterface::receiveKeyboardInput(int input) {
@@ -13,7 +13,7 @@ PopupState PopupControllerInterface::receiveKeyboardInput(int input) {
     switch (popupState) {
         case PopupState::REFRESH:
             refresh();
-            app.forceUpdate();
+            App::forceUpdate();
             break;
         
         case PopupState::NOREFRESH:
