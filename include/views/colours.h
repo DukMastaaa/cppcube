@@ -9,3 +9,6 @@ enum TextColours {
 
 
 void startColours();
+
+
+void ncursesSetup();

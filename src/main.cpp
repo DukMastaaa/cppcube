@@ -8,34 +8,20 @@
 #include "views/colours.h"
 
 
-void ncursesSetup() {
-    initscr();
-    startColours();
-    noecho();
-    cbreak();
-    // leaveok(stdscr, true);
-    // scrollok(stdscr, false);
-    curs_set(0);
-    // timeout(0);  // don't really need non-blocking wgetch()
-    keypad(stdscr, true);
-}
-
-
 int main() {
-    ncursesSetup();
+    // ncursesSetup();
 
-    App app;
-    app.initialRefreshUpdate();
+    App::initialRefreshUpdate();
 
     int input;
-    while (app.appIsRunning()) {
-        if (app.needUpdate()) {
+    while (App::appIsRunning()) {
+        if (App::needUpdate()) {
             doupdate();
-            app.turnOffUpdate();
+            App::turnOffUpdate();
         }
-        input = wgetch(app.getWindow());
+        input = wgetch(App::getWindow());
         if (input != ERR) {
-            app.keyboardInput(input);
+            App::keyboardInput(input);
         }
     }
     

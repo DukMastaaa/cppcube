@@ -16,3 +16,16 @@ void startColours() {
     init_pair(YELLOW_ON_BLACK, COLOR_YELLOW, COLOR_BLACK);
     init_pair(BLACK_ON_WHITE, COLOR_BLACK, COLOR_WHITE);
 }
+
+
+void ncursesSetup() {
+    initscr();
+    startColours();
+    noecho();
+    cbreak();
+    // leaveok(stdscr, true);
+    // scrollok(stdscr, false);
+    curs_set(0);
+    // timeout(0);  // don't really need non-blocking wgetch()
+    keypad(stdscr, true);
+}
