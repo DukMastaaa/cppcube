@@ -17,13 +17,13 @@ Vector2DSquare<T>::Vector2DSquare(int length, T defaultValue) : length(length) {
 
 template <typename T>
 const T& Vector2DSquare<T>::at(int row, int col) const {
-    return vec[row][col];
+    return vec.at(row).at(col);
 }
 
 
 template <typename T>
 T& Vector2DSquare<T>::at(int row, int col) {
-    return vec[row][col];
+    return vec.at(row).at(col);
 }
 
 
@@ -64,6 +64,9 @@ void Vector2DSquare<T>::reset(T defaultValue) {
 
 template <typename T>
 void Vector2DSquare<T>::resetAndResize(int newLength, T defaultValue) {
-    vec.resize(newLength, std::vector<T>(defaultValue));
-    reset(defaultValue);
+    for (std::vector<T>& row : vec) {
+        row.clear();
+    }
+    vec.clear();
+    vec = std::vector<std::vector<T>>(newLength, std::vector<T>(newLength, defaultValue));
 }
