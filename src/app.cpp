@@ -1,5 +1,6 @@
 #include "app.h"
 
+#include <string>
 #include <utility>
 #include <iostream>
 #include <functional>
@@ -145,9 +146,17 @@ void App::generateNewScramble() {
 
 
 void App::changeCubeDim(std::string popupReturnData) {
-
+    if (popupReturnData == "") {
+        return;
+    }
+    dim = std::stoi(popupReturnData);
+    cubeController.resetState(dim);
+    scramblerController.generateScramble(dim);
+    scramblerController.refresh();
+    cubeController.parseMovesReset(scramblerController.getLatestScramble());
+    cubeController.handleResize();
+    forceUpdate();
 }
-
 
 
 void App::mainWindowKeyboardInput(int input) {
