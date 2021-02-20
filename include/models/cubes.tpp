@@ -64,6 +64,6 @@ void Vector2DSquare<T>::reset(T defaultValue) {
 
 template <typename T>
 void Vector2DSquare<T>::resetAndResize(int newLength, T defaultValue) {
-    vec.resize(newLength);
+    vec.resize(newLength, std::vector<T>(defaultValue));
     reset(defaultValue);
 }

@@ -12,8 +12,11 @@ class App;  // aeugh
 
 
 class PopupControllerInterface : public BaseController {
+    protected:
+        App& app;
+
     public:
-        PopupControllerInterface();
+        PopupControllerInterface(App& appRef);
         virtual PopupState receiveKeyboardInput(int input);
         virtual std::string getPopupReturnData();  // todo: does this need to be virtual?
         virtual void refresh() const override;
@@ -24,7 +27,7 @@ class PopupControllerInterface : public BaseController {
 template<typename ViewModel, typename ModelClass = BaseModel, typename Window = CentredWindow>
 class PopupController : public PopupControllerInterface {
     public:
-        PopupController(ModelClass& modelRef);
+        PopupController(App& appRef, ModelClass& modelRef);
 
     private:
         ViewModel viewModel;
@@ -34,7 +37,7 @@ class PopupController : public PopupControllerInterface {
 template <typename ViewModel>
 class PopupController<ViewModel> : public PopupControllerInterface {
     public:
-        PopupController();
+        PopupController(App& appRef);
     
     private:
         ViewModel viewModel;
