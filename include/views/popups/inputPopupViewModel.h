@@ -11,11 +11,9 @@ class InputPopupViewModel : public BaseViewModel {
         virtual Pos2D calcHeightWidth() const override;  // don't take borders into account
         virtual void draw(WINDOW* window) const override;
 
-        virtual PopupState receiveKeyboardInput(int input) override;
-        virtual std::string getPopupReturnData() const override;
-        virtual PopupState receiveData(std::string data) override;
-
-        virtual bool isCharAllowed(int inputChar) const;
+        virtual PopupState receiveKeyboardInput(int input);
+        virtual std::string getPopupReturnData();
+        virtual void receiveData(std::string data);
     
     protected:
         std::string inputText;
@@ -24,7 +22,6 @@ class InputPopupViewModel : public BaseViewModel {
 
 
 class NumericInputPopupViewModel : public InputPopupViewModel {
-    public:
-        NumericInputPopupViewModel();
-        virtual bool isCharAllowed(int inputChar) const override;
+    // this class specifically only takes in positive integers as input
+    // only number key presses, backspace, enter will register
 };

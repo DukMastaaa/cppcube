@@ -102,8 +102,8 @@ std::string BaseWindow::getPopupReturnData() {
 }
 
 
-PopupState BaseWindow::receiveData(std::string data) {
-    return viewModel.receiveData(data);
+void BaseWindow::receiveData(std::string data) {
+    viewModel.receiveData(data);
 }
 
 

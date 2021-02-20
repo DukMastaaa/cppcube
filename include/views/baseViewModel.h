@@ -23,6 +23,6 @@ class BaseViewModel {
         // popup-specific stuff
 
         virtual PopupState receiveKeyboardInput(int input);
-        virtual std::string getPopupReturnData() const;
-        virtual PopupState receiveData(std::string data);
+        virtual std::string getPopupReturnData();
+        virtual void receiveData(std::string data);
 };

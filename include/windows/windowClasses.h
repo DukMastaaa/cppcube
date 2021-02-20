@@ -37,7 +37,7 @@ class BaseWindow {
 
         PopupState receiveKeyboardInput(int input);
         std::string getPopupReturnData();
-        PopupState receiveData(std::string data);
+        void receiveData(std::string data);
 
         ~BaseWindow();
 };

@@ -37,7 +37,6 @@ the following lists.
 - Refactor `cubes.cpp` and `cubes.h`
 - Templatise `cubes.h` into `cubes.tpp`
 - Develop popup window classes (kind of)
-- Make cube view popup
 
 ### Will implement
 - Generate info popup for scramble
@@ -81,7 +80,7 @@ highlighting of buttons etc.) but for now I'm going to just do keyboard controls
 | `g`            | Generate summary statistics            |N |
 | `E` (shift)    | Export times                           |N |
 | `h`            | Display help pop-up                    |N |
-| `v`            | Display cube view in pop-up            |Y |
+| `v`            | Display cube view in pop-up            |N |
 
 ## What about the previous `cppcube`?
 The original `cppcube` was simply a header and `.cpp` file providing an
