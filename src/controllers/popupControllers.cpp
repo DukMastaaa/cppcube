@@ -18,7 +18,6 @@ PopupState PopupControllerInterface::receiveKeyboardInput(int input) {
         
         case PopupState::NOREFRESH:
         case PopupState::CLOSE:
-        case PopupState::RESIZE:
             break;
     }
     return popupState;
@@ -30,8 +29,8 @@ std::string PopupControllerInterface::getPopupReturnData() {
 }
 
 
-PopupState PopupControllerInterface::receiveData(std::string data) {
-    return window->receiveData(data);
+void PopupControllerInterface::receiveData(std::string data) {
+    window->receiveData(data);
 }
 
 

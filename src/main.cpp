@@ -11,7 +11,14 @@
 int main() {
     // ncursesSetup();
 
+<<<<<<< HEAD
     App::initialRefreshUpdate();
+=======
+    int dim = 3;
+
+    App app(dim);
+    app.initialRefreshUpdate();
+>>>>>>> parent of 2245c45... input popups done
 
     int input;
     while (App::appIsRunning()) {

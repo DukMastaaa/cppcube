@@ -106,26 +106,33 @@ void App::togglePenalty(Penalty penalty, std::size_t recordNum) {
 }
 
 
-void App::moveSelectedRecordUp() {
-    recordListController.moveUp();
+void App::moveSelectedRecord(Direction direction) {
+    // todo: huh
+    switch (direction) {
+        case Direction::UP_DIR:
+            recordListController.moveUp();
+            break;
+        case Direction::DOWN_DIR:
+            recordListController.moveDown();
+            break;
+        default:
+            break;
+    }
     recordListController.refresh();
 }
 
 
-void App::moveSelectedRecordDown() {
-    recordListController.moveDown();
-    recordListController.refresh();
-}
-
-
-void App::moveSelectedRecordTop() {
-    recordListController.moveToTop();
-    recordListController.refresh();
-}
-
-
-void App::moveSelectedRecordBottom() {
-    recordListController.moveToBottom();
+void App::moveToEndsOfRecords(Direction direction) {
+    switch (direction) {
+        case Direction::UP_DIR:
+            recordListController.moveToTop();
+            break;
+        case Direction::DOWN_DIR:
+            recordListController.moveToBottom();
+            break;
+        default:
+            break;
+    }
     recordListController.refresh();
 }
 
@@ -143,10 +150,9 @@ void App::generateNewScramble() {
 }
 
 
-void App::changeCubeDim(std::string popupReturnData) {
-
+void App::makeCubeViewPopup() {
+    // popupControllers.push_back(std::make_unique)  // todo: resume
 }
-
 
 
 void App::mainWindowKeyboardInput(int input) {
@@ -162,19 +168,21 @@ void App::mainWindowKeyboardInput(int input) {
             case '@': togglePenalty(Penalty::PLUS_2_PENALTY, recordListController.getSelectedIndex()); break;
             case 'D': togglePenalty(Penalty::DNF_PENALTY, recordListController.getSelectedIndex()); break;
 
-            case KEY_UP: moveSelectedRecordUp(); break;
-            case KEY_DOWN: moveSelectedRecordDown(); break;
+            case KEY_UP: moveSelectedRecord(Direction::UP_DIR); break;
+            case KEY_DOWN: moveSelectedRecord(Direction::DOWN_DIR); break;
 
             case 'n': generateNewScramble(); break;
 
-            case 't': moveSelectedRecordTop(); break;
-            case 'b': moveSelectedRecordBottom(); break;
+            case 't': moveToEndsOfRecords(Direction::UP_DIR); break;
+            case 'b': moveToEndsOfRecords(Direction::DOWN_DIR); break;
 
             case 'v': createPopup<CubeViewModel, CubeModel>(dummyPopupCallback, cubeController.getModelRef()); break;
             // case 'v': createPopup<SimpleViewModel>(dummyPopupCallback); break;
 
-            case 'p': createPopup<NumericInputPopupViewModel>(dummyPopupCallback); sendDataToLatestPopup("Input side length:"); break;
-            // case 'p': createPopup<NumericInputPopupViewModel>(&changeCubeDim); sendDataToLatestPopup("Input side length:"); break;
+            case 'p': createPopup<InputPopupViewModel>(dummyPopupCallback); 
+                      popupControllers.back().second->receiveData("Side length:");
+                      handleTerminalResize();
+                      break;
 
             case 'q': appRunning = false; break;
         }
@@ -246,19 +254,5 @@ WINDOW* App::getWindow() {
         return cubeController.getWindow();
     } else {
         return popupControllers.back().second->getWindow();
-    }
-}
-
-
-void App::sendDataToLatestPopup(std::string data) {
-    if (popupControllers.size() != 0) {
-        auto& controllerPtr = popupControllers.back().second;
-        PopupState receiveState = controllerPtr->receiveData(data);
-        if (receiveState == PopupState::RESIZE) {
-            handleTerminalResize();
-        } else {
-            controllerPtr->refresh();
-            forceUpdate();
-        }
     }
 }
