@@ -4,6 +4,7 @@
 
 #include <chrono>
 #include <iostream>
+#include <functional>
 
 
 struct Pos2D {
@@ -35,7 +36,8 @@ enum PopupState {
 };
 
 
-typedef void (*PopupCallback)(std::string);
+// typedef void (*PopupCallback)(std::string);
+typedef std::function<void (std::string)> PopupCallback;
 
 
 void dummyPopupCallback(std::string returnVal);

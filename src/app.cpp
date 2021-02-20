@@ -2,6 +2,7 @@
 
 #include <utility>
 #include <iostream>
+#include <functional>
 
 #include <ncurses.h>
 
@@ -150,6 +151,8 @@ void App::changeCubeDim(std::string popupReturnData) {
 
 
 void App::mainWindowKeyboardInput(int input) {
+    using namespace std::placeholders;  // for _1
+
     if (timerController.isTiming()) {
         switch (input) {
             // nothing here yet
@@ -173,8 +176,8 @@ void App::mainWindowKeyboardInput(int input) {
             case 'v': createPopup<CubeViewModel, CubeModel>(dummyPopupCallback, cubeController.getModelRef()); break;
             // case 'v': createPopup<SimpleViewModel>(dummyPopupCallback); break;
 
-            case 'p': createPopup<NumericInputPopupViewModel>(dummyPopupCallback); sendDataToLatestPopup("Input side length:"); break;
-            // case 'p': createPopup<NumericInputPopupViewModel>(&changeCubeDim); sendDataToLatestPopup("Input side length:"); break;
+            // case 'p': createPopup<NumericInputPopupViewModel>(dummyPopupCallback); sendDataToLatestPopup("Input side length:"); break;
+            case 'p': createPopup<NumericInputPopupViewModel>(std::bind(&App::changeCubeDim, this, _1)); sendDataToLatestPopup("Input side length:"); break;
 
             case 'q': appRunning = false; break;
         }
