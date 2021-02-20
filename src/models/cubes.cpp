@@ -6,6 +6,53 @@
 #include <sstream>
 
 
+/*
+Vector2DSquare::Vector2DSquare(int sideLength) {
+    array = std::vector<std::vector<int>>(sideLength, std::vector<int>(sideLength));
+    length = sideLength;
+}
+
+
+Vector2DSquare::Vector2DSquare(int sideLength, int defaultValue) {
+    array = std::vector<std::vector<int>>(sideLength, std::vector<int>(sideLength, defaultValue));
+    length = sideLength;
+}
+
+
+int Vector2DSquare::at(int row, int col) const {
+    return array[row][col];
+}
+
+
+int& Vector2DSquare::at(int row, int col) {
+    return array[row][col];
+}
+
+
+void Vector2DSquare::set(int row, int col, int value) {
+    array[row][col] = value;
+}
+
+
+void Vector2DSquare::rot90() {
+    // Code yoinked from 
+    // https://www.geeksforgeeks.org/rotate-a-matrix-by-90-degree-in-clockwise-direction-without-using-any-extra-space/
+
+    for (int i = 0; i < length / 2; i++) { 
+        for (int j = i; j < length - i - 1; j++) { 
+            // Swap elements of each cycle in clockwise direction 
+            int temp = array[i][j]; 
+            array[i][j]                             = array[length - 1 - j][i]; 
+            array[length - 1 - j][i]                = array[length - 1 - i][length - 1 - j]; 
+            array[length - 1 - i][length - 1 - j]   = array[j][length - 1 - i]; 
+            array[j][length - 1 - i]                = temp; 
+        } 
+    } 
+}
+
+*/
+
+
 int CycleHelper::translateOneSwapInstruction(char instruction, int dim, int depth, int layer) {
     switch (instruction) {
         case 'd':
