@@ -72,13 +72,6 @@ void Vector2DSquare<T>::reset(T defaultValue) {
 
 template <typename T>
 void Vector2DSquare<T>::resetAndResize(int newLength, T defaultValue) {
-<<<<<<< Updated upstream
-    for (std::vector<T>& row : vec) {
-        row.clear();
-    }
-    vec.clear();
-    vec = std::vector<std::vector<T>>(newLength, std::vector<T>(newLength, defaultValue));
-=======
         // for (std::vector<T>& row : vec) {
         //     reset(defaultValue);
         //     row.clear();
@@ -88,5 +81,4 @@ void Vector2DSquare<T>::resetAndResize(int newLength, T defaultValue) {
     vec.resize(length);
     std::fill(vec.begin(), vec.end(), std::vector<T>(length, defaultValue));
     // vec = std::vector<std::vector<T>>(newLength, std::vector<T>(newLength, defaultValue));
->>>>>>> Stashed changes
 }
