@@ -21,10 +21,15 @@ A full list of the program's features can be found [here](docs/Features.md).
 
 
 ## Build
+Here are build requirements:
+- `g++` with `c++17` support
+- `make`
+- `ncurses`
+- Terminal with colour support
+
 To build `cppcube`:
 1. Clone the repository. 
-2. Run `make` in the top-level repository folder. Make sure you have `ncurses` installed 
-   in your system and that your terminal has colour support.
+2. Run `make` in the top-level repository folder.
 3. Then, just run `./main`.
 
 
