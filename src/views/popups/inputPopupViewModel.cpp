@@ -22,6 +22,12 @@ void InputPopupViewModel::draw(WINDOW* window) const {
 }
 
 
+bool InputPopupViewModel::isCharAllowed(int charInput) const {
+    /* All characters on US keyboard. */
+    return (' ' <= charInput) && (charInput <= '~');
+}
+
+
 PopupState InputPopupViewModel::receiveKeyboardInput(int input) {
     switch (input) {
         case KEY_BACKSPACE:
@@ -30,22 +36,32 @@ PopupState InputPopupViewModel::receiveKeyboardInput(int input) {
                 inputText.pop_back();
             }
             break;
-        case KEY_ENTER:
+        case '\n':
             return PopupState::CLOSE;
         default:
-            inputText.push_back(static_cast<char>(input));
+            if (isCharAllowed(input)) {
+                inputText.push_back(static_cast<char>(input));
+            }
             break;
     }
     return PopupState::REFRESH;
 }
 
 
-std::string InputPopupViewModel::getPopupReturnData() {
+std::string InputPopupViewModel::getPopupReturnData() const {
     return inputText;
 }
 
 
-void InputPopupViewModel::receiveData(std::string data) {
+PopupState InputPopupViewModel::receiveData(std::string data) {
     description = data;
-    // force resize?
+    return PopupState::RESIZE;
+}
+
+
+NumericInputPopupViewModel::NumericInputPopupViewModel() : InputPopupViewModel() {}
+
+
+bool NumericInputPopupViewModel::isCharAllowed(int charInput) const {
+    return ('0' <= charInput) && (charInput <= '9');
 }
