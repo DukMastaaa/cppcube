@@ -11,17 +11,18 @@
 int main() {
     // ncursesSetup();
 
-    App::initialRefreshUpdate();
+    App app(3);
+    app.initialRefreshUpdate();
 
     int input;
-    while (App::appIsRunning()) {
-        if (App::needUpdate()) {
+    while (app.appIsRunning()) {
+        if (app.needUpdate()) {
             doupdate();
-            App::turnOffUpdate();
+            app.turnOffUpdate();
         }
-        input = wgetch(App::getWindow());
+        input = wgetch(app.getWindow());
         if (input != ERR) {
-            App::keyboardInput(input);
+            app.keyboardInput(input);
         }
     }
     
