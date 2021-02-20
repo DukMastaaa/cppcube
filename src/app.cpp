@@ -40,7 +40,10 @@ App::App(int cubeDim) :
         popupControllers(),
         dim(cubeDim),
         doAnUpdate(false),
-        appRunning(true) {}
+        appRunning(true) {
+    dim = 2;
+    cubeController.resetState(2);
+}
 
 
 void App::refreshAllControllers() const {
@@ -54,7 +57,8 @@ void App::refreshAllControllers() const {
 }
 
 void App::initialRefreshUpdate() {
-    cubeController.parseMovesReset(scramblerController.generateScramble(dim));
+    scramblerController.generateScramble(dim);
+    cubeController.parseMovesReset(scramblerController.getLatestScramble());
     refreshAllControllers();
     doupdate();
 }
@@ -139,7 +143,8 @@ void App::jumpSelectedIndex(std::size_t index) {
 
 
 void App::generateNewScramble() {
-    cubeController.parseMovesReset(scramblerController.generateScramble(dim));
+    scramblerController.generateScramble(dim);
+    cubeController.parseMovesReset(scramblerController.getLatestScramble());
     cubeController.refresh();
     scramblerController.refresh();
 }
