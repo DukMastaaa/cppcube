@@ -1,6 +1,7 @@
 #include "app.h"
 
 #include <utility>
+#include <string>
 #include <iostream>
 #include <functional>
 
@@ -39,10 +40,7 @@ App::App(int cubeDim) :
         popupControllers(),
         dim(cubeDim),
         doAnUpdate(false),
-        appRunning(true) {
-    dim = 2;
-    cubeController.resetState(2);
-}
+        appRunning(true) {}
 
 
 void App::refreshAllControllers() const {
@@ -150,7 +148,17 @@ void App::generateNewScramble() {
 
 
 void App::changeCubeDim(std::string popupReturnData) {
-
+    if (popupReturnData.empty()) {
+        return;
+    }
+    dim = std::stoi(popupReturnData);
+    cubeController.resetState(dim);
+    scramblerController.generateScramble(dim);
+    cubeController.parseMovesReset(scramblerController.getLatestScramble());
+    scramblerController.refresh();
+    doupdate();
+    cubeController.handleResize();
+    forceUpdate();
 }
 
 
@@ -182,7 +190,9 @@ void App::mainWindowKeyboardInput(int input) {
             // case 'v': createPopup<SimpleViewModel>(dummyPopupCallback); break;
 
             // case 'p': createPopup<NumericInputPopupViewModel>(dummyPopupCallback); sendDataToLatestPopup("Input side length:"); break;
-            case 'p': createPopup<NumericInputPopupViewModel>(std::bind(&App::changeCubeDim, this, _1)); sendDataToLatestPopup("Input side length:"); break;
+            case 'p':
+                static std::string dimChangeDescription = "Input side length:";
+                createPopup<NumericInputPopupViewModel>(std::bind(&App::changeCubeDim, this, _1)); sendDataToLatestPopup(dimChangeDescription); break;
 
             case 'q': appRunning = false; break;
         }
