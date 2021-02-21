@@ -15,9 +15,9 @@ class InputPopupViewModel : public BaseViewModel {
         virtual std::string getPopupReturnData() const override;
         virtual PopupState receiveData(std::string data) override;
 
-        virtual bool isCharAllowed(int inputChar) const;
     
     protected:
+        virtual bool isCharAllowed(int inputChar) const;
         std::string inputText;
         std::string description;
 };
@@ -26,5 +26,17 @@ class InputPopupViewModel : public BaseViewModel {
 class NumericInputPopupViewModel : public InputPopupViewModel {
     public:
         NumericInputPopupViewModel();
+    
+    protected:
+        virtual bool isCharAllowed(int inputChar) const override;
+};
+
+
+class YesNoPopupViewModel : public InputPopupViewModel {
+    public:
+        YesNoPopupViewModel();
+        virtual PopupState receiveKeyboardInput(int input) override;
+
+    protected:
         virtual bool isCharAllowed(int inputChar) const override;
 };

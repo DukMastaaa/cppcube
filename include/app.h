@@ -51,6 +51,7 @@ class App {
 
         // popup callbacks
         void changeCubeDim(std::string popupReturnData);
+        void confirmRecordDeletion(std::string popupReturnData, unsigned int recordIndex);
 
     public:
         App(int cubeDim);

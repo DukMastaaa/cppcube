@@ -156,9 +156,17 @@ void App::changeCubeDim(std::string popupReturnData) {
     scramblerController.generateScramble(dim);
     cubeController.parseMovesReset(scramblerController.getLatestScramble());
     scramblerController.refresh();
-    doupdate();
     cubeController.handleResize();
     forceUpdate();
+}
+
+
+void App::confirmRecordDeletion(std::string popupReturnData, unsigned int recordIndex) {
+    if (popupReturnData == "yes") {
+        recordListController.deleteRecord(recordIndex);
+        recordListController.refresh();
+        forceUpdate();
+    }
 }
 
 
@@ -174,9 +182,13 @@ void App::mainWindowKeyboardInput(int input) {
         switch (input) {
             case '2': togglePenalty(Penalty::PLUS_2_PENALTY, recordListController.getRecordCount() - 1); break;
             case 'd': togglePenalty(Penalty::DNF_PENALTY, recordListController.getRecordCount() - 1); break;
+            case 'x': createPopup<YesNoPopupViewModel>(std::bind(&App::confirmRecordDeletion, this, _1, recordListController.getRecordCount() - 1));
+                sendDataToLatestPopup("Delete latest record? (y/n)"); break;
 
             case '@': togglePenalty(Penalty::PLUS_2_PENALTY, recordListController.getSelectedIndex()); break;
             case 'D': togglePenalty(Penalty::DNF_PENALTY, recordListController.getSelectedIndex()); break;
+            case 'X': createPopup<YesNoPopupViewModel>(std::bind(&App::confirmRecordDeletion, this, _1, recordListController.getSelectedIndex() - 1));
+                sendDataToLatestPopup("Delete selected record? (y/n)"); break;
 
             case KEY_UP: moveSelectedRecordUp(); break;
             case KEY_DOWN: moveSelectedRecordDown(); break;
@@ -190,9 +202,7 @@ void App::mainWindowKeyboardInput(int input) {
             // case 'v': createPopup<SimpleViewModel>(dummyPopupCallback); break;
 
             // case 'p': createPopup<NumericInputPopupViewModel>(dummyPopupCallback); sendDataToLatestPopup("Input side length:"); break;
-            case 'p':
-                static std::string dimChangeDescription = "Input side length:";
-                createPopup<NumericInputPopupViewModel>(std::bind(&App::changeCubeDim, this, _1)); sendDataToLatestPopup(dimChangeDescription); break;
+            case 'p': createPopup<NumericInputPopupViewModel>(std::bind(&App::changeCubeDim, this, _1)); sendDataToLatestPopup("Input side length:"); break;
 
             case 'q': appRunning = false; break;
         }

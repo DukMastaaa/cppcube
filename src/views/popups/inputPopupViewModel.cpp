@@ -65,3 +65,17 @@ NumericInputPopupViewModel::NumericInputPopupViewModel() : InputPopupViewModel()
 bool NumericInputPopupViewModel::isCharAllowed(int charInput) const {
     return ('0' <= charInput) && (charInput <= '9');
 }
+
+
+YesNoPopupViewModel::YesNoPopupViewModel() : InputPopupViewModel() {}
+
+
+PopupState YesNoPopupViewModel::receiveKeyboardInput(int input) {
+    inputText = isCharAllowed(input) ? "yes" : "no";
+    return PopupState::CLOSE;
+}
+
+
+bool YesNoPopupViewModel::isCharAllowed(int input) const {
+    return (input == 'y');
+}
