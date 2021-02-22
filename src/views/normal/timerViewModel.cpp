@@ -189,8 +189,17 @@ void TimerViewModel::drawCharMatrix(WINDOW* window, std::string formattedTime) c
         for (const char& symbol: formattedTime) {
             const std::string& block = SYMBOL_BLOCKS.at(symbol).at(row);
             std::size_t length = block.length();
-            mvwprintw(window, row, xPos, block.c_str());
-            xPos += length + 1;
+
+            for (const char tile : block) {
+                char newTile = (tile == '#') ? '█' : ' ';
+                mvwaddch(window, row, xPos, newTile);
+                xPos++;
+            }
+
+            xPos++;
+            
+            // mvwprintw(window, row, xPos, block.c_str());
+            // xPos += length + 1;
         }
     }
 }
