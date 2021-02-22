@@ -18,7 +18,7 @@ class PopupControllerInterface : public BaseController {
     public:
         PopupControllerInterface(App& appRef);
         virtual PopupState receiveKeyboardInput(int input);
-        virtual std::string getPopupReturnData();  // todo: does this need to be virtual?
+        std::string getPopupReturnData();
         virtual void refresh() const override;
         PopupState receiveData(std::string data);
 };

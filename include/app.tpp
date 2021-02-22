@@ -2,7 +2,6 @@
 
 #include "app.h"
 
-// todo: this can't be it
 
 template<typename ViewModel, typename ModelClass, typename Window>
 void App::createPopup(PopupCallback callback, ModelClass& modelRef) {
