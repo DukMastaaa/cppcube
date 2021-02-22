@@ -147,6 +147,26 @@ void App::generateNewScramble() {
 }
 
 
+void App::deleteLatestRecord() {
+    using namespace std::placeholders;
+    if (recordListController.getRecordCount() > 0) {
+        createPopup<YesNoPopupViewModel>(std::bind(&App::confirmRecordDeletion, this, _1, recordListController.getRecordCount() - 1));
+        sendDataToLatestPopup("Delete latest record? (y/n)");
+    }
+}
+
+
+void App::deleteSelectedRecord() {
+    using namespace std::placeholders;
+    if (recordListController.getRecordCount() > 0) {
+        std::size_t selectedIndex = recordListController.getSelectedIndex();
+        createPopup<YesNoPopupViewModel>(std::bind(&App::confirmRecordDeletion, this, _1, selectedIndex));
+        std::string description = "Delete record no. " + std::to_string(selectedIndex + 1) + "? (y/n)";
+        sendDataToLatestPopup(description.c_str());
+    }
+}
+
+
 void App::changeCubeDim(std::string popupReturnData) {
     if (popupReturnData.empty()) {
         return;
@@ -182,13 +202,11 @@ void App::mainWindowKeyboardInput(int input) {
         switch (input) {
             case '2': togglePenalty(Penalty::PLUS_2_PENALTY, recordListController.getRecordCount() - 1); break;
             case 'd': togglePenalty(Penalty::DNF_PENALTY, recordListController.getRecordCount() - 1); break;
-            case 'x': createPopup<YesNoPopupViewModel>(std::bind(&App::confirmRecordDeletion, this, _1, recordListController.getRecordCount() - 1));
-                sendDataToLatestPopup("Delete latest record? (y/n)"); break;
+            case 'x': deleteLatestRecord(); break;
 
             case '@': togglePenalty(Penalty::PLUS_2_PENALTY, recordListController.getSelectedIndex()); break;
             case 'D': togglePenalty(Penalty::DNF_PENALTY, recordListController.getSelectedIndex()); break;
-            case 'X': createPopup<YesNoPopupViewModel>(std::bind(&App::confirmRecordDeletion, this, _1, recordListController.getSelectedIndex() - 1));
-                sendDataToLatestPopup("Delete selected record? (y/n)"); break;
+            case 'X': deleteSelectedRecord(); break;
 
             case KEY_UP: moveSelectedRecordUp(); break;
             case KEY_DOWN: moveSelectedRecordDown(); break;
@@ -199,9 +217,7 @@ void App::mainWindowKeyboardInput(int input) {
             case 'b': moveSelectedRecordBottom(); break;
 
             case 'v': createPopup<CubeViewModel, CubeModel>(dummyPopupCallback, cubeController.getModelRef()); break;
-            // case 'v': createPopup<SimpleViewModel>(dummyPopupCallback); break;
 
-            // case 'p': createPopup<NumericInputPopupViewModel>(dummyPopupCallback); sendDataToLatestPopup("Input side length:"); break;
             case 'p': createPopup<NumericInputPopupViewModel>(std::bind(&App::changeCubeDim, this, _1)); sendDataToLatestPopup("Input side length:"); break;
 
             case 'q': appRunning = false; break;

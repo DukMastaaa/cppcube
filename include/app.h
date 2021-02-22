@@ -26,7 +26,7 @@ class App {
         std::vector<BaseController*> mainControllers;
         std::vector<std::pair<PopupCallback, std::unique_ptr<PopupControllerInterface>>> popupControllers;
 
-        int dim;  // todo: only temporary
+        int dim;
         bool doAnUpdate;
         bool appRunning;
 
@@ -48,6 +48,9 @@ class App {
 
         void jumpSelectedIndex(std::size_t index);
         void generateNewScramble();
+
+        void deleteLatestRecord();
+        void deleteSelectedRecord();
 
         // popup callbacks
         void changeCubeDim(std::string popupReturnData);
