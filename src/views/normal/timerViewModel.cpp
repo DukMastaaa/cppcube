@@ -191,7 +191,8 @@ void TimerViewModel::drawCharMatrix(WINDOW* window, std::string formattedTime) c
             std::size_t length = block.length();
 
             for (const char tile : block) {
-                char newTile = (tile == '#') ? '█' : ' ';
+                // todo: █
+                char newTile = (tile == '#') ? '#' : ' ';
                 mvwaddch(window, row, xPos, newTile);
                 xPos++;
             }
