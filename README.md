@@ -41,8 +41,8 @@ Eventually I'm planning to get arrow key controls throughout the program but for
 | `<Space>`      | Start, stop timing                     |Y |
 | `2`            | Toggle +2 penalty on most recent time  |Y |
 | `d`            | Toggle DNF penalty on most recent time |Y |
-| `x`            | Delete most recent time                |N |
-| `<Shift>` + `2`/`d`/`x` | Apply deletion/penalty to selected time |kinda |
+| `x`            | Delete most recent time                |Y |
+| `<Shift>` + `2`/`d`/`x` | Apply deletion/penalty to selected time |Y |
 | `p`            | Change puzzle type                     |Y |
 | `n`            | Generate new scramble                  |Y |
 | `<Up>`/`<Down>`| Scroll through recorded times          |Y |
