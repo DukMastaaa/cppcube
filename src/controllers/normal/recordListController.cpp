@@ -67,16 +67,19 @@ void RecordListController::togglePenaltySelectedRecord(Penalty penalty) {
 
 void RecordListController::deleteRecord(std::size_t recordNum) {
     model.deleteRecord(recordNum);
+    viewModel.recordRemoved();
 }
 
 
 void RecordListController::deleteLatestRecord() {
     model.deleteLatestRecord();
+    viewModel.recordRemoved();
 }
 
 
 void RecordListController::deleteSelectedRecord() {
     model.deleteRecord(viewModel.getSelectedIndex());
+    viewModel.recordRemoved();
 }
 
 

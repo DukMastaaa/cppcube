@@ -125,6 +125,7 @@ void RecordListViewModel::draw(WINDOW* window) const {
     /* Erases and draws record list window. */
     werase(window);
     mvwprintw(window, 0, 0, "History (%ld)", records.getRecordCount());
+    // mvwprintw(window, 0, 0, "%ld %ld %ld", records.getRecordCount(), topIndex, selectedIndex);
     drawRecords(window);
 }
 

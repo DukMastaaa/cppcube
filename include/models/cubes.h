@@ -33,6 +33,7 @@ class Vector2DSquare {
         void reset(T defaultValue);
         void resetAndResize(int newLength, T defaultValue);
         void rot90();
+        void coutPrintArray() const;
 };
 
 
