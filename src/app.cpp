@@ -13,22 +13,11 @@
 #include "controllers/normal/scramblerController.h"
 #include "controllers/normal/timerController.h"
 
-#include "views/normal/simpleViewModel.h"
 #include "views/popups/inputPopupViewModel.h"
+#include "views/popups/recordInfoPopupViewModel.h"
 
 #include "views/colours.h"
 #include "myStructs.h"
-
-
-// CubeController App::cubeController{3};
-// int App::dim = 3;
-// RecordListController App::recordListController{};
-// ScramblerController App::scramblerController{};
-// TimerController App::timerController{};
-// std::vector<BaseController*> App::mainControllers{&cubeController, &recordListController, &scramblerController, &timerController};
-// std::vector<std::pair<PopupCallback, std::unique_ptr<PopupControllerInterface>>> App::popupControllers{};
-// bool App::doAnUpdate = false;
-// bool App::appRunning = true;
 
 
 App::App(int cubeDim) :
@@ -219,6 +208,8 @@ void App::mainWindowKeyboardInput(int input) {
             case 'v': createPopup<CubeViewModel, CubeModel>(dummyPopupCallback, cubeController.getModelRef()); break;
 
             case 'p': createPopup<NumericInputPopupViewModel>(std::bind(&App::changeCubeDim, this, _1)); sendDataToLatestPopup("Input side length:"); break;
+
+            case 'i': createPopup<RecordInfoPopupViewModel, RecordListViewModel>(dummyPopupCallback, recordListController.getViewModelRef()); break;
 
             case 'q': appRunning = false; break;
         }

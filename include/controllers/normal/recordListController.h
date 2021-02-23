@@ -11,7 +11,6 @@
 
 class RecordListController : public BaseController {
     public:
-        RecordList model;
         RecordListController();
         
         void moveUp();
@@ -34,7 +33,10 @@ class RecordListController : public BaseController {
         const Record& getRecord(std::size_t recordNum) const;
         std::size_t getSelectedIndex() const;
         void refresh() const override;
+
+        RecordListViewModel& getViewModelRef();
     
     private:
+        RecordList model;
         RecordListViewModel viewModel;
 };
