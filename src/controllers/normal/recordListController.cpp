@@ -97,3 +97,8 @@ void RecordListController::refresh() const {
     window->makeBox();
     BaseController::refresh();
 }
+
+
+RecordListViewModel& RecordListController::getViewModelRef() {
+    return viewModel;
+}
