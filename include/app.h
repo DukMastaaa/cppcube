@@ -51,6 +51,7 @@ class App {
 
         void deleteLatestRecord();
         void deleteSelectedRecord();
+        void displayInfoPopup();
 
         // popup callbacks
         void changeCubeDim(std::string popupReturnData);

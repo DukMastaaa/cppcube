@@ -16,5 +16,5 @@ class RecordInfoPopupViewModel : public BaseViewModel {
         virtual PopupState receiveData(std::string data) override;
 
     private:
-        RecordListViewModel& model;
+        RecordListViewModel& viewModel;
 };

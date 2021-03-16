@@ -188,7 +188,6 @@ void TimerViewModel::drawCharMatrix(WINDOW* window, std::string formattedTime) c
         int xPos = (formattedTime.back() == '+') ? 0 : 2;  // aligns time properly
         for (const char& symbol: formattedTime) {
             const std::string& block = SYMBOL_BLOCKS.at(symbol).at(row);
-            std::size_t length = block.length();
 
             for (const char tile : block) {
                 // todo: █

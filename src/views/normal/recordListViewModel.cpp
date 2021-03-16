@@ -133,3 +133,8 @@ void RecordListViewModel::draw(WINDOW* window) const {
 std::size_t RecordListViewModel::getSelectedIndex() const {
     return selectedIndex;
 }
+
+
+const Record& RecordListViewModel::getRecord(std::size_t index) const {
+    return records.getRecord(index);
+}

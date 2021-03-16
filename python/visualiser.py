@@ -50,7 +50,7 @@ class CubeNetView(tk.Canvas):
 
 
 class Visualiser(object):
-    def __init__(self, master):
+    def __init__(self, master, new_dim):
         self._master = master
         self._frame = tk.Frame(self._master)
         self._frame.pack(side=tk.TOP)
@@ -62,7 +62,7 @@ class Visualiser(object):
         self._reset = tk.Button(self._frame, text="reset", command=self.reset)
         self._reset.pack(side=tk.LEFT)
 
-        self._view = CubeNetView(self._master, 5)
+        self._view = CubeNetView(self._master, new_dim)
         self._view.draw()
         self._view.pack(side=tk.TOP)
 
@@ -76,8 +76,9 @@ class Visualiser(object):
         self._entry.config(text="")
 
 def main():
+    dim = int(input("dim: "))
     root = tk.Tk()
-    app = Visualiser(root)
+    app = Visualiser(root, dim)
     root.mainloop()
 
 

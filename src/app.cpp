@@ -156,6 +156,13 @@ void App::deleteSelectedRecord() {
 }
 
 
+void App::displayInfoPopup() {
+    if (recordListController.getRecordCount() > 0) {
+        createPopup<RecordInfoPopupViewModel, RecordListViewModel>(dummyPopupCallback, recordListController.getViewModelRef());
+    }
+}
+
+
 void App::changeCubeDim(std::string popupReturnData) {
     if (popupReturnData.empty()) {
         return;
@@ -209,7 +216,7 @@ void App::mainWindowKeyboardInput(int input) {
 
             case 'p': createPopup<NumericInputPopupViewModel>(std::bind(&App::changeCubeDim, this, _1)); sendDataToLatestPopup("Input side length:"); break;
 
-            case 'i': createPopup<RecordInfoPopupViewModel, RecordListViewModel>(dummyPopupCallback, recordListController.getViewModelRef()); break;
+            case 'i': displayInfoPopup(); break;
 
             case 'q': appRunning = false; break;
         }

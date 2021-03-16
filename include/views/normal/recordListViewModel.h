@@ -29,4 +29,5 @@ class RecordListViewModel : public BaseViewModel {
         void jumpToIndex(std::size_t index);
         void draw(WINDOW* window) const override;
         std::size_t getSelectedIndex() const;
+        const Record& getRecord(std::size_t index) const;
 };
