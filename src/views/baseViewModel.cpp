@@ -41,15 +41,19 @@ PopupState BaseViewModel::receiveData(std::string data) {
 }
 
 
-void BaseViewModel::smartStringDisplay(WINDOW* window, const std::string& text) {
+void BaseViewModel::smartStringDisplay(WINDOW* window, const std::string& text, int startRow, int startCol, int maxLines) {
     /* Writes the text to window but breaks the line on a space, 
-    not in the middle of a word, unlike `wprintw`. */
+    not in the middle of a word, unlike `wprintw`. 
+    
+    Can change behaviour by specifying the starting row and column, as well as
+    the maximum number of lines it will write.
+    */
 
     std::stringstream stream(text);
     std::string word;
     int maxY, maxX;
-    int row = 0;
-    int col = 0;
+    int row = startRow;
+    int col = startCol;
     getmaxyx(window, maxY, maxX);
     (void) maxY;  // unused
 
@@ -60,8 +64,12 @@ void BaseViewModel::smartStringDisplay(WINDOW* window, const std::string& text) 
                 row++;
                 col = 0;
             }
+            
+            if (maxLines != -1 && row - startRow >= maxLines) {
+                break;
+            }
 
-            mvwaddstr(window, row, col, word.c_str());  // this may not work
+            mvwaddstr(window, row, col, word.c_str());  // todo: possible bug where it writes past the edge for first word?
             col += wordLen + 1;
         }
     }

@@ -13,11 +13,10 @@ RecordInfoPopupViewModel::RecordInfoPopupViewModel(RecordListViewModel& viewMode
 
 Pos2D RecordInfoPopupViewModel::calcHeightWidth() const {
     unsigned maxY, maxX;
+    (void) maxY;  // unused
     getmaxyx(stdscr, maxY, maxX);
 
     return {10, std::min<unsigned int>(55, 2 * maxX / 3)};
-
-    // return {10, 40};  // maybe?!
 }
 
 
@@ -34,7 +33,7 @@ void RecordInfoPopupViewModel::draw(WINDOW* window) const {
     mvwaddstr(window, 1, 0, finalTime.c_str());
 
     std::string scramble = "Scramble: " + selectedRecord.scramble;
-    mvwaddstr(window, 2, 0, scramble.c_str());
+    smartStringDisplay(window, scramble, 2, 0, 4);
 }
 
 

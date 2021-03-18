@@ -16,7 +16,8 @@ class BaseViewModel {
     public:
         BaseViewModel();
 
-        static void smartStringDisplay(WINDOW* window, const std::string& text);
+        // maxLines is maximum number of lines written down
+        static void smartStringDisplay(WINDOW* window, const std::string& text, int startRow = 0, int startCol = 0, int maxLines = -1);
         virtual Pos2D calcHeightWidth() const = 0;  // don't take borders into account
         virtual void draw(WINDOW* window) const = 0;
 
