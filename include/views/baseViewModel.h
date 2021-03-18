@@ -9,6 +9,9 @@
 #include "models/baseModel.h"
 
 
+class PopupControllerInterface;
+
+
 class BaseViewModel {
     protected:
         static const int BORDER_THICKNESS = 1;
@@ -26,4 +29,8 @@ class BaseViewModel {
         virtual PopupState receiveKeyboardInput(int input);
         virtual std::string getPopupReturnData() const;
         virtual PopupState receiveData(std::string data);
+        
+        // Placeholder for popup controllers to pass a PopupControllerInterface& to the popup view model.
+        // This is specifically for popup vms to create new popup vms through App.
+        virtual void receivePopupControllerInterface(PopupControllerInterface& interfaceRef);
 };

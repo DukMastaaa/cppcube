@@ -2,13 +2,14 @@
 
 #include <iostream>
 
+#include "app.h"
 #include "myStructs.h"
 #include "controllers/baseController.h"
 #include "views/baseViewModel.h"
 #include "windows/windowClasses.h"
 
 
-class App;  // aeugh
+// class App;  // aeugh
 
 
 class PopupControllerInterface : public BaseController {
@@ -21,6 +22,12 @@ class PopupControllerInterface : public BaseController {
         std::string getPopupReturnData();
         virtual void refresh() const override;
         PopupState receiveData(std::string data);
+
+        template<typename ViewModel, typename ModelClass, typename Window = CentredWindow>
+        void createPopup(PopupCallback callback, ModelClass& modelRef);
+
+        template<typename ViewModel>
+        void createPopup(PopupCallback callback);
 };
 
 

@@ -4,11 +4,13 @@
 
 #include <ncurses.h>
 
+#include "views/popups/inputPopupViewModel.h"
+#include "controllers/popupControllers.h"
 #include "models/cubeTimer.h"
 #include "myStructs.h"
 
 
-RecordInfoPopupViewModel::RecordInfoPopupViewModel(RecordListViewModel& viewModelRef) : viewModel(viewModelRef) {};
+RecordInfoPopupViewModel::RecordInfoPopupViewModel(RecordListController& controllerRef) : controller(controllerRef) {};
 
 
 Pos2D RecordInfoPopupViewModel::calcHeightWidth() const {
@@ -21,10 +23,12 @@ Pos2D RecordInfoPopupViewModel::calcHeightWidth() const {
 
 
 void RecordInfoPopupViewModel::draw(WINDOW* window) const {
-    ::werase(window);
-    mvwprintw(window, 0, 0, "Record number %ld", viewModel.getSelectedIndex() + 1);
+    std::size_t selectedIndex = controller.getSelectedIndex();
 
-    Record selectedRecord = viewModel.getRecord(viewModel.getSelectedIndex());
+    ::werase(window);
+    mvwprintw(window, 0, 0, "Record number %ld", selectedIndex + 1);
+
+    Record selectedRecord = controller.getRecord(selectedIndex);
     
     std::string finalTime = "Final time: " + CubeTimer::formatTime(selectedRecord.time, selectedRecord.penalty);
     if (selectedRecord.penalty != Penalty::NO_PENALTY) {
@@ -33,11 +37,31 @@ void RecordInfoPopupViewModel::draw(WINDOW* window) const {
     mvwaddstr(window, 1, 0, finalTime.c_str());
 
     std::string scramble = "Scramble: " + selectedRecord.scramble;
-    smartStringDisplay(window, scramble, 2, 0, 4);
+    smartStringDisplay(window, scramble, 2, 0, 5);
 }
 
 
 PopupState RecordInfoPopupViewModel::receiveKeyboardInput(int input) {
+    switch (input) {
+        case '\n':
+            return PopupState::CLOSE;
+        
+        case '2':
+            controller.togglePenaltySelectedRecord(Penalty::PLUS_2_PENALTY);
+            return PopupState::REFRESH;
+
+        case 'd':
+            controller.togglePenaltySelectedRecord(Penalty::DNF_PENALTY);
+            return PopupState::REFRESH;
+
+        case 'x':
+            popupController->createPopup<YesNoPopupViewModel>(dummyPopupCallback);
+            return PopupState::NOREFRESH;
+
+        default:
+            return PopupState::REFRESH;
+    }
+
     if (input == '\n') {
         return PopupState::CLOSE;
     } else {
@@ -55,3 +79,7 @@ PopupState RecordInfoPopupViewModel::receiveData(std::string data) {
     return PopupState::REFRESH;
 }
 
+
+void RecordInfoPopupViewModel::receivePopupControllerInterface(PopupControllerInterface& interfaceRef) {
+    popupController = &interfaceRef;
+}
