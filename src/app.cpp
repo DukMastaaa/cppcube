@@ -244,20 +244,11 @@ void App::keyboardInput(int input) {
         mainWindowKeyboardInput(input);
     } else {
         auto& lastItem = popupControllers.back();
-
-        PopupCallback callback = lastItem.first;
         auto& controllerPtr = lastItem.second;
         PopupState popupState = controllerPtr->receiveKeyboardInput(input);
 
         if (popupState == PopupState::CLOSE) {
-            std::string returnData = controllerPtr->getPopupReturnData();
-            controllerPtr.reset();
-            popupControllers.pop_back();
-            callback(returnData);
-
-            clear();
-            refresh();
-            refreshAllControllers();
+            closeLatestPopup();
         }
     }
 }
@@ -303,4 +294,22 @@ void App::sendDataToLatestPopup(std::string data) {
             forceUpdate();
         }
     }
+}
+
+
+void App::closeLatestPopup() {
+
+    // todo: maybe make struct defined within App to make this more clear... what's first, what's second?
+    auto& lastItem = popupControllers.back();
+    PopupCallback callback = lastItem.first;
+    auto& controllerPtr = lastItem.second;
+
+    std::string returnData = controllerPtr->getPopupReturnData();
+    controllerPtr.reset();
+    popupControllers.pop_back();
+    callback(returnData);
+
+    clear();
+    refresh();
+    refreshAllControllers();
 }

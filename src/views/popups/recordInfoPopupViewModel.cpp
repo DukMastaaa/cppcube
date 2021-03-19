@@ -1,5 +1,6 @@
 #include "views/popups/recordInfoPopupViewModel.h"
 
+#include <functional>
 #include <iostream>
 
 #include <ncurses.h>
@@ -43,6 +44,8 @@ void RecordInfoPopupViewModel::draw(WINDOW* window) const {
 
 
 PopupState RecordInfoPopupViewModel::receiveKeyboardInput(int input) {
+    using namespace std::placeholders;  // for _1
+
     switch (input) {
         case '\n':
             return PopupState::CLOSE;
@@ -56,7 +59,8 @@ PopupState RecordInfoPopupViewModel::receiveKeyboardInput(int input) {
             return PopupState::REFRESH;
 
         case 'x':
-            app->createPopup<YesNoPopupViewModel>(dummyPopupCallback);
+            app->createPopup<YesNoPopupViewModel>(std::bind(&RecordInfoPopupViewModel::confirmDeletion, this, _1));
+            // app->createPopup<YesNoPopupViewModel>(dummyPopupCallback);
             app->sendDataToLatestPopup("Confirm delete (y/n)?");
             return PopupState::NOREFRESH;
 
@@ -72,11 +76,6 @@ PopupState RecordInfoPopupViewModel::receiveKeyboardInput(int input) {
 }
 
 
-std::string RecordInfoPopupViewModel::getPopupReturnData() const {
-    return "idk what to put here";
-}
-
-
 PopupState RecordInfoPopupViewModel::receiveData(std::string data) {
     return PopupState::REFRESH;
 }
@@ -84,4 +83,12 @@ PopupState RecordInfoPopupViewModel::receiveData(std::string data) {
 
 void RecordInfoPopupViewModel::receiveAppRef(App& appRef) {
     app = &appRef;
+}
+
+
+void RecordInfoPopupViewModel::confirmDeletion(std::string popupReturnData) {
+    if (popupReturnData == "yes") {
+        controller.deleteSelectedRecord();
+        app->closeLatestPopup();
+    }
 }

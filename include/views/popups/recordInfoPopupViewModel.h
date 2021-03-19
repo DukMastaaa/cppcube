@@ -5,7 +5,7 @@
 #include "views/normal/recordListViewModel.h"
 
 
-class App;  // does this need to be forward-declared?
+class App;
 
 
 class RecordInfoPopupViewModel : public BaseViewModel {
@@ -16,10 +16,11 @@ class RecordInfoPopupViewModel : public BaseViewModel {
         virtual void draw(WINDOW* window) const override;
 
         virtual PopupState receiveKeyboardInput(int input) override;
-        virtual std::string getPopupReturnData() const override;
         virtual PopupState receiveData(std::string data) override;
 
         virtual void receiveAppRef(App& appRef) override;
+
+        void confirmDeletion(std::string popupReturnData);
 
     private:
         RecordListController& controller;

@@ -74,6 +74,7 @@ class App {
         void createPopup(PopupCallback callback);
 
         void sendDataToLatestPopup(std::string data);
+        void closeLatestPopup();  // this is very dangerous
 };
 
 

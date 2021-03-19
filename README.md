@@ -46,7 +46,7 @@ Eventually I'm planning to get arrow key controls throughout the program but for
 | `p`            | Change puzzle type                     |Y |
 | `n`            | Generate new scramble                  |Y |
 | `<Up>`/`<Down>`| Scroll through recorded times          |Y |
-| `i`            | Show info for selected time            |N |
+| `i`            | Show info for selected time            |Y |
 | `j`            | Jump to index in recorded times        |N |
 | `t`            | Jump to top of recorded times          |Y |
 | `b`            | Jump to bottom of recorded times       |Y |
