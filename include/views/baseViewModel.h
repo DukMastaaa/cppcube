@@ -9,7 +9,7 @@
 #include "models/baseModel.h"
 
 
-class PopupControllerInterface;
+class App;
 
 
 class BaseViewModel {
@@ -32,5 +32,5 @@ class BaseViewModel {
         
         // Placeholder for popup controllers to pass a PopupControllerInterface& to the popup view model.
         // This is specifically for popup vms to create new popup vms through App.
-        virtual void receivePopupControllerInterface(PopupControllerInterface& interfaceRef);
+        virtual void receiveAppRef(App& appRef);
 };

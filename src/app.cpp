@@ -158,7 +158,7 @@ void App::deleteSelectedRecord() {
 
 void App::displayInfoPopup() {
     if (recordListController.getRecordCount() > 0) {
-        createPopup<RecordInfoPopupViewModel, RecordListViewModel>(dummyPopupCallback, recordListController.getViewModelRef());
+        createPopup<RecordInfoPopupViewModel, RecordListController>(dummyPopupCallback, recordListController);
     }
 }
 

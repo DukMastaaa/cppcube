@@ -8,6 +8,7 @@
 #include "controllers/popupControllers.h"
 #include "models/cubeTimer.h"
 #include "myStructs.h"
+#include "app.h"
 
 
 RecordInfoPopupViewModel::RecordInfoPopupViewModel(RecordListController& controllerRef) : controller(controllerRef) {};
@@ -55,7 +56,8 @@ PopupState RecordInfoPopupViewModel::receiveKeyboardInput(int input) {
             return PopupState::REFRESH;
 
         case 'x':
-            popupController->createPopup<YesNoPopupViewModel>(dummyPopupCallback);
+            app->createPopup<YesNoPopupViewModel>(dummyPopupCallback);
+            app->sendDataToLatestPopup("Confirm delete (y/n)?");
             return PopupState::NOREFRESH;
 
         default:
@@ -80,6 +82,6 @@ PopupState RecordInfoPopupViewModel::receiveData(std::string data) {
 }
 
 
-void RecordInfoPopupViewModel::receivePopupControllerInterface(PopupControllerInterface& interfaceRef) {
-    popupController = &interfaceRef;
+void RecordInfoPopupViewModel::receiveAppRef(App& appRef) {
+    app = &appRef;
 }

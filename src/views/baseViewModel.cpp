@@ -76,6 +76,6 @@ void BaseViewModel::smartStringDisplay(WINDOW* window, const std::string& text, 
 }
 
 
-void BaseViewModel::receivePopupControllerInterface(PopupControllerInterface& interfaceRef) {
-    (void) interfaceRef;  // unused
+void BaseViewModel::receiveAppRef(App& appRef) {
+    (void) appRef;  // unused
 }

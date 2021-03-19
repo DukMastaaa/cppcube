@@ -5,7 +5,7 @@
 #include "views/normal/recordListViewModel.h"
 
 
-class PopupControllerInterface;  // does this need to be forward-declared?
+class App;  // does this need to be forward-declared?
 
 
 class RecordInfoPopupViewModel : public BaseViewModel {
@@ -19,10 +19,9 @@ class RecordInfoPopupViewModel : public BaseViewModel {
         virtual std::string getPopupReturnData() const override;
         virtual PopupState receiveData(std::string data) override;
 
-        virtual void receivePopupControllerInterface(PopupControllerInterface& interfaceRef);
+        virtual void receiveAppRef(App& appRef) override;
 
     private:
         RecordListController& controller;
-        PopupControllerInterface* popupController;
-
+        App* app;  // :iveseenthings:
 };
