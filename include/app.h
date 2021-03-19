@@ -13,6 +13,7 @@
 #include "controllers/normal/recordListController.h"
 #include "controllers/normal/scramblerController.h"
 #include "controllers/normal/timerController.h"
+#include "models/summaryStatsModel.h"
 #include "myStructs.h"
 
 
@@ -22,6 +23,8 @@ class App {
         RecordListController recordListController;
         ScramblerController scramblerController;
         TimerController timerController;
+
+        SummaryStatsModel summaryStatsModel;
 
         std::vector<BaseController*> mainControllers;
         std::vector<std::pair<PopupCallback, std::unique_ptr<PopupControllerInterface>>> popupControllers;

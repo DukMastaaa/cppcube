@@ -35,6 +35,7 @@ class RecordListController : public BaseController {
         void refresh() const override;
 
         RecordListViewModel& getViewModelRef();
+        const RecordList& getModelRef() const;
     
     private:
         RecordList model;

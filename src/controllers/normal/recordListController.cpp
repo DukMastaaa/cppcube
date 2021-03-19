@@ -102,3 +102,8 @@ void RecordListController::refresh() const {
 RecordListViewModel& RecordListController::getViewModelRef() {
     return viewModel;
 }
+
+
+const RecordList& RecordListController::getModelRef() const {
+    return model;
+}
