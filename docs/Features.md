@@ -29,9 +29,9 @@
 - Make cube view popup
 - Change side length of cube during run-time through popup
 - Delete confirmation box
+- Generate info popup for scramble
 
 ## To be implemented
-- Generate info popup for scramble
 - Shrink views if too large and display popups instead
 - Record summary statistics
 - Data export/import
