@@ -44,7 +44,7 @@
   but scrambles are possible... if i can make a model somehow..
 - Try to get orange colours to appear on terminal? Not sure if this is feasible given
   ncurses' limitations.
-- Graph improvement?!
+- Graph improvement?! 
 
 ## Out of scope
 - Algorithm lists and visualisations
