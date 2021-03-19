@@ -15,6 +15,7 @@
 
 #include "views/popups/inputPopupViewModel.h"
 #include "views/popups/recordInfoPopupViewModel.h"
+#include "views/popups/summaryStatsPopupViewModel.h"
 
 #include "views/colours.h"
 #include "myStructs.h"
@@ -25,6 +26,7 @@ App::App(int cubeDim) :
         recordListController(),
         scramblerController(),
         timerController(),
+        summaryStatsModel(recordListController.getModelRef()),
         mainControllers{&cubeController, &recordListController, &scramblerController, &timerController},
         popupControllers(),
         dim(cubeDim),
@@ -217,6 +219,8 @@ void App::mainWindowKeyboardInput(int input) {
             case 'p': createPopup<NumericInputPopupViewModel>(std::bind(&App::changeCubeDim, this, _1)); sendDataToLatestPopup("Input side length:"); break;
 
             case 'i': displayInfoPopup(); break;
+
+            case 'g' : createPopup<SummaryStatsPopupViewModel, SummaryStatsModel>(dummyPopupCallback, summaryStatsModel); break;
 
             case 'q': appRunning = false; break;
         }
