@@ -32,9 +32,9 @@ void RecordInfoPopupViewModel::draw(WINDOW* window) const {
 
     Record selectedRecord = controller.getRecord(selectedIndex);
     
-    std::string finalTime = "Final time: " + CubeTimer::formatTime(selectedRecord.time, selectedRecord.penalty);
+    std::string finalTime = "Final time: " + selectedRecord.getFormattedTime();
     if (selectedRecord.penalty != Penalty::NO_PENALTY) {
-        finalTime += " (orig. " + CubeTimer::formatTime(selectedRecord.time, Penalty::NO_PENALTY) + ")";
+        finalTime += " (orig. " + Record::getFormattedTime(selectedRecord.time, Penalty::NO_PENALTY) + ")";
     }
     mvwaddstr(window, 1, 0, finalTime.c_str());
 
@@ -73,11 +73,6 @@ PopupState RecordInfoPopupViewModel::receiveKeyboardInput(int input) {
     } else {
         return PopupState::REFRESH;
     }
-}
-
-
-PopupState RecordInfoPopupViewModel::receiveData(std::string data) {
-    return PopupState::REFRESH;
 }
 
 

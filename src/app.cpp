@@ -124,12 +124,6 @@ void App::moveSelectedRecordBottom() {
 }
 
 
-void App::jumpSelectedIndex(std::size_t index) {
-    recordListController.jumpToIndex(index);
-    recordListController.refresh();
-}
-
-
 void App::generateNewScramble() {
     scramblerController.generateScramble(dim);
     cubeController.parseMovesReset(scramblerController.getLatestScramble());
@@ -188,6 +182,14 @@ void App::confirmRecordDeletion(std::string popupReturnData, unsigned int record
 }
 
 
+void App::jumpToSelectedIndex(std::string popupReturnData) {
+    unsigned int index = std::stoi(popupReturnData) - 1;
+    if (index < recordListController.getRecordCount()) {
+        recordListController.jumpToIndex(index);
+        recordListController.refresh();
+    }
+}
+
 
 void App::mainWindowKeyboardInput(int input) {
     using namespace std::placeholders;  // for _1
@@ -216,11 +218,14 @@ void App::mainWindowKeyboardInput(int input) {
 
             case 'v': createPopup<CubeViewModel, CubeModel>(dummyPopupCallback, cubeController.getModelRef()); break;
 
+            // todo: private helper function for bound callbacks??
             case 'p': createPopup<NumericInputPopupViewModel>(std::bind(&App::changeCubeDim, this, _1)); sendDataToLatestPopup("Input side length:"); break;
 
             case 'i': displayInfoPopup(); break;
 
-            case 'g' : createPopup<SummaryStatsPopupViewModel, SummaryStatsModel>(dummyPopupCallback, summaryStatsModel); break;
+            case 'g': createPopup<SummaryStatsPopupViewModel, SummaryStatsModel>(dummyPopupCallback, summaryStatsModel); break;
+
+            case 'j': createPopup<NumericInputPopupViewModel>(std::bind(&App::jumpToSelectedIndex, this, _1)); sendDataToLatestPopup("Jump to index:"); break;
 
             case 'q': appRunning = false; break;
         }

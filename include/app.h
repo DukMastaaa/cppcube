@@ -49,7 +49,6 @@ class App {
         void moveSelectedRecordTop();
         void moveSelectedRecordBottom();
 
-        void jumpSelectedIndex(std::size_t index);
         void generateNewScramble();
 
         void deleteLatestRecord();
@@ -59,6 +58,7 @@ class App {
         // popup callbacks
         void changeCubeDim(std::string popupReturnData);
         void confirmRecordDeletion(std::string popupReturnData, unsigned int recordIndex);
+        void jumpToSelectedIndex(std::string popupReturnData);
 
     public:
         App(int cubeDim);

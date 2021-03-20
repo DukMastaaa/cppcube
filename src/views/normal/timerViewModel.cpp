@@ -216,7 +216,8 @@ void TimerViewModel::draw(WINDOW* window) const {
     /* Erases and draws timer window. */
     werase(window);
     if (!timer.isTiming) {
-        std::string formattedTime = CubeTimer::formatTime(timer.getTimeElapsed(), timer.currentPenalty);
+        Record currentRecord = {timer.getTimeElapsed(), "", timer.currentPenalty};
+        std::string formattedTime = currentRecord.getFormattedTime();
         drawCharMatrix(window, formattedTime);
     } else {
         drawEllipsis(window);

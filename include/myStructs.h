@@ -19,9 +19,22 @@ enum Penalty {
 
 
 struct Record {
-    std::chrono::milliseconds time;
-    std::string scramble;
-    Penalty penalty;
+    public:
+        std::chrono::milliseconds time;
+        std::string scramble;
+        Penalty penalty;
+
+        static bool staticIsDNF(const Record& record);  // todo: is this needed over normal isDNF?
+        bool isDNF() const;
+        std::chrono::milliseconds getFinalTime() const;
+        bool operator<(const Record& otherRecord) const;
+        bool operator>(const Record& otherRecord) const;
+
+        std::string getFormattedTime() const;
+        static std::string getFormattedTime(std::chrono::milliseconds time, Penalty penalty);
+
+    private:
+        static std::array<int, 3> getTimeDivisions(std::chrono::milliseconds elapsedTime);
 };
 
 

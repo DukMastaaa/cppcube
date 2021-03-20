@@ -47,10 +47,10 @@ Eventually I'm planning to get arrow key controls throughout the program but for
 | `n`            | Generate new scramble                  |Y |
 | `<Up>`/`<Down>`| Scroll through recorded times          |Y |
 | `i`            | Show info for selected time            |Y |
-| `j`            | Jump to index in recorded times        |N |
+| `j`            | Jump to index in recorded times        |Y |
 | `t`            | Jump to top of recorded times          |Y |
 | `b`            | Jump to bottom of recorded times       |Y |
-| `g`            | Generate summary statistics            |N |
+| `g`            | Generate summary statistics            |Y |
 | `E` (shift)    | Export times                           |N |
 | `h`            | Display help pop-up                    |N |
 | `v`            | Display cube view in pop-up            |Y |

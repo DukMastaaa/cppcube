@@ -24,6 +24,4 @@ class CubeTimer : public BaseModel {
         void toggleTiming();
         void togglePenalty(Penalty penalty);
         std::chrono::milliseconds getTimeElapsed() const;
-        static std::array<int, 3> getTimeDivisions(std::chrono::milliseconds elapsedTime);
-        static std::string formatTime(std::chrono::milliseconds time, Penalty penalty);
 };

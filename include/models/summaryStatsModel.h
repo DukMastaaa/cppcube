@@ -8,8 +8,8 @@ class SummaryStatsModel {
     private:
         const RecordList& recordList;
 
-        // Calculates mean of records within [start, end), without checking bounds.
-        Record meanInRange(unsigned int start, unsigned int end) const;
+        // Sums the final times of each record between two vector iterators, ignoring DNFs.
+        static std::chrono::milliseconds sumOfVector(std::vector<Record>::const_iterator begin, std::vector<Record>::const_iterator end);
 
     public:
         SummaryStatsModel(const RecordList& recordListRef);

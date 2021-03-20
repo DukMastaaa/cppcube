@@ -1,6 +1,8 @@
 #include "models/summaryStatsModel.h"
 
 #include <chrono>
+#include <vector>
+#include <algorithm>
 
 #include "myStructs.h"
 
@@ -8,59 +10,73 @@
 SummaryStatsModel::SummaryStatsModel(const RecordList& recordListRef) : recordList(recordListRef) {}
 
 
-Record SummaryStatsModel::meanInRange(unsigned int start, unsigned int end) const {
+std::chrono::milliseconds SummaryStatsModel::sumOfVector(std::vector<Record>::const_iterator begin, std::vector<Record>::const_iterator end) {
     std::chrono::milliseconds cumulativeTime{0};
-
-    for (unsigned int i = start; i < end; i++) {
-        Record currentRecord = recordList.getRecord(i);
-        switch (currentRecord.penalty) {
-            case Penalty::NO_PENALTY:
-                cumulativeTime += currentRecord.time;
-                break;
-            
-            case Penalty::PLUS_2_PENALTY:
-                cumulativeTime += currentRecord.time + std::chrono::seconds(2);
-                break;
-            
-            case Penalty::DNF_PENALTY:
-                break;
+    for (std::vector<Record>::const_iterator iter = begin; iter != end; ++iter) {
+        if (iter->isDNF()) {
+            break;
         }
+        cumulativeTime += iter->getFinalTime();
     }
-
-    cumulativeTime /= total();  // todo: something's not right here
-    
-
-    return {cumulativeTime, "", Penalty::NO_PENALTY};
+    return cumulativeTime;
 }
 
 
 Record SummaryStatsModel::averageOf(unsigned int count) const {
-    if (count >= total() || count == 0) {
+    if (count > total() || count == 0) {
         return {std::chrono::milliseconds(0), "", Penalty::NO_PENALTY};
-    } else if (total() <= 2) {
-        return meanInRange(0, count);
-    } else {
-        // todo: this needs work, split into steps, sort 
     }
+    
+    const std::vector<Record>& records = recordList.getRecordVector();
+    // selects last `count` elements of records
+
+    std::vector<Record>::const_iterator begin = records.begin() + (total() - count);
+    std::vector<Record>::const_iterator end = records.end();
+
+    unsigned int dnfCount = std::count_if(begin, end, Record::staticIsDNF);
+    if (dnfCount >= 3 || (total() <= 2 && dnfCount >= count)) {  // off-by-one error here?
+        return {std::chrono::milliseconds(0), "", Penalty::DNF_PENALTY};
+    }
+
+    Record lowest = *begin;
+    Record highest = *begin;
+    for (std::vector<Record>::const_iterator iter = begin; iter != end; ++iter) {
+        const auto& record = *iter;
+        if (record.isDNF()) {
+            continue;
+        } else if (record < lowest) {
+            lowest = record;
+        } else if (record > highest) {
+            highest = record;
+        }
+    }
+
+    std::chrono::milliseconds sum = sumOfVector(begin, end);
+    sum -= lowest.getFinalTime();
+    sum -= highest.getFinalTime();
+
+    return {sum / (count - 2), "", Penalty::NO_PENALTY};
 }
 
 
 Record SummaryStatsModel::meanOf(unsigned int count) const {
-    if (count >= total() || count == 0) {
+    if (count > total() || count == 0) {
         return {std::chrono::milliseconds(0), "", Penalty::NO_PENALTY};
     } else {
-        return meanInRange(total() - 1 - count, total());
+        std::vector<Record> recordVector = recordList.getRecordVector();
+        auto sum = sumOfVector(recordVector.begin() + (total() - count), recordVector.end());
+        return {sum / count, "", Penalty::NO_PENALTY};
     }
 }
 
 
 Record SummaryStatsModel::averageOfAll() const {
-    return averageOf(total() - 1);
+    return averageOf(total());
 }
 
 
 Record SummaryStatsModel::meanOfAll() const {
-    return meanInRange(0, total() - 1);
+    return meanOf(total());
 }
 
 

@@ -21,4 +21,5 @@ class RecordList : public BaseModel {
         void deleteRecord(std::size_t recordNum);
         void deleteLatestRecord();
         const Record& getRecord(std::size_t recordNum) const;
+        const std::vector<Record>& getRecordVector() const;
 };

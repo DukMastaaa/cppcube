@@ -52,3 +52,8 @@ void RecordList::deleteLatestRecord() {
 const Record& RecordList::getRecord(std::size_t recordNum) const {
     return records.at(recordNum);
 }
+
+
+const std::vector<Record>& RecordList::getRecordVector() const {
+    return records;
+}

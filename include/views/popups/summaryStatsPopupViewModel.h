@@ -12,7 +12,6 @@ class SummaryStatsPopupViewModel : public BaseViewModel {
         virtual void draw(WINDOW* window) const override;
 
         virtual PopupState receiveKeyboardInput(int input) override;
-        virtual PopupState receiveData(std::string data) override;
     
     private:
         SummaryStatsModel& model;
