@@ -37,6 +37,7 @@ PopupState InputPopupViewModel::receiveKeyboardInput(int input) {
             }
             break;
         case '\n':
+        case KEY_ESCAPE:
             return PopupState::CLOSE;
         default:
             if (isCharAllowed(input)) {

@@ -48,6 +48,7 @@ PopupState RecordInfoPopupViewModel::receiveKeyboardInput(int input) {
 
     switch (input) {
         case '\n':
+        case KEY_ESCAPE:
             return PopupState::CLOSE;
         
         case '2':
@@ -66,12 +67,6 @@ PopupState RecordInfoPopupViewModel::receiveKeyboardInput(int input) {
 
         default:
             return PopupState::REFRESH;
-    }
-
-    if (input == '\n') {
-        return PopupState::CLOSE;
-    } else {
-        return PopupState::REFRESH;
     }
 }
 

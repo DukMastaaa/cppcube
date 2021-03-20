@@ -59,6 +59,7 @@ class App {
         void changeCubeDim(std::string popupReturnData);
         void confirmRecordDeletion(std::string popupReturnData, unsigned int recordIndex);
         void jumpToSelectedIndex(std::string popupReturnData);
+        void closeProgram(std::string popupReturnData);
 
     public:
         App(int cubeDim);

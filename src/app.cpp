@@ -191,6 +191,13 @@ void App::jumpToSelectedIndex(std::string popupReturnData) {
 }
 
 
+void App::closeProgram(std::string popupReturnData) {
+    if (popupReturnData == "yes") {
+        appRunning = false;
+    }
+}
+
+
 void App::mainWindowKeyboardInput(int input) {
     using namespace std::placeholders;  // for _1
 
@@ -227,7 +234,7 @@ void App::mainWindowKeyboardInput(int input) {
 
             case 'j': createPopup<NumericInputPopupViewModel>(std::bind(&App::jumpToSelectedIndex, this, _1)); sendDataToLatestPopup("Jump to index:"); break;
 
-            case 'q': appRunning = false; break;
+            case 'q': createPopup<YesNoPopupViewModel>(std::bind(&App::closeProgram, this, _1)); sendDataToLatestPopup("Exit cppcube? (y/n)"); break;
         }
     }
 

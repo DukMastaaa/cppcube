@@ -27,14 +27,3 @@ void SummaryStatsPopupViewModel::draw(WINDOW* window) const {
         windowRow++;
     }
 }
-
-
-PopupState SummaryStatsPopupViewModel::receiveKeyboardInput(int input) {
-    switch (input) {
-        case '\n':
-            return PopupState::CLOSE;
-        
-        default:
-            return PopupState::NOREFRESH;
-    }
-}

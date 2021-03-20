@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <ncurses.h>
+
 #include <chrono>
 #include <iostream>
 #include <functional>
@@ -54,3 +56,6 @@ typedef std::function<void (std::string)> PopupCallback;
 
 
 void dummyPopupCallback(std::string returnVal);
+
+
+constexpr const int KEY_ESCAPE = 7;

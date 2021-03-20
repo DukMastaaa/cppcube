@@ -18,7 +18,7 @@ PopupState BaseViewModel::receiveKeyboardInput(int input) {
     window used as a popup.
     */
 
-    if (input == '\n' || input == 27) {  // 27 is escape key
+    if (input == '\n' || input == KEY_ESCAPE) {  // 27 is escape key
         return PopupState::CLOSE;
     } else {
         return PopupState::NOREFRESH;

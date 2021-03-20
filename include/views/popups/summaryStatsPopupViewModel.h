@@ -10,8 +10,6 @@ class SummaryStatsPopupViewModel : public BaseViewModel {
 
         virtual Pos2D calcHeightWidth() const override;
         virtual void draw(WINDOW* window) const override;
-
-        virtual PopupState receiveKeyboardInput(int input) override;
     
     private:
         SummaryStatsModel& model;
