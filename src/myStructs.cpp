@@ -26,6 +26,10 @@ std::chrono::milliseconds Record::getFinalTime() const {
         case Penalty::NO_PENALTY:
             return time;
             break;
+
+        default:
+            return time;
+            break;
     }
 }
 

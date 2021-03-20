@@ -9,6 +9,10 @@
 #include <functional>
 
 
+//  ACS_BLOCK, ACS_CKBOARD, ACS_BOARD
+#define BLOCK_CHAR ACS_BLOCK
+
+
 struct Pos2D {
     unsigned int y;  // y-pos or height
     unsigned int x;  // x-pos or width

@@ -30,10 +30,10 @@
 - Change side length of cube during run-time through popup
 - Delete confirmation box
 - Generate info popup for scramble
+- Record summary statistics
 
 ## To be implemented
 - Shrink views if too large and display popups instead
-- Record summary statistics
 - Data export/import
 - Automatic saving (location of save file most likely OS-dependent)
 - Arrow key navigation

@@ -191,7 +191,13 @@ void TimerViewModel::drawCharMatrix(WINDOW* window, std::string formattedTime) c
 
             for (const char tile : block) {
                 // todo: █
-                char newTile = (tile == '#') ? '#' : ' ';
+                // wchar_t newTile = (tile == '#') ? BLOCK_CHAR : ' ';
+                // wchar_t tileString[2] = {newTile, '\0'};
+                // mvwaddwstr(window, row, xPos, tileString);
+                // if (tile == '#') {
+                //     mvwaddwstr(window, row, xPos, WACS_BLOCK);
+                // }
+                chtype newTile = (tile == '#') ? BLOCK_CHAR : ' ';
                 mvwaddch(window, row, xPos, newTile);
                 xPos++;
             }

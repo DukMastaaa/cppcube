@@ -11,6 +11,7 @@
 
 void ncursesSetup() {
     initscr();
+    setlocale(LC_ALL, "");
     startColours();
     noecho();
     cbreak();
@@ -19,6 +20,17 @@ void ncursesSetup() {
     curs_set(0);
     // timeout(0);  // don't really need non-blocking wgetch()
     keypad(stdscr, true);
+}
+
+
+void cycleBlockChar() {
+    if (BLOCK_CHAR == ACS_BLOCK) {
+        BLOCK_CHAR = ACS_CKBOARD;
+    } else if (BLOCK_CHAR == ACS_CKBOARD) {
+        BLOCK_CHAR = ACS_DIAMOND;
+    } else if (BLOCK_CHAR == ACS_DIAMOND) {
+        BLOCK_CHAR = ACS_BLOCK;
+    }
 }
 
 
@@ -36,7 +48,10 @@ int main() {
             app.turnOffUpdate();
         }
         input = wgetch(app.getWindow());
-        if (input != ERR) {
+        if (input == ',') {
+            cycleBlockChar();
+            app.forceUpdate();
+        } else if (input != ERR) {
             app.keyboardInput(input);
         }
     }

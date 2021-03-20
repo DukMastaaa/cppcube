@@ -33,7 +33,7 @@ void CubeViewModel::draw(WINDOW* window) const {
             int thisColour = model.getColourAtSticker(UP, row, col);
 
             wattron(window, COLOR_PAIR(thisColour));
-            mvwaddch(window, yOffset + row, leftOffset + col, BLOCK);
+            mvwaddch(window, yOffset + row, leftOffset + col, BLOCK_CHAR);
             wattroff(window, COLOR_PAIR(thisColour));
         }
     }
@@ -50,7 +50,7 @@ void CubeViewModel::draw(WINDOW* window) const {
                 int thisColour = model.getColourAtSticker(cubeFace, row, col);
 
                 wattron(window, COLOR_PAIR(thisColour));
-                mvwaddch(window, yOffset + row, leftOffset + col, BLOCK);
+                mvwaddch(window, yOffset + row, leftOffset + col, BLOCK_CHAR);
                 wattroff(window, COLOR_PAIR(thisColour));
             }
         }
@@ -65,7 +65,7 @@ void CubeViewModel::draw(WINDOW* window) const {
             int thisColour = model.getColourAtSticker(DOWN, row, col);
 
             wattron(window, COLOR_PAIR(thisColour));
-            mvwaddch(window, yOffset + row, leftOffset + col, BLOCK);
+            mvwaddch(window, yOffset + row, leftOffset + col, BLOCK_CHAR);
             wattroff(window, COLOR_PAIR(thisColour));
         }
     }
