@@ -19,6 +19,11 @@
 
 class App {
     private:
+        struct PopupPair {
+            PopupCallback callback;
+            std::unique_ptr<PopupControllerInterface> controller;
+        };
+
         CubeController cubeController;
         RecordListController recordListController;
         ScramblerController scramblerController;
@@ -27,7 +32,7 @@ class App {
         SummaryStatsModel summaryStatsModel;
 
         std::vector<BaseController*> mainControllers;
-        std::vector<std::pair<PopupCallback, std::unique_ptr<PopupControllerInterface>>> popupControllers;
+        std::vector<PopupPair> popupControllers;
 
         int dim;
         bool doAnUpdate;

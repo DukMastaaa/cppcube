@@ -39,8 +39,7 @@ void App::refreshAllControllers() const {
         controller->refresh();
     }
     for (const auto& pair : popupControllers) {
-        const auto& controllerPtr = pair.second;
-        controllerPtr->refresh();
+        pair.controller->refresh();
     }
 }
 
@@ -54,15 +53,14 @@ void App::initialRefreshUpdate() {
 
 void App::handleTerminalResize() {
     /* To handle terminal resize events, clear() must be called, followed by
-    refresh(). This order is to ensure that the old screen image of windows is
+    refresh(). This order is to ensure that the old screen image of windows are
     cleared before the new locations are drawn to the screen. */
 
     for (const auto& controller : mainControllers) {
         controller->handleResize();
     }
     for (const auto& pair : popupControllers) {
-        const auto& controllerPtr = pair.second;
-        controllerPtr->handleResize();
+        pair.controller->handleResize();
     }
 
     clear();  // stdscr clear
@@ -167,7 +165,7 @@ void App::changeCubeDim(std::string popupReturnData) {
     cubeController.resetState(dim);
     scramblerController.generateScramble(dim);
     cubeController.parseMovesReset(scramblerController.getLatestScramble());
-    scramblerController.refresh();
+
     cubeController.handleResize();
     forceUpdate();
 }
@@ -260,8 +258,7 @@ void App::keyboardInput(int input) {
         mainWindowKeyboardInput(input);
     } else {
         auto& lastItem = popupControllers.back();
-        auto& controllerPtr = lastItem.second;
-        PopupState popupState = controllerPtr->receiveKeyboardInput(input);
+        PopupState popupState = lastItem.controller->receiveKeyboardInput(input);
 
         if (popupState == PopupState::CLOSE) {
             closeLatestPopup();
@@ -294,19 +291,19 @@ WINDOW* App::getWindow() const {
     if (popupControllers.size() == 0) {
         return cubeController.getWindow();
     } else {
-        return popupControllers.back().second->getWindow();
+        return popupControllers.back().controller->getWindow();
     }
 }
 
 
 void App::sendDataToLatestPopup(std::string data) {
     if (popupControllers.size() != 0) {
-        auto& controllerPtr = popupControllers.back().second;
-        PopupState receiveState = controllerPtr->receiveData(data);
+        auto& controller = popupControllers.back().controller;
+        PopupState receiveState = controller->receiveData(data);
         if (receiveState == PopupState::RESIZE) {
             handleTerminalResize();
         } else {
-            controllerPtr->refresh();
+            controller->refresh();
             forceUpdate();
         }
     }
@@ -315,17 +312,18 @@ void App::sendDataToLatestPopup(std::string data) {
 
 void App::closeLatestPopup() {
 
-    // todo: maybe make struct defined within App to make this more clear... what's first, what's second?
     auto& lastItem = popupControllers.back();
-    PopupCallback callback = lastItem.first;
-    auto& controllerPtr = lastItem.second;
+    PopupCallback callback = lastItem.callback;
+    auto& controller = lastItem.controller;
 
-    std::string returnData = controllerPtr->getPopupReturnData();
-    controllerPtr.reset();
+    std::string returnData = controller->getPopupReturnData();
+    controller.reset();
     popupControllers.pop_back();
     callback(returnData);
 
-    clear();
-    refresh();
-    refreshAllControllers();
+    // clear();
+    // refresh();
+    // refreshAllControllers();
+    handleTerminalResize();  // overkill, but other options don't move resized windows.
+    forceUpdate();
 }
