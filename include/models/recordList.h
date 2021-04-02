@@ -20,6 +20,7 @@ class RecordList : public BaseModel {
         void togglePenaltyLatestRecord(Penalty penalty);
         void deleteRecord(std::size_t recordNum);
         void deleteLatestRecord();
+        void deleteAllRecords();  // dangerous!!!!
         const Record& getRecord(std::size_t recordNum) const;
         const std::vector<Record>& getRecordVector() const;
 };

@@ -28,8 +28,8 @@ Record SummaryStatsModel::averageOf(unsigned int count) const {
     }
     
     const std::vector<Record>& records = recordList.getRecordVector();
-    // selects last `count` elements of records
 
+    // selects last `count` elements of records
     std::vector<Record>::const_iterator begin = records.begin() + (total() - count);
     std::vector<Record>::const_iterator end = records.end();
 

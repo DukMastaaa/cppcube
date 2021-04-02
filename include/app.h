@@ -14,6 +14,7 @@
 #include "controllers/normal/scramblerController.h"
 #include "controllers/normal/timerController.h"
 #include "models/summaryStatsModel.h"
+#include "models/fileManager.h"
 #include "myStructs.h"
 
 
@@ -30,6 +31,7 @@ class App {
         TimerController timerController;
 
         SummaryStatsModel summaryStatsModel;
+        FileManager fileManager;
 
         std::vector<BaseController*> mainControllers;
         std::vector<PopupPair> popupControllers;
@@ -59,6 +61,8 @@ class App {
         void deleteLatestRecord();
         void deleteSelectedRecord();
         void displayInfoPopup();
+
+        void exportTimes();
 
         // popup callbacks
         void changeCubeDim(std::string popupReturnData);

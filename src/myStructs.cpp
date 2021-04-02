@@ -1,6 +1,11 @@
 #include "myStructs.h"
 
 #include <iostream>
+#include <regex>
+
+
+// todo: bruh
+const std::regex Record::RECORD_PATTERN("^(?:\d)+. (\d\d):(\d\d).(\d\d)\(?([DNF2\+]+)?\)?: ([UFRBLDw'2 ]+)$");
 
 
 bool Record::staticIsDNF(const Record& record) {
@@ -100,6 +105,26 @@ std::string Record::getFormattedTime(std::chrono::milliseconds time, Penalty pen
         }
         return formattedTime;
     }
+}
+
+
+std::string Record::penaltyAsString(Penalty penalty) {
+    switch (penalty) {
+        case Penalty::NO_PENALTY:
+            return "NONE";
+            break;
+        case Penalty::PLUS_2_PENALTY:
+            return "+2";
+            break;
+        case Penalty::DNF_PENALTY:
+            return "DNF";
+            break;
+    }
+}
+
+
+std::chrono::milliseconds Record::timeDivisionsToTime(int minutes, int seconds, int centiseconds) {
+    return std::chrono::minutes(minutes) + std::chrono::seconds(seconds) + std::chrono::milliseconds(centiseconds * 10);
 }
 
 

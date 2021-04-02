@@ -49,6 +49,12 @@ void RecordList::deleteLatestRecord() {
 }
 
 
+void RecordList::deleteAllRecords() {
+    records.clear();
+}
+
+
+
 const Record& RecordList::getRecord(std::size_t recordNum) const {
     return records.at(recordNum);
 }

@@ -52,6 +52,7 @@ Eventually I'm planning to get arrow key controls throughout the program but for
 | `b`            | Jump to bottom of recorded times       |Y |
 | `g`            | Generate summary statistics            |Y |
 | `E` (shift)    | Export times                           |N |
+| `L` (shift)    | Import times                           |N |
 | `h`            | Display help pop-up                    |N |
 | `v`            | Display cube view in pop-up            |Y |
 

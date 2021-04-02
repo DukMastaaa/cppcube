@@ -18,6 +18,7 @@
 #include "views/popups/summaryStatsPopupViewModel.h"
 
 #include "views/colours.h"
+#include "models/fileManager.h"
 #include "myStructs.h"
 
 
@@ -27,6 +28,7 @@ App::App(int cubeDim) :
         scramblerController(),
         timerController(),
         summaryStatsModel(recordListController.getModelRef()),
+        fileManager(recordListController.getModelRef()),
         mainControllers{&cubeController, &recordListController, &scramblerController, &timerController},
         popupControllers(),
         dim(cubeDim),
@@ -157,6 +159,13 @@ void App::displayInfoPopup() {
 }
 
 
+void App::exportTimes() {
+    fileManager.exportFile("test.txt");
+    createPopup<YesNoPopupViewModel>(dummyPopupCallback);
+    sendDataToLatestPopup("test");
+}
+
+
 void App::changeCubeDim(std::string popupReturnData) {
     if (popupReturnData.empty()) {
         return;
@@ -233,6 +242,8 @@ void App::mainWindowKeyboardInput(int input) {
             case 'j': createPopup<NumericInputPopupViewModel>(std::bind(&App::jumpToSelectedIndex, this, _1)); sendDataToLatestPopup("Jump to index:"); break;
 
             case 'q': createPopup<YesNoPopupViewModel>(std::bind(&App::closeProgram, this, _1)); sendDataToLatestPopup("Exit cppcube? (y/n)"); break;
+        
+            case 'E': exportTimes();
         }
     }
 

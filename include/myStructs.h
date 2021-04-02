@@ -4,6 +4,7 @@
 
 #include <ncurses.h>
 
+#include <regex>
 #include <chrono>
 #include <iostream>
 #include <functional>
@@ -38,8 +39,11 @@ struct Record {
 
         std::string getFormattedTime() const;
         static std::string getFormattedTime(std::chrono::milliseconds time, Penalty penalty);
+        static std::string penaltyAsString(Penalty penalty);
+        static std::chrono::milliseconds timeDivisionsToTime(int minutes, int seconds, int centiseconds);
 
     private:
+        static const std::regex RECORD_PATTERN;
         static std::array<int, 3> getTimeDivisions(std::chrono::milliseconds elapsedTime);
 };
 
