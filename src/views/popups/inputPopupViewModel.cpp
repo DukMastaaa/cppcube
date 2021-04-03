@@ -37,7 +37,9 @@ PopupState InputPopupViewModel::receiveKeyboardInput(int input) {
             }
             break;
         case '\n':
+            return PopupState::CLOSE;
         case KEY_ESCAPE:
+            inputText = "";
             return PopupState::CLOSE;
         default:
             if (isCharAllowed(input)) {
@@ -55,7 +57,12 @@ std::string InputPopupViewModel::getPopupReturnData() const {
 
 
 PopupState InputPopupViewModel::receiveData(std::string data) {
-    description = data;
+    // extremely jank
+    if (description == "") {
+        description = data;
+    } else {
+        inputText = data;
+    }
     return PopupState::RESIZE;
 }
 

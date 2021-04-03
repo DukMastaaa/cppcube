@@ -83,6 +83,12 @@ void RecordListController::deleteSelectedRecord() {
 }
 
 
+void RecordListController::deleteAllRecords() {
+    model.deleteAllRecords();
+    viewModel.recordRemoved();
+}
+
+
 const Record& RecordListController::getRecord(std::size_t recordNum) const {
     return model.getRecord(recordNum);
 }
@@ -99,11 +105,21 @@ void RecordListController::refresh() const {
 }
 
 
+const RecordListViewModel& RecordListController::getViewModelRef() const {
+    return viewModel;
+}
+
+
 RecordListViewModel& RecordListController::getViewModelRef() {
     return viewModel;
 }
 
 
 const RecordList& RecordListController::getModelRef() const {
+    return model;
+}
+
+
+RecordList& RecordListController::getModelRef() {
     return model;
 }

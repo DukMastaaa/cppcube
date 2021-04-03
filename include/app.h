@@ -63,11 +63,14 @@ class App {
         void displayInfoPopup();
 
         void exportTimes();
+        void importTimes();
 
         // popup callbacks
         void changeCubeDim(std::string popupReturnData);
         void confirmRecordDeletion(std::string popupReturnData, unsigned int recordIndex);
         void jumpToSelectedIndex(std::string popupReturnData);
+        void exportToFilename(std::string popupReturnData);
+        void importFromFilename(std::string popupReturnData);
         void closeProgram(std::string popupReturnData);
 
     public:

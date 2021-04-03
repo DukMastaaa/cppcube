@@ -4,7 +4,6 @@
 
 #include <ncurses.h>
 
-#include <regex>
 #include <chrono>
 #include <iostream>
 #include <functional>
@@ -43,7 +42,6 @@ struct Record {
         static std::chrono::milliseconds timeDivisionsToTime(int minutes, int seconds, int centiseconds);
 
     private:
-        static const std::regex RECORD_PATTERN;
         static std::array<int, 3> getTimeDivisions(std::chrono::milliseconds elapsedTime);
 };
 
@@ -66,4 +64,4 @@ typedef std::function<void (std::string)> PopupCallback;
 void dummyPopupCallback(std::string returnVal);
 
 
-constexpr const int KEY_ESCAPE = 7;
+constexpr const int KEY_ESCAPE = 27;

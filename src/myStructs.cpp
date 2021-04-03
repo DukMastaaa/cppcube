@@ -1,11 +1,6 @@
 #include "myStructs.h"
 
 #include <iostream>
-#include <regex>
-
-
-// todo: bruh
-const std::regex Record::RECORD_PATTERN("^(?:\d)+. (\d\d):(\d\d).(\d\d)\(?([DNF2\+]+)?\)?: ([UFRBLDw'2 ]+)$");
 
 
 bool Record::staticIsDNF(const Record& record) {
@@ -118,6 +113,9 @@ std::string Record::penaltyAsString(Penalty penalty) {
             break;
         case Penalty::DNF_PENALTY:
             return "DNF";
+            break;
+        default:
+            return "what";
             break;
     }
 }

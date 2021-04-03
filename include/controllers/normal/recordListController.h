@@ -28,14 +28,17 @@ class RecordListController : public BaseController {
         void deleteRecord(std::size_t recordNum);
         void deleteLatestRecord();
         void deleteSelectedRecord();
+        void deleteAllRecords();  // :eyes:
         
         std::size_t getRecordCount() const;
         const Record& getRecord(std::size_t recordNum) const;
         std::size_t getSelectedIndex() const;
         void refresh() const override;
 
+        const RecordListViewModel& getViewModelRef() const;
         RecordListViewModel& getViewModelRef();
         const RecordList& getModelRef() const;
+        RecordList& getModelRef();
     
     private:
         RecordList model;

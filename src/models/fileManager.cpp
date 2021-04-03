@@ -1,9 +1,14 @@
 #include "models/fileManager.h"
 
+#include <chrono>
 #include <fstream>
+#include <regex>
 
 
-FileManager::FileManager(const RecordList& recordListRef) : recordList(recordListRef) {}
+FileManager::FileManager(RecordList& recordListRef) : recordList(recordListRef) {}
+
+
+const std::regex FileManager::RECORD_PATTERN(R"~(^\d+\. (\d\d):([0-5]{2}).(\d\d)\(?([DNF2\+]+)?\)?: ([UFRBLDw'2 ]+)$)~");
 
 
 std::string FileManager::recordToString(const Record& record) {
@@ -15,6 +20,31 @@ std::string FileManager::recordToString(const Record& record) {
 
     conversion += ": " + record.scramble;
     return conversion;
+}
+
+
+Record FileManager::stringToRecord(std::string string) {
+    std::smatch match;
+    if (std::regex_match(string, match, RECORD_PATTERN)) {
+        auto minutes = std::chrono::minutes(std::stoi(match.str(1)));
+        auto seconds = std::chrono::seconds(std::stoi(match.str(2)));
+        auto centiseconds = std::chrono::milliseconds(std::stoi(match.str(3)) * 10);
+        std::chrono::milliseconds time = minutes + seconds + centiseconds;
+        std::string scramble = match.str(5);
+        
+        Penalty penalty;
+        if (match.str(4) == "DNF") {
+            penalty = Penalty::DNF_PENALTY;
+        } else if (match.str(4) == "+2") {
+            penalty = Penalty::PLUS_2_PENALTY;
+        } else {
+            penalty = Penalty::NO_PENALTY;
+        }
+
+        return {time, scramble, penalty};
+    } else {
+        return {std::chrono::milliseconds(-1), "", Penalty::NO_PENALTY};
+    }
 }
 
 
@@ -34,7 +64,11 @@ void FileManager::exportFile(const std::string& filename) {
 void FileManager::readFile(const std::string& filename) {
     std::ifstream file(filename);
     std::string line;
+    std::smatch match;
     while (std::getline(file, line)) {
-        
+        Record convertedRecord = stringToRecord(line);
+        if (convertedRecord.time != std::chrono::milliseconds(-1)) {
+            recordList.addRecord(convertedRecord);
+        }
     }
 }

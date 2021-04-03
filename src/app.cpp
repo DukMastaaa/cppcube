@@ -13,6 +13,7 @@
 #include "controllers/normal/scramblerController.h"
 #include "controllers/normal/timerController.h"
 
+#include "views/popups/infoPopupViewModel.h"
 #include "views/popups/inputPopupViewModel.h"
 #include "views/popups/recordInfoPopupViewModel.h"
 #include "views/popups/summaryStatsPopupViewModel.h"
@@ -159,24 +160,35 @@ void App::displayInfoPopup() {
 }
 
 
+// todo: duplication?
 void App::exportTimes() {
-    fileManager.exportFile("test.txt");
-    createPopup<YesNoPopupViewModel>(dummyPopupCallback);
-    sendDataToLatestPopup("test");
+    using namespace std::placeholders;  // for _1
+
+    createPopup<InputPopupViewModel>(std::bind(&App::exportToFilename, this, _1));
+    sendDataToLatestPopup("Filename? Current is default.");
+    sendDataToLatestPopup("times.txt");
+}
+
+
+void App::importTimes() {
+    using namespace std::placeholders;  // for _1
+
+    createPopup<InputPopupViewModel>(std::bind(&App::importFromFilename, this, _1));
+    sendDataToLatestPopup("Filename? Current is default.");
+    sendDataToLatestPopup("times.txt");
 }
 
 
 void App::changeCubeDim(std::string popupReturnData) {
-    if (popupReturnData.empty()) {
-        return;
-    }
-    dim = std::stoi(popupReturnData);
-    cubeController.resetState(dim);
-    scramblerController.generateScramble(dim);
-    cubeController.parseMovesReset(scramblerController.getLatestScramble());
+    if (popupReturnData != "") {
+        dim = std::stoi(popupReturnData);
+        cubeController.resetState(dim);
+        scramblerController.generateScramble(dim);
+        cubeController.parseMovesReset(scramblerController.getLatestScramble());
 
-    cubeController.handleResize();
-    forceUpdate();
+        cubeController.handleResize();
+        forceUpdate();
+    }
 }
 
 
@@ -190,10 +202,41 @@ void App::confirmRecordDeletion(std::string popupReturnData, unsigned int record
 
 
 void App::jumpToSelectedIndex(std::string popupReturnData) {
-    unsigned int index = std::stoi(popupReturnData) - 1;
-    if (index < recordListController.getRecordCount()) {
-        recordListController.jumpToIndex(index);
-        recordListController.refresh();
+    if (popupReturnData != "") {
+        unsigned int index = std::stoi(popupReturnData) - 1;
+        if (index < recordListController.getRecordCount()) {
+            recordListController.jumpToIndex(index);
+            recordListController.refresh();
+        }
+    }
+}
+
+
+void App::exportToFilename(std::string popupReturnData) {
+    if (popupReturnData != "") {
+        if (popupReturnData.find("/") == std::string::npos || popupReturnData.find("\\") == std::string::npos) {
+            fileManager.exportFile(popupReturnData);
+        } else {
+            createPopup<InfoPopupViewModel>(dummyPopupCallback);
+            sendDataToLatestPopup("Invalid file path.");
+        }
+    }
+
+}
+
+
+void App::importFromFilename(std::string popupReturnData) {
+    if (popupReturnData != "") {
+        if (popupReturnData.find("/") == std::string::npos || popupReturnData.find("\\") == std::string::npos) {
+            recordListController.deleteAllRecords();
+            fileManager.readFile(popupReturnData);
+            recordListController.moveToTop();
+            refreshAllControllers();
+            forceUpdate();
+        } else {
+            createPopup<InfoPopupViewModel>(dummyPopupCallback);
+            sendDataToLatestPopup("Invalid file path.");
+        }
     }
 }
 
@@ -243,7 +286,9 @@ void App::mainWindowKeyboardInput(int input) {
 
             case 'q': createPopup<YesNoPopupViewModel>(std::bind(&App::closeProgram, this, _1)); sendDataToLatestPopup("Exit cppcube? (y/n)"); break;
         
-            case 'E': exportTimes();
+            case 'E': exportTimes(); break;
+
+            case 'I': importTimes(); break;
         }
     }
 
