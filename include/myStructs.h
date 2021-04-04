@@ -10,6 +10,7 @@
 // if terminal supports, displays █, otherwise #
 // i've never seen it display as the full block char.
 #define BLOCK_CHAR ACS_BLOCK
+// #define BLOCK_CHAR ACS_CKBOARD
 
 
 struct Pos2D {
@@ -64,3 +65,4 @@ void dummyPopupCallback(std::string returnVal);
 
 
 constexpr const int KEY_ESCAPE = 27;
+constexpr const int KEY_WEIRD_BACKSPACE = 127;  // weird

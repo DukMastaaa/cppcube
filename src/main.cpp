@@ -23,17 +23,6 @@ void ncursesSetup() {
 }
 
 
-void cycleBlockChar() {
-    if (BLOCK_CHAR == ACS_BLOCK) {
-        BLOCK_CHAR = ACS_CKBOARD;
-    } else if (BLOCK_CHAR == ACS_CKBOARD) {
-        BLOCK_CHAR = ACS_DIAMOND;
-    } else if (BLOCK_CHAR == ACS_DIAMOND) {
-        BLOCK_CHAR = ACS_BLOCK;
-    }
-}
-
-
 int main() {
     setenv("ESCDELAY", "25", 1);
     ncursesSetup();
@@ -48,10 +37,7 @@ int main() {
             app.turnOffUpdate();
         }
         input = wgetch(app.getWindow());
-        if (input == ',') {
-            cycleBlockChar();
-            app.forceUpdate();
-        } else if (input != ERR) {
+        if (input != ERR) {
             app.keyboardInput(input);
         }
     }

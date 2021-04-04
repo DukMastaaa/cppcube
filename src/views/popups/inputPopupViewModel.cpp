@@ -31,6 +31,7 @@ bool InputPopupViewModel::isCharAllowed(int charInput) const {
 PopupState InputPopupViewModel::receiveKeyboardInput(int input) {
     switch (input) {
         case KEY_BACKSPACE:
+        case KEY_WEIRD_BACKSPACE:
         // case KEY_DC:  // what's the difference
             if (inputText.length() != 0) {
                 inputText.pop_back();
