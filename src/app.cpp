@@ -228,12 +228,14 @@ void App::confirmRecordDeletion(std::string popupReturnData, unsigned int record
 
 
 void App::jumpToSelectedIndex(std::string popupReturnData) {
-    if (popupReturnData != "") {
-        unsigned int index = std::stoi(popupReturnData) - 1;
-        if (index < recordListController.getRecordCount()) {
-            recordListController.jumpToIndex(index);
-            recordListController.refresh();
-        }
+    if (popupReturnData == "" || popupReturnData.length() >= 4) {
+        return;
+    }
+
+    unsigned int index = std::stoi(popupReturnData) - 1;
+    if (index < recordListController.getRecordCount()) {
+        recordListController.jumpToIndex(index);
+        recordListController.refresh();
     }
 }
 

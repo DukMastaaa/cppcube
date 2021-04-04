@@ -1,5 +1,3 @@
-/* No .cpp file for this header. */
-
 #pragma once
 
 #include <ncurses.h>
@@ -9,7 +7,8 @@
 #include <functional>
 
 
-//  ACS_BLOCK, ACS_CKBOARD, ACS_BOARD
+// if terminal supports, displays █, otherwise #
+// i've never seen it display as the full block char.
 #define BLOCK_CHAR ACS_BLOCK
 
 

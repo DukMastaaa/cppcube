@@ -155,8 +155,8 @@ const std::map<char, std::array<std::string, 5>> TimerViewModel::SYMBOL_BLOCKS =
     {
         'N',
         {
-            "   ",
             "###",
+            "# #",
             "# #",
             "# #",
             "# #",
@@ -185,27 +185,33 @@ TimerViewModel::TimerViewModel(CubeTimer& timerRef) : timer(timerRef) {}
 
 void TimerViewModel::drawCharMatrix(WINDOW* window, std::string formattedTime) const {
     for (int row = 0; row < 5; row++) {
-        int xPos = (formattedTime.back() == '+') ? 0 : 2;  // aligns time properly
+
+        // aligns time in center of window
+        int xPos;
+        switch (formattedTime.back()) {
+            case '+':
+                xPos = 0;
+                break;
+            
+            case 'F':  // for DNF
+                xPos = 10;
+                break;
+            
+            default:
+                xPos = 2;
+                break;
+        }
+
         for (const char& symbol: formattedTime) {
             const std::string& block = SYMBOL_BLOCKS.at(symbol).at(row);
 
             for (const char tile : block) {
-                // todo: █
-                // wchar_t newTile = (tile == '#') ? BLOCK_CHAR : ' ';
-                // wchar_t tileString[2] = {newTile, '\0'};
-                // mvwaddwstr(window, row, xPos, tileString);
-                // if (tile == '#') {
-                //     mvwaddwstr(window, row, xPos, WACS_BLOCK);
-                // }
                 chtype newTile = (tile == '#') ? BLOCK_CHAR : ' ';
                 mvwaddch(window, row, xPos, newTile);
                 xPos++;
             }
 
             xPos++;
-            
-            // mvwprintw(window, row, xPos, block.c_str());
-            // xPos += length + 1;
         }
     }
 }

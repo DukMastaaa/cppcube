@@ -49,7 +49,7 @@ HelpPopupViewModel::HelpPopupViewModel() : BaseViewModel(), currentPage{0} {}
 
 
 Pos2D HelpPopupViewModel::calcHeightWidth() const {
-    return {12, 55};
+    return {11, 55};
 }
 
 
