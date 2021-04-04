@@ -7,10 +7,10 @@
 
 class ScramblerViewModel : public BaseViewModel {
     private:
-        CubeScrambler& scrambler;
+        const CubeScrambler& scrambler;
 
     public:
-        ScramblerViewModel(CubeScrambler& scramblerRef);
+        ScramblerViewModel(const CubeScrambler& scramblerRef);
         Pos2D calcHeightWidth() const override;  // if not in a popup
         void draw(WINDOW* window) const override;
 };

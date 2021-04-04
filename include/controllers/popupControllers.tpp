@@ -13,6 +13,14 @@ PopupController<ViewModel, ModelClass, Window>::PopupController(App& appRef, Mod
 }
 
 
+template<typename ViewModel, typename ModelClass, typename Window>
+PopupController<ViewModel, ModelClass, Window>::PopupController(App& appRef, const ModelClass& constModelRef) : 
+        PopupControllerInterface(appRef), viewModel(constModelRef) {
+    window = std::make_unique<Window>(viewModel);
+    viewModel.receiveAppRef(app);
+}
+
+
 template<typename ViewModel>
 PopupController<ViewModel>::PopupController(App& appRef) : 
         PopupControllerInterface(appRef), viewModel() {

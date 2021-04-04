@@ -5,7 +5,7 @@
 #include "app.h"
 
 
-PopupControllerInterface::PopupControllerInterface(App& appRef) : app(appRef) {}
+PopupControllerInterface::PopupControllerInterface(App& appRef) : app(appRef), title{} {}
 
 
 PopupState PopupControllerInterface::receiveKeyboardInput(int input) {
@@ -35,7 +35,14 @@ PopupState PopupControllerInterface::receiveData(std::string data) {
 }
 
 
+PopupState PopupControllerInterface::makeTitle(std::string titleText) {
+    title = titleText;
+    return PopupState::REFRESH;
+}
+
+
 void PopupControllerInterface::refresh() const {
     window->makeBox();
+    window->title(title);
     BaseController::refresh();
 }

@@ -36,6 +36,8 @@ Record SummaryStatsModel::averageOf(unsigned int count) const {
     unsigned int dnfCount = std::count_if(begin, end, Record::staticIsDNF);
     if (dnfCount >= 3 || (total() <= 2 && dnfCount >= count)) {  // off-by-one error here?
         return {std::chrono::milliseconds(0), "", Penalty::DNF_PENALTY};
+    } else if (total() == 2) {
+        return meanOfAll();  // mmmmmmmmm
     }
 
     Record lowest = *begin;

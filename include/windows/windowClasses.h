@@ -10,20 +10,19 @@
 
 
 class BaseWindow {
-    private:
-        void createSubwin(int fullHeight, int fullWidth);
-
     protected:
         BaseViewModel& viewModel;
         static const int BORDER_WIDTH = 1;
         static Pos2D addIntToPos(Pos2D pos, int num);
         void standardInit(BaseViewModel& vm);
         void createWindows(int fullHeight, int fullWidth, int topLeftY, int topLeftX);
+        void createSubwin(int fullHeight, int fullWidth);
 
     public:
         WINDOW* fullWindow;
         WINDOW* subwin;
-        virtual Pos2D calcTopLeftPos(Pos2D heightAndWidth) const = 0;
+        virtual Pos2D calcTopLeftPos(Pos2D heightAndWidth) const;
+        virtual Pos2D calcHeightAndWidth(BaseViewModel& vm) const;
         BaseWindow(BaseViewModel& vm);
         void wnoutrefresh() const;
         void makeBox() const;
@@ -31,7 +30,7 @@ class BaseWindow {
         void title(std::string titleText) const;
         void wclear() const;  // forces refresh
         void werase() const;  // doesn't force refresh
-        void handleResize();
+        virtual void handleResize();
 
         // popup-specific
 
@@ -66,6 +65,12 @@ class CentredWindow : public BaseWindow {
 
 class DefaultWindow : public BaseWindow {
     public:
-        Pos2D calcTopLeftPos(Pos2D heightAndWidth) const override;
         DefaultWindow(BaseViewModel& vm, int topLeftY, int topLeftX);
+};
+
+
+class TopBannerWindow : public BaseWindow {
+    public:
+        virtual Pos2D calcHeightAndWidth(BaseViewModel& vm) const override;
+        TopBannerWindow(BaseViewModel& vm);
 };

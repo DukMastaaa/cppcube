@@ -42,6 +42,7 @@ class App {
 
         // helper
         void refreshAllControllers() const;
+        void createInfoPopup(std::string description);
 
         // handles keyboard inputs for main window (no popups)
         void mainWindowKeyboardInput(int input);
@@ -60,7 +61,7 @@ class App {
 
         void deleteLatestRecord();
         void deleteSelectedRecord();
-        void displayInfoPopup();
+        void displayRecordInfoPopup();
 
         void exportTimes();
         void importTimes();
@@ -86,10 +87,15 @@ class App {
         template<typename ViewModel, typename ModelClass, typename Window = CentredWindow>
         void createPopup(PopupCallback callback, ModelClass& modelRef);
 
+        // specific overload for const&
+        template<typename ViewModel, typename ModelClass, typename Window = CentredWindow>
+        void createPopup(PopupCallback callback, const ModelClass& constModelRef);
+
         template<typename ViewModel>
         void createPopup(PopupCallback callback);
 
         void sendDataToLatestPopup(std::string data);
+        void makeTitleForLatestPopup(std::string title);
         void closeLatestPopup();  // this is very dangerous
 };
 

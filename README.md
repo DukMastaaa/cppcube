@@ -51,10 +51,11 @@ Eventually I'm planning to get arrow key controls throughout the program but for
 | `t`            | Jump to top of recorded times          |Y |
 | `b`            | Jump to bottom of recorded times       |Y |
 | `g`            | Generate summary statistics            |Y |
-| `E` (shift)    | Export times                           |N |
-| `L` (shift)    | Import times                           |N |
+| `E` (shift)    | Export times                           |Y |
+| `L` (shift)    | Import times                           |Y |
 | `h`            | Display help pop-up                    |N |
 | `v`            | Display cube view in pop-up            |Y |
+| `s`            | Display scramble in popup-up           |N |
 
 ## What about the previous `cppcube`?
 The original `cppcube` was simply a header and `.cpp` file providing an

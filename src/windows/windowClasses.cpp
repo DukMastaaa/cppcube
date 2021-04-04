@@ -12,10 +12,21 @@
 BaseWindow::BaseWindow(BaseViewModel& vm) : viewModel(vm) {}
 
 
+Pos2D BaseWindow::calcTopLeftPos(Pos2D heightAndWidth) const {
+    (void) heightAndWidth;  // unused
+    return {0, 0};
+}
+
+
+Pos2D BaseWindow::calcHeightAndWidth(BaseViewModel& vm) const {
+    return addIntToPos(vm.calcHeightWidth(), 2 * BORDER_WIDTH);
+}
+
+
 void BaseWindow::standardInit(BaseViewModel& vm) {
     /* Standard window initialisation. Don't call in ctor if window is special. */
 
-    Pos2D heightAndWidth = addIntToPos(vm.calcHeightWidth(), 2 * BORDER_WIDTH);
+    Pos2D heightAndWidth = calcHeightAndWidth(vm);
     Pos2D topLeftPos = calcTopLeftPos(heightAndWidth);
     createWindows(heightAndWidth.y, heightAndWidth.x, topLeftPos.y, topLeftPos.x);
 }
@@ -79,7 +90,7 @@ void BaseWindow::werase() const {
 void BaseWindow::handleResize() {
     delwin(subwin);
     wclear();
-    Pos2D heightAndWidth = addIntToPos(viewModel.calcHeightWidth(), 2 * BORDER_WIDTH);
+    Pos2D heightAndWidth = calcHeightAndWidth(viewModel);
     Pos2D topLeftPos = calcTopLeftPos(heightAndWidth);
     mvwin(fullWindow, topLeftPos.y, topLeftPos.x);
     wresize(fullWindow, heightAndWidth.y, heightAndWidth.x);
@@ -153,14 +164,22 @@ Pos2D CentredWindow::calcTopLeftPos(Pos2D heightAndWidth) const {
 CentredWindow::CentredWindow(BaseViewModel& vm) : BaseWindow(vm) { standardInit(vm); }
 
 
-Pos2D DefaultWindow::calcTopLeftPos(Pos2D heightAndWidth) const {
-    // this doesn't need to be called.
-    (void) heightAndWidth;  // unused.
-    return {0, 0};
-}
-
-
 DefaultWindow::DefaultWindow(BaseViewModel& vm, int topLeftY, int topLeftX) : BaseWindow(vm) {
-    Pos2D heightAndWidth = addIntToPos(vm.calcHeightWidth(), 2 * BORDER_WIDTH);
+    Pos2D heightAndWidth = calcHeightAndWidth(vm);
     createWindows(heightAndWidth.y, heightAndWidth.x, topLeftY, topLeftX);
 }
+
+
+Pos2D TopBannerWindow::calcHeightAndWidth(BaseViewModel& vm) const {
+    Pos2D heightAndWidth = BaseWindow::calcHeightAndWidth(vm);
+
+    int maxY, maxX;
+    getmaxyx(stdscr, maxY, maxX);
+    (void) maxY;  // unused
+    heightAndWidth.x = maxX;
+
+    return heightAndWidth;
+}
+
+
+TopBannerWindow::TopBannerWindow(BaseViewModel& vm) : BaseWindow(vm) { standardInit(vm); }

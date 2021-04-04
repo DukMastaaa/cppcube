@@ -11,10 +11,9 @@ class InfoPopupViewModel : public BaseViewModel {
         virtual void draw(WINDOW* window) const override;
 
         virtual PopupState receiveKeyboardInput(int input) override;
-        virtual std::string getPopupReturnData() const override;
         virtual PopupState receiveData(std::string data) override;
 
     
-    private:
+    protected:
         std::string description;
 };

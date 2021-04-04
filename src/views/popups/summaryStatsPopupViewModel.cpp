@@ -1,8 +1,8 @@
 #include "views/popups/summaryStatsPopupViewModel.h"
 
-#include "models/cubeTimer.h"
 #include <array>
 
+#include "models/cubeTimer.h"
 
 SummaryStatsPopupViewModel::SummaryStatsPopupViewModel(SummaryStatsModel& modelRef) : model(modelRef) {}
 

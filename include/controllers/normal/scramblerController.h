@@ -10,12 +10,14 @@
 
 class ScramblerController : public BaseController {
     public:
-        CubeScrambler model;
         ScramblerController();
         std::string generateScramble(int dim);
         std::string getLatestScramble() const;
         void refresh() const override;
+
+        const CubeScrambler& getModelRef() const;
     
     private:
+        CubeScrambler model;
         ScramblerViewModel viewModel;
 };

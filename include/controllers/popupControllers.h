@@ -14,6 +14,7 @@ class App;
 class PopupControllerInterface : public BaseController {
     protected:
         App& app;
+        std::string title;
 
     public:
         PopupControllerInterface(App& appRef);
@@ -21,6 +22,7 @@ class PopupControllerInterface : public BaseController {
         std::string getPopupReturnData();
         virtual void refresh() const override;
         PopupState receiveData(std::string data);
+        PopupState makeTitle(std::string titleText);
 };
 
 
@@ -28,6 +30,9 @@ template<typename ViewModel, typename ModelClass = BaseModel, typename Window = 
 class PopupController : public PopupControllerInterface {
     public:
         PopupController(App& appRef, ModelClass& modelRef);
+
+        // specific overload for const&
+        PopupController(App& appRef, const ModelClass& constModelRef);
 
     private:
         ViewModel viewModel;

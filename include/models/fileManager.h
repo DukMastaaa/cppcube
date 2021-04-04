@@ -11,7 +11,7 @@ class FileManager {
     private:
         RecordList& recordList;
         static const std::regex RECORD_PATTERN;
-    
+
     public:
         FileManager(RecordList& recordListRef);
 

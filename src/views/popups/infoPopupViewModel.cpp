@@ -5,7 +5,7 @@ InfoPopupViewModel::InfoPopupViewModel() : BaseViewModel(), description{} {}
 
 
 Pos2D InfoPopupViewModel::calcHeightWidth() const {
-    return {5, std::max<unsigned int>(20, description.length())};
+    return {5, std::min<unsigned int>(35, description.length() + 1)};
 }
 
 
@@ -21,11 +21,6 @@ PopupState InfoPopupViewModel::receiveKeyboardInput(int input) {
     } else {
         return PopupState::REFRESH;
     }
-}
-
-
-std::string InfoPopupViewModel::getPopupReturnData() const {
-    return "";  // lol
 }
 
 

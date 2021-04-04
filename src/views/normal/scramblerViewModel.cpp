@@ -14,11 +14,11 @@ Pos2D ScramblerViewModel::calcHeightWidth() const {
     unsigned maxY, maxX;
     getmaxyx(stdscr, maxY, maxX);
     (void) maxY;  // maxY unused - doesn't matter here
-    return {4, maxX - 2};
+    return {6, 45};
 }
 
 
-ScramblerViewModel::ScramblerViewModel(CubeScrambler& scramblerRef) : scrambler(scramblerRef) {}
+ScramblerViewModel::ScramblerViewModel(const CubeScrambler& scramblerRef) : scrambler(scramblerRef) {}
 
 
 void ScramblerViewModel::draw(WINDOW* window) const {

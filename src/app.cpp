@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <functional>
+#include <filesystem>
 
 #include <ncurses.h>
 
@@ -17,6 +18,7 @@
 #include "views/popups/inputPopupViewModel.h"
 #include "views/popups/recordInfoPopupViewModel.h"
 #include "views/popups/summaryStatsPopupViewModel.h"
+#include "views/popups/helpPopupViewModel.h"
 
 #include "views/colours.h"
 #include "models/fileManager.h"
@@ -73,7 +75,20 @@ void App::handleTerminalResize() {
 }
 
 
+void App::createInfoPopup(std::string description) {
+    createPopup<InfoPopupViewModel>(dummyPopupCallback);
+    makeTitleForLatestPopup("Info");
+    sendDataToLatestPopup(description);
+}
+
+
 void App::toggleTimer() {
+
+    if (!timerController.isTiming() && recordListController.getRecordCount() >= 2000) {
+        createInfoPopup("2000 record limit. Please export session and clear all.");
+        return;
+    }
+
     timerController.toggleTiming();
     timerController.refresh();
     if (!timerController.isTiming()) {
@@ -138,6 +153,7 @@ void App::deleteLatestRecord() {
     if (recordListController.getRecordCount() > 0) {
         createPopup<YesNoPopupViewModel>(std::bind(&App::confirmRecordDeletion, this, _1, recordListController.getRecordCount() - 1));
         sendDataToLatestPopup("Delete latest record? (y/n)");
+        makeTitleForLatestPopup("Delete?");
     }
 }
 
@@ -149,13 +165,15 @@ void App::deleteSelectedRecord() {
         createPopup<YesNoPopupViewModel>(std::bind(&App::confirmRecordDeletion, this, _1, selectedIndex));
         std::string description = "Delete record no. " + std::to_string(selectedIndex + 1) + "? (y/n)";
         sendDataToLatestPopup(description.c_str());
+        makeTitleForLatestPopup("Delete?");
     }
 }
 
 
-void App::displayInfoPopup() {
+void App::displayRecordInfoPopup() {
     if (recordListController.getRecordCount() > 0) {
         createPopup<RecordInfoPopupViewModel, RecordListController>(dummyPopupCallback, recordListController);
+        makeTitleForLatestPopup("Record Info");
     }
 }
 
@@ -165,6 +183,7 @@ void App::exportTimes() {
     using namespace std::placeholders;  // for _1
 
     createPopup<InputPopupViewModel>(std::bind(&App::exportToFilename, this, _1));
+    makeTitleForLatestPopup("Export Data");
     sendDataToLatestPopup("Filename? Current is default.");
     sendDataToLatestPopup("times.txt");
 }
@@ -174,21 +193,28 @@ void App::importTimes() {
     using namespace std::placeholders;  // for _1
 
     createPopup<InputPopupViewModel>(std::bind(&App::importFromFilename, this, _1));
+    makeTitleForLatestPopup("Import Data");
     sendDataToLatestPopup("Filename? Current is default.");
     sendDataToLatestPopup("times.txt");
 }
 
 
 void App::changeCubeDim(std::string popupReturnData) {
-    if (popupReturnData != "") {
-        dim = std::stoi(popupReturnData);
-        cubeController.resetState(dim);
-        scramblerController.generateScramble(dim);
-        cubeController.parseMovesReset(scramblerController.getLatestScramble());
-
-        cubeController.handleResize();
-        forceUpdate();
+    if (popupReturnData == "") {
+        return;
     }
+
+    if (popupReturnData.length() >= 3 || std::stoi(popupReturnData) > 20) {
+        createInfoPopup("Maximum length is 20.");
+        return;
+    }
+
+    dim = std::stoi(popupReturnData);
+    cubeController.resetState(dim);
+    scramblerController.generateScramble(dim);
+    cubeController.parseMovesReset(scramblerController.getLatestScramble());
+    cubeController.handleResize();
+    forceUpdate();
 }
 
 
@@ -214,28 +240,27 @@ void App::jumpToSelectedIndex(std::string popupReturnData) {
 
 void App::exportToFilename(std::string popupReturnData) {
     if (popupReturnData != "") {
-        if (popupReturnData.find("/") == std::string::npos || popupReturnData.find("\\") == std::string::npos) {
+        if (popupReturnData.find("/") == std::string::npos && popupReturnData.find("\\") == std::string::npos) {
             fileManager.exportFile(popupReturnData);
         } else {
-            createPopup<InfoPopupViewModel>(dummyPopupCallback);
-            sendDataToLatestPopup("Invalid file path.");
+            createInfoPopup("Invalid file path.");
         }
     }
-
 }
 
 
 void App::importFromFilename(std::string popupReturnData) {
     if (popupReturnData != "") {
-        if (popupReturnData.find("/") == std::string::npos || popupReturnData.find("\\") == std::string::npos) {
+        if (popupReturnData.find("/") != std::string::npos || popupReturnData.find("\\") != std::string::npos) {
+            createInfoPopup("Invalid file path.");
+        } else if (!std::filesystem::exists(popupReturnData)) {
+            createInfoPopup("File does not exist.");
+        } else {
             recordListController.deleteAllRecords();
             fileManager.readFile(popupReturnData);
             recordListController.moveToTop();
             refreshAllControllers();
             forceUpdate();
-        } else {
-            createPopup<InfoPopupViewModel>(dummyPopupCallback);
-            sendDataToLatestPopup("Invalid file path.");
         }
     }
 }
@@ -257,6 +282,7 @@ void App::mainWindowKeyboardInput(int input) {
         }
     } else {
         switch (input) {
+            
             case '2': togglePenalty(Penalty::PLUS_2_PENALTY, recordListController.getRecordCount() - 1); break;
             case 'd': togglePenalty(Penalty::DNF_PENALTY, recordListController.getRecordCount() - 1); break;
             case 'x': deleteLatestRecord(); break;
@@ -273,18 +299,49 @@ void App::mainWindowKeyboardInput(int input) {
             case 't': moveSelectedRecordTop(); break;
             case 'b': moveSelectedRecordBottom(); break;
 
-            case 'v': createPopup<CubeViewModel, CubeModel>(dummyPopupCallback, cubeController.getModelRef()); break;
+            // POPUPS
 
-            // todo: private helper function for bound callbacks??
-            case 'p': createPopup<NumericInputPopupViewModel>(std::bind(&App::changeCubeDim, this, _1)); sendDataToLatestPopup("Input side length:"); break;
+            case 'v': 
+                createPopup<CubeViewModel, CubeModel>(dummyPopupCallback, cubeController.getModelRef());
+                makeTitleForLatestPopup("Cube View");
+                break;
+            
+            case 's':
+                createPopup<ScramblerViewModel, CubeScrambler>(dummyPopupCallback, scramblerController.getModelRef());
+                makeTitleForLatestPopup("Scramble View");
+                break;
 
-            case 'i': displayInfoPopup(); break;
+            case 'p': 
+                createPopup<NumericInputPopupViewModel>(std::bind(&App::changeCubeDim, this, _1));
+                makeTitleForLatestPopup("Change Puzzle");
+                sendDataToLatestPopup("Input side length:"); 
+                break;
 
-            case 'g': createPopup<SummaryStatsPopupViewModel, SummaryStatsModel>(dummyPopupCallback, summaryStatsModel); break;
+            case 'i': 
+                displayRecordInfoPopup(); 
+                break;
+            
+            case 'h':
+                createPopup<HelpPopupViewModel>(dummyPopupCallback);
+                makeTitleForLatestPopup("Help");
+                break;
 
-            case 'j': createPopup<NumericInputPopupViewModel>(std::bind(&App::jumpToSelectedIndex, this, _1)); sendDataToLatestPopup("Jump to index:"); break;
+            case 'g': 
+                createPopup<SummaryStatsPopupViewModel, SummaryStatsModel>(dummyPopupCallback, summaryStatsModel);
+                makeTitleForLatestPopup("Summary Stats");
+                break;
 
-            case 'q': createPopup<YesNoPopupViewModel>(std::bind(&App::closeProgram, this, _1)); sendDataToLatestPopup("Exit cppcube? (y/n)"); break;
+            case 'j': 
+                createPopup<NumericInputPopupViewModel>(std::bind(&App::jumpToSelectedIndex, this, _1));
+                makeTitleForLatestPopup("Jump");
+                sendDataToLatestPopup("Jump to index:"); 
+                break;
+
+            case 'q': 
+                createPopup<YesNoPopupViewModel>(std::bind(&App::closeProgram, this, _1)); 
+                makeTitleForLatestPopup("Quit?");
+                sendDataToLatestPopup("Exit cppcube? (y/n)"); 
+                break;
         
             case 'E': exportTimes(); break;
 
@@ -362,6 +419,16 @@ void App::sendDataToLatestPopup(std::string data) {
             controller->refresh();
             forceUpdate();
         }
+    }
+}
+
+
+void App::makeTitleForLatestPopup(std::string title) {
+    if (popupControllers.size() != 0) {
+        auto& controller = popupControllers.back().controller;
+        controller->makeTitle(title);
+        controller->refresh();
+        forceUpdate();
     }
 }
 

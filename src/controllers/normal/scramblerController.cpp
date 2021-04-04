@@ -10,7 +10,7 @@ ScramblerController::ScramblerController() :
         BaseController(), 
         model(), 
         viewModel(model) {
-    window = std::make_unique<DefaultWindow>(viewModel, 0, 0);
+    window = std::make_unique<TopBannerWindow>(viewModel);
 }
 
 
@@ -28,4 +28,9 @@ void ScramblerController::refresh() const {
     window->makeBox();
     window->title("cppcube");
     BaseController::refresh();
+}
+
+
+const CubeScrambler& ScramblerController::getModelRef() const {
+    return model;
 }
