@@ -8,6 +8,11 @@ It is capable of generating scrambles and views of NxNxN cubes, and can export
 sessions and display basic summary statistics. UI design is inspired by the 
 legendary https://cstimer.net.
 
+I can't get orange to display properly with `ncurses` yet - for now, the purple
+colour shown in cube views represents orange, and the other orange-looky one is
+for yellow. This is quite a substantial drawback and I'll try my best to resolve
+it.
+
 
 ## Build
 Here are build requirements:
@@ -51,6 +56,7 @@ meantime, these keyboard controls are the way to go.
 `cppcube` will ask for a filename to export and import solves. As of 
 now, only exporting to and importing from files in the *same directory* 
 as the executable is allowed.
+
 
 ## What about the previous `cppcube`?
 The original `cppcube` was simply a header and `.cpp` file providing an
