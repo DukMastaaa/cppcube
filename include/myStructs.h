@@ -11,6 +11,7 @@
 // i've never seen it display as the full block char.
 #define BLOCK_CHAR ACS_BLOCK
 // #define BLOCK_CHAR ACS_CKBOARD
+// #define BLOCK_CHAR '█'
 
 
 struct Pos2D {

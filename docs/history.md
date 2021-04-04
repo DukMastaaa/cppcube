@@ -1,3 +1,8 @@
+This is just a list I wrote when I started development - just keeping
+it here incase I need it again. This isn't really a "feature list" - just
+a list of what I actually did to develop the program.
+
+
 # Feature List
 
 ## Implemented
