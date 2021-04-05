@@ -14,31 +14,70 @@
 // #define BLOCK_CHAR '█'
 
 
+
+/**
+ * @brief Represents a 2D position.
+ */
 struct Pos2D {
-    unsigned int y;  // y-pos or height
-    unsigned int x;  // x-pos or width
+    unsigned int y;  ///< y-position or height
+    unsigned int x;  ///< y-position or width
 };
 
 
+/**
+ * @brief Represents a penalty applied to a solve.
+ */
 enum Penalty {
     NO_PENALTY, PLUS_2_PENALTY, DNF_PENALTY
 };
 
 
+/**
+ * @brief Represents the results of a solve.
+ */
 struct Record {
     public:
-        std::chrono::milliseconds time;
-        std::string scramble;
-        Penalty penalty;
+        std::chrono::milliseconds time;  ///< Time taken for solve, ignoring penalties
+        std::string scramble;  ///< Scramble used for the solve
+        Penalty penalty;  ///< Penalty applied to solve
 
-        static bool staticIsDNF(const Record& record);  // todo: is this needed over normal isDNF?
-        bool isDNF() const;
+        /**
+         * @brief Calculate the solve time accounting for penalties.
+         * @return Solve time after penalties applied.
+         */
         std::chrono::milliseconds getFinalTime() const;
+
+        /**
+         * @brief Returns if this record's solve time is less than the other, accounting for penalties.
+         * @param otherRecord The other record to compare with.
+         */
         bool operator<(const Record& otherRecord) const;
+
+        /**
+         * @brief Returns if this record's solve time is more than the other, accounting for penalties.
+         * @param otherRecord The other record to compare with.
+         */
         bool operator>(const Record& otherRecord) const;
 
-        std::string getFormattedTime() const;
+        /**
+         * @brief Checks if the supplied record has a DNF penalty.
+         * @param record Record to check.
+         */
+        static bool isDNF(const Record& record);
+
+        /**
+         * @brief Returns the time and penalty formatted as a string.
+         * @param time Solve time.
+         * @param penalty Solve penalty.
+         * @return Either the literal `"DNF"`, or `"mm:ss.cc"` with optional trailing + indicating +2. 
+         */
         static std::string getFormattedTime(std::chrono::milliseconds time, Penalty penalty);
+
+        /**
+         * @brief Returns a penalty formatted as a string.
+         * @param penalty 
+         * @return std::string 
+         */
         static std::string penaltyAsString(Penalty penalty);
         static std::chrono::milliseconds timeDivisionsToTime(int minutes, int seconds, int centiseconds);
 

@@ -3,7 +3,7 @@
 #include <iostream>
 
 
-bool Record::staticIsDNF(const Record& record) {
+bool Record::isDNF(const Record& record) {
     return (record.penalty == Penalty::DNF_PENALTY);
 }
 

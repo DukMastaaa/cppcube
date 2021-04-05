@@ -33,7 +33,7 @@ Record SummaryStatsModel::averageOf(unsigned int count) const {
     std::vector<Record>::const_iterator begin = records.begin() + (total() - count);
     std::vector<Record>::const_iterator end = records.end();
 
-    unsigned int dnfCount = std::count_if(begin, end, Record::staticIsDNF);
+    unsigned int dnfCount = std::count_if(begin, end, Record::isDNF);
     if (dnfCount >= 3 || (total() <= 2 && dnfCount >= count)) {  // off-by-one error here?
         return {std::chrono::milliseconds(0), "", Penalty::DNF_PENALTY};
     } else if (total() == 2) {

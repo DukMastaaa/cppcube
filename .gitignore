@@ -4,3 +4,4 @@ build
 main
 python/__pycache__
 times.txt
+docs/html
