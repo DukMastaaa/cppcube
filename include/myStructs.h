@@ -1,3 +1,9 @@
+/**
+ * @file myStructs.h
+ * @brief Contains structs and enums used throughout the program.
+ */
+
+
 #pragma once
 
 #include <ncurses.h>
@@ -16,7 +22,7 @@
 
 
 /**
- * @brief Represents a 2D position.
+ * @brief Represents a 2D position. Used for either coordinates or heights/widths.
  */
 struct Pos2D {
     unsigned int y;  ///< y-position or height
@@ -75,34 +81,60 @@ struct Record {
 
         /**
          * @brief Returns a penalty formatted as a string.
-         * @param penalty 
-         * @return std::string 
+         * @param penalty Solve penalty.
+         * @return Either `"NONE"`, `"+2"` or `"DNF"`.
          */
         static std::string penaltyAsString(Penalty penalty);
-        static std::chrono::milliseconds timeDivisionsToTime(int minutes, int seconds, int centiseconds);
+
+        /**
+         * @brief Converts minutes, seconds and centiseconds to milliseconds.
+         * @param minutes Minutes portion of total time.
+         * @param seconds Seconds portion of total time.
+         * @param centiseconds Centiseconds portion of total time.
+         * @return Total time in milliseconds.
+         */
+        static std::chrono::milliseconds timeDivisionsToMilliseconds(int minutes, int seconds, int centiseconds);
 
     private:
-        static std::array<int, 3> getTimeDivisions(std::chrono::milliseconds elapsedTime);
+
+        /**
+         * @brief Converts total time in milliseconds to minutes, seconds and centiseconds.
+         * @param time Total time in milliseconds.
+         * @return Array containing total time in minutes, seconds, centiseconds, rounded down to nearest unit.
+         */
+        static std::array<int, 3> millisecondsToTimeDivisions(std::chrono::milliseconds time);
 };
 
 
-enum Direction {  // do i really need this
-    UP_DIR = 'u', DOWN_DIR = 'd', LEFT_DIR = 'l', RIGHT_DIR = 'l'
-};
-
-
-// used to define what state a popup window is in after keyboard input.
+/**
+ * @brief Represents the external state of a popup window after some sort of input.
+ * 
+ * Popup view models return a `PopupState` value when:
+ * - the window refreshes
+ * - a button is pressed
+ * - data is passed to the window
+ */
 enum PopupState {
     REFRESH, NOREFRESH, CLOSE, RESIZE
 };
 
 
 // typedef void (*PopupCallback)(std::string);
+
+/**
+ * @brief Typedef for functions that get called when popups close.
+ * 
+ * The ``std::string`` parameter contains data returned from the popup view model.
+ */
 typedef std::function<void (std::string)> PopupCallback;
 
 
+/**
+ * @brief A blank popup callback used when popups don't return anything needed.
+ * @param returnVal Unused parameter.
+ */
 void dummyPopupCallback(std::string returnVal);
 
 
-constexpr const int KEY_ESCAPE = 27;
-constexpr const int KEY_WEIRD_BACKSPACE = 127;  // weird
+constexpr const int KEY_ESCAPE = 27;  ///< Key code for escape key
+constexpr const int KEY_WEIRD_BACKSPACE = 127;  ///< Key code for backspace used by some terminals

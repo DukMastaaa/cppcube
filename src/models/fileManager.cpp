@@ -26,10 +26,9 @@ std::string FileManager::recordToString(const Record& record) {
 Record FileManager::stringToRecord(std::string string) {
     std::smatch match;
     if (std::regex_match(string, match, RECORD_PATTERN)) {
-        auto minutes = std::chrono::minutes(std::stoi(match.str(1)));
-        auto seconds = std::chrono::seconds(std::stoi(match.str(2)));
-        auto centiseconds = std::chrono::milliseconds(std::stoi(match.str(3)) * 10);
-        std::chrono::milliseconds time = minutes + seconds + centiseconds;
+        std::chrono::milliseconds time = Record::timeDivisionsToMilliseconds(
+            std::stoi(match.str(1)), std::stoi(match.str(2)), std::stoi(match.str(3))
+        );
         std::string scramble = match.str(5);
         
         Penalty penalty;

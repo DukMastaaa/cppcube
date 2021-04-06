@@ -229,7 +229,7 @@ void TimerViewModel::draw(WINDOW* window) const {
     werase(window);
     if (!timer.isTiming) {
         Record currentRecord = {timer.getTimeElapsed(), "", timer.currentPenalty};
-        std::string formattedTime = currentRecord.getFormattedTime();
+        std::string formattedTime = Record::getFormattedTime(currentRecord.time, currentRecord.penalty);
         drawCharMatrix(window, formattedTime);
     } else {
         drawEllipsis(window);

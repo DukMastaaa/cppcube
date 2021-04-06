@@ -8,11 +8,6 @@ bool Record::isDNF(const Record& record) {
 }
 
 
-bool Record::isDNF() const {
-    return penalty == Penalty::DNF_PENALTY;
-}
-
-
 std::chrono::milliseconds Record::getFinalTime() const {
     switch (penalty) {
         case Penalty::DNF_PENALTY:
@@ -44,7 +39,7 @@ bool Record::operator>(const Record& otherRecord) const {
 }
 
 
-std::array<int, 3> Record::getTimeDivisions(std::chrono::milliseconds elapsedTime) {
+std::array<int, 3> Record::millisecondsToTimeDivisions(std::chrono::milliseconds elapsedTime) {
     /* Changes milliseconds to string representation of equivalent minutes:seconds.centiseconds. */
     namespace chrono = std::chrono;
     static const int millisecToSec = 1000;
@@ -63,18 +58,13 @@ std::array<int, 3> Record::getTimeDivisions(std::chrono::milliseconds elapsedTim
 }
 
 
-std::string Record::getFormattedTime() const {
-    return getFormattedTime(time, penalty);
-}
-
-
 std::string Record::getFormattedTime(std::chrono::milliseconds time, Penalty penalty) {
     if (penalty == Penalty::DNF_PENALTY) {
         return "DNF";
     } else {
         bool plus2 = (penalty == Penalty::PLUS_2_PENALTY);
         auto offset = plus2 ? std::chrono::seconds(2) : std::chrono::seconds(0); 
-        std::array<int, 3> times = getTimeDivisions(time + offset);
+        std::array<int, 3> times = millisecondsToTimeDivisions(time + offset);
 
         std::string formattedTime;
         for (int timeSelector = 0; timeSelector < 3; timeSelector++) {
@@ -121,7 +111,7 @@ std::string Record::penaltyAsString(Penalty penalty) {
 }
 
 
-std::chrono::milliseconds Record::timeDivisionsToTime(int minutes, int seconds, int centiseconds) {
+std::chrono::milliseconds Record::timeDivisionsToMilliseconds(int minutes, int seconds, int centiseconds) {
     return std::chrono::minutes(minutes) + std::chrono::seconds(seconds) + std::chrono::milliseconds(centiseconds * 10);
 }
 
@@ -129,4 +119,3 @@ std::chrono::milliseconds Record::timeDivisionsToTime(int minutes, int seconds, 
 void dummyPopupCallback(std::string returnVal) {
     (void) returnVal;  // unused
 }
-

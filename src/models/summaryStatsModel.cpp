@@ -13,7 +13,7 @@ SummaryStatsModel::SummaryStatsModel(const RecordList& recordListRef) : recordLi
 std::chrono::milliseconds SummaryStatsModel::sumOfVector(std::vector<Record>::const_iterator begin, std::vector<Record>::const_iterator end) {
     std::chrono::milliseconds cumulativeTime{0};
     for (std::vector<Record>::const_iterator iter = begin; iter != end; ++iter) {
-        if (iter->isDNF()) {
+        if (Record::isDNF(*iter)) {
             break;
         }
         cumulativeTime += iter->getFinalTime();
@@ -44,7 +44,7 @@ Record SummaryStatsModel::averageOf(unsigned int count) const {
     Record highest = *begin;
     for (std::vector<Record>::const_iterator iter = begin; iter != end; ++iter) {
         const auto& record = *iter;
-        if (record.isDNF()) {
+        if (Record::isDNF(record)) {
             continue;
         } else if (record < lowest) {
             lowest = record;

@@ -106,7 +106,7 @@ void RecordListViewModel::drawRecords(WINDOW* window) const {
             std::size_t currentIndex = topIndex - rowCounter;
             const Record& thisRecord = records.getRecord(currentIndex);
 
-            std::string formattedTime = thisRecord.getFormattedTime();
+            std::string formattedTime = Record::getFormattedTime(thisRecord.time, thisRecord.penalty);
             
             TextColours colourPair = (currentIndex == selectedIndex) ? GREEN_ON_BLACK : WHITE_ON_BLACK;
             wattron(window, COLOR_PAIR(colourPair));
