@@ -1,3 +1,9 @@
+/**
+ * @file windowClasses.h
+ * @brief Contains classes which wrap ncurses' `WINDOW` in a polymorphic interface.
+ */
+
+
 #pragma once
 
 #include <utility>
@@ -9,6 +15,10 @@
 #include "myStructs.h"
 
 
+/**
+ * @brief Acts as a wrapper to `WINDOW` which handles a lot of the details about 
+ *        terminal resizes, refreshes triggered by `App` and subwindow drawing. 
+ */
 class BaseWindow {
     protected:
         BaseViewModel& viewModel;

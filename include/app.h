@@ -1,7 +1,9 @@
 /**
  * @file app.h
- * @brief this is a test
+ * @brief Contains the `App` class, responsible for connecting controllers together and
+ *        handling input.
  */
+
 
 #pragma once
 
@@ -23,6 +25,9 @@
 #include "myStructs.h"
 
 
+/**
+ * @brief Communicates between controllers, handles main window user input and manages popups.
+ */
 class App {
     private:
         struct PopupPair {

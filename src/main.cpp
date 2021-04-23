@@ -1,3 +1,9 @@
+/**
+ * @file main.cpp
+ * @brief Contains main loop and initialises ncurses.
+ */
+
+
 #include <iostream>
 #include <random>
 
