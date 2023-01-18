@@ -80,6 +80,12 @@ struct Record {
         static std::string getFormattedTime(std::chrono::milliseconds time, Penalty penalty);
 
         /**
+         * @brief Returns the time and penalty formatted as a string.
+         * @return Either the literal `"DNF"`, or `"mm:ss.cc"` with optional trailing + indicating +2. 
+         */
+        std::string getFormattedTime();
+
+        /**
          * @brief Returns a penalty formatted as a string.
          * @param penalty Solve penalty.
          * @return Either `"NONE"`, `"+2"` or `"DNF"`.

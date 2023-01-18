@@ -93,6 +93,11 @@ std::string Record::getFormattedTime(std::chrono::milliseconds time, Penalty pen
 }
 
 
+std::string Record::getFormattedTime() {
+    return getFormattedTime(time, penalty);
+}
+
+
 std::string Record::penaltyAsString(Penalty penalty) {
     switch (penalty) {
         case Penalty::NO_PENALTY:
