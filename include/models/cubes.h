@@ -123,8 +123,9 @@ class CycleHelper {
 
         static constexpr const std::array<std::array<std::array<char, 2>, 4>, 6> swapInstructionsReversed = CycleCalculateReversed::reverseSwapInstructions(swapInstructions);
 
-        static int translateOneSwapInstruction(char instruction, int dim, int depth, int layer);
-        static std::array<int, 2> getPosFromSwapInstruction(const std::array<char, 2>& instructions, int dim, int depth, int layer);
+        static int translateOneSwapInstruction(char insn, int dim, int depth, int layer);
+        static std::array<int, 2> getPosFromSwapInstruction(const std::array<char, 2>& insn, int dim, int depth, int layer);
+        static StickerColour* getStickerFromSwapInstruction(const std::array<char, 2>& insn, int dim, int depth, int layer, const std::array<CubeFace, 4>& cycles, CubeFace thisFace, std::vector<Vector2DSquare<StickerColour>>& faces);
 
     public:
         static void cycle(std::vector<Vector2DSquare<StickerColour>>& faces, int dim, CubeFace face, bool reverse, int depth = 0);

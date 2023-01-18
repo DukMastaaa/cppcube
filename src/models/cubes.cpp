@@ -6,8 +6,8 @@
 #include <sstream>
 
 
-int CycleHelper::translateOneSwapInstruction(char instruction, int dim, int depth, int layer) {
-    switch (instruction) {
+int CycleHelper::translateOneSwapInstruction(char insn, int dim, int depth, int layer) {
+    switch (insn) {
         case 'd':
             return depth;
             break;
@@ -27,10 +27,16 @@ int CycleHelper::translateOneSwapInstruction(char instruction, int dim, int dept
 }
 
 
-std::array<int, 2> CycleHelper::getPosFromSwapInstruction(const std::array<char, 2>& instructions, int dim, int depth, int layer) {
-    int row = translateOneSwapInstruction(instructions[0], dim, depth, layer);
-    int col = translateOneSwapInstruction(instructions[1], dim, depth, layer);
+std::array<int, 2> CycleHelper::getPosFromSwapInstruction(const std::array<char, 2>& insn, int dim, int depth, int layer) {
+    int row = translateOneSwapInstruction(insn[0], dim, depth, layer);
+    int col = translateOneSwapInstruction(insn[1], dim, depth, layer);
     return {row, col};
+}
+
+
+StickerColour* CycleHelper::getStickerFromSwapInstruction(const std::array<char, 2>& insn, int dim, int depth, int layer, const std::array<CubeFace, 4>& cycles, CubeFace thisFace, std::vector<Vector2DSquare<StickerColour>>& faces) {
+    auto [row, col] = getPosFromSwapInstruction(insn, dim, depth, layer);
+    return &(faces[thisFace].at(row, col));
 }
 
 
@@ -48,37 +54,24 @@ void CycleHelper::cycle(std::vector<Vector2DSquare<StickerColour>>& faces, int d
     StickerColour bufferValue;  // Keeps track of the value at the buffer because it gets replaced.
     
     for (int layer = 0; layer < dim; layer++) {  // loops over stickers along each layer
+        // get the initial value
+        // store everything in "next" variables as the loop shunts the values to "this" variables
+        nextFace = faceCycle[0];
+        nextSticker = getStickerFromSwapInstruction(instructions[0], dim, depth, layer, faceCycle, nextFace, faces);
+        bufferValue = *nextSticker;
+
         for (int cycleStep = 0; cycleStep < 4; cycleStep++) {  // loops over cycle replacements
+            thisFace = nextFace;
+            nextFace = faceCycle[(cycleStep+1) % 4];
 
-            thisFace = faceCycle[cycleStep];
-            if (cycleStep < 3) {  // if statement necessary as index error will be raised if cycleStep == 3
-                nextFace = faceCycle[cycleStep+1];
-            }
-
-            // todo: refactor more??!
-            auto [row, col] = getPosFromSwapInstruction(instructions[cycleStep], dim, depth, layer);
-            thisSticker = &(faces[thisFace].at(row, col));
-
-            // note: when cycleStep == 3, cycleStep+1 will cause index error
-            if (cycleStep < 3) {
-                // add 1 to look forward to next instruction.
-                auto [row, col] = getPosFromSwapInstruction(instructions[cycleStep+1], dim, depth, layer);
-                nextSticker = &(faces[nextFace].at(row, col));
-            }
-        
-            if (cycleStep == 0) {
-                bufferValue = *thisSticker;
-            }
-
-            if (cycleStep < 3) {
-                // Now, thisSticker and nextSticker have been set, so we replace:
-                *thisSticker = *nextSticker;
+            thisSticker = nextSticker;
+            if (cycleStep == 3) {
+                nextSticker = &bufferValue;
             } else {
-                // Now we need to fix the cycle by putting the first element of the cycle (buffer)
-                // in the last cycle position. There is no more nextSticker.
-                *thisSticker = bufferValue;
+                nextSticker = getStickerFromSwapInstruction(instructions[(cycleStep+1)%4], dim, depth, layer, faceCycle, nextFace, faces);
             }
-            // Cycle fixed.
+            
+            *thisSticker = *nextSticker;
         }
     }
 }
