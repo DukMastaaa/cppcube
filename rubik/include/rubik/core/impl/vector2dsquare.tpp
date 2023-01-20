@@ -30,7 +30,7 @@ constexpr void Vector2DSquare<T>::set(int row, int col, T value) {
 }
 
 template<typename T>
-constexpr void Vector2DSquare<T>::rot90() {
+constexpr void Vector2DSquare<T>::rot90Clockwise() {
     // Code yoinked from 
     // https://www.geeksforgeeks.org/rotate-a-matrix-by-90-degree-in-clockwise-direction-without-using-any-extra-space/
     for (int i = 0; i < length / 2; i++) { 
@@ -43,6 +43,14 @@ constexpr void Vector2DSquare<T>::rot90() {
             vec.at(j).at(length - 1 - i) = temp;
         } 
     } 
+}
+
+template<typename T>
+constexpr void Vector2DSquare<T>::rot90Counterclockwise() {
+    // lol
+    rot90Clockwise();
+    rot90Clockwise();
+    rot90Clockwise();
 }
 
 // See https://stackoverflow.com/questions/8848575/fastest-way-to-reset-every-value-of-stdvectorint-to-0

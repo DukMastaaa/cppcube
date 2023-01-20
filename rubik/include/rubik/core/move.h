@@ -30,7 +30,7 @@ struct Depth {
 
 struct Move {
     Action action = Action::NOP;
-    Depth depth = {1, 1};
+    Depth depth = {0, 0};
     std::int8_t signedRepeat = 1;
 };
 
@@ -58,29 +58,31 @@ constexpr Move operator*(const Move& move, int signedRepeat) {
 /**
  * @brief Converts the given move to a string.
  */
-constexpr std::string to_string(const Move& move, bool useWSuffix = true) {
-    // TODO: incomplete
-    std::string output;
-    bool isSlice = false;
-    int unsignedRepeat = std::abs(move.signedRepeat);
+// constexpr std::string to_string(const Move& move, bool useWSuffix = true) {
+//     // TODO: incomplete
+//     std::string output;
+//     bool isSlice = false;
+//     int unsignedRepeat = std::abs(move.signedRepeat);
 
-    if (move.depth.min == move.depth.max) {
-        if (move.depth.min == 0) {
-            return "0";
-        } else if (move.depth.min != 1) {
-            output += std::to_string(move.depth.min);
-        }
-    } else {
-        if (move.depth.min);
-    }
+//     if (unsignedRepeat == 0) {
+//         return "0";
+//     }
 
-    if (unsignedRepeat != 1) {
-        output += std::to_string(unsignedRepeat);
-    }
-    if (move.signedRepeat < 0) {
-        output += '\'';
-    }
-}
+//     if (move.depth.min == move.depth.max) {
+//         if (move.depth.min != 0) {
+//             output += std::to_string(move.depth.min);
+//         }
+//     } else {
+//         // if (move.depth.min);
+//     }
+
+//     if (unsignedRepeat != 1) {
+//         output += std::to_string(unsignedRepeat);
+//     }
+//     if (move.signedRepeat < 0) {
+//         output += '\'';
+//     }
+// }
 
 
 namespace move_literals {

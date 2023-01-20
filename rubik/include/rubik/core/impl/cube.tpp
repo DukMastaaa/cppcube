@@ -10,6 +10,53 @@ constexpr Cube::Cube(int dim_)
     reset();
 }
 
+constexpr void Cube::applyFaceTurn(CubeFace face, Depth depth, std::int8_t signedRepeat) {
+    bool reverse = signedRepeat < 0;
+    std::int8_t unsignedRepeat = reverse ? -signedRepeat : signedRepeat;
+    if (depth.min == 0) {
+        if (reverse) {
+            faces[static_cast<size_t>(face)].rot90Counterclockwise();
+        } else {
+            faces[static_cast<size_t>(face)].rot90Clockwise();
+        }
+    }
+    if (depth.max == dim - 1) {
+        // Choose opposite face and switch rotation direction
+        if (reverse) {
+            faces[static_cast<size_t>(oppositeFace(face))].rot90Clockwise();
+        } else {
+            faces[static_cast<size_t>(oppositeFace(face))].rot90Counterclockwise();
+        }
+    }
+    for (std::int8_t i = 0; i < unsignedRepeat; i++) {
+        for (int layer = depth.min; layer <= depth.max; layer++) {
+            cube_helper::cycle(faces, dim, face, reverse, layer);
+        }
+    }
+}
+
+constexpr void Cube::applyMove(Move move) {
+    switch (move.action) {
+        case Action::NOP:
+            break;
+        case Action::Up:
+        case Action::Front:
+        case Action::Right:
+        case Action::Back:
+        case Action::Left:
+        case Action::Down:
+            applyFaceTurn(actionFaceTurnToCubeFace(move.action), move.depth, move.signedRepeat);
+        case Action::SliceM:
+        case Action::SliceE:
+        case Action::SliceS:
+            break;  // not implemented
+        case Action::RotX:
+        case Action::RotY:
+        case Action::RotZ:
+            break;  // not implemented
+    }
+}
+
 constexpr void Cube::reset() {
     for (int i = 0; i < 6; i++) {
         faces[i].reset(static_cast<StickerColour>(i));
@@ -27,108 +74,40 @@ constexpr StickerColour Cube::getColourAtSticker(CubeFace face, int row, int col
     return faces[static_cast<size_t>(face)].at(row, col);
 }
 
-
-namespace cube_helper {
-
-using enum CubeFace;
-
-// Faces to swap
-
-using FacesToSwap = std::array<std::array<CubeFace, 4>, 6>;
-
-constexpr const FacesToSwap facesToSwap = {{  // double brace
-    {Right, Back, Left, Front},  // Up
-    {Left, Down, Right, Up},     // Front
-    {Down, Back, Up, Front},     // Right
-    {Right, Down, Left, Up},     // Back
-    {Up, Back, Down, Front},     // Left
-    {Left, Back, Right, Front},  // Down
-}};
-
-constexpr const FacesToSwap reverseFacesToSwap(const FacesToSwap& facesToSwap) {
-    auto reversed = FacesToSwap();
-    for (std::size_t faceIndex = 0; faceIndex < 6; faceIndex++) {
-        for (std::size_t sideIndex = 0; sideIndex < 4; sideIndex++) {
-            reversed[faceIndex][sideIndex] = facesToSwap[faceIndex][3 - sideIndex];
-        }
+template <int N>
+constexpr std::array<StickerColour, N*N*6> Cube::exportAsArray() const {
+    if (dim != N) {
+        throw std::invalid_argument("dim doesnt match N");
     }
-    return reversed;
-}
-
-constexpr const FacesToSwap reversedFacesToSwap = reverseFacesToSwap(facesToSwap);
-
-
-// Swap instructions
-
-enum class SwapInstruction : uint8_t {
-    Depth,
-    IterationCount,
-    DimMinusOneMinusDepth,
-    DimMinusOneMinusIterationCount
-};
-
-using D = SwapInstruction::Depth;
-using I = SwapInstruction::IterationCount;
-using M = SwapInstruction::DimMinusOneMinusDepth;
-using F = SwapInstruction::DimMinusOneMinusIterationCount;
-
-using SwapInstructions = std::array<std::array<std::array<SwapInstruction, 2>, 4>, 6>;
-
-constexpr const SwapInstructions swapInstructions = {{
-    {{  // Up
-        {D, I},
-        {D, I},
-        {D, I},
-        {D, I}
-    }},
-    {{  // Front
-        {F, M},
-        {D, F},
-        {I, D},
-        {M, I}
-    }},
-    {{  // Right
-        {I, M},
-        {F, D},
-        {I, M},
-        {I, M}
-    }},
-    {{  // Back
-        {I, M},
-        {M, F},
-        {F, D},
-        {D, I}
-    }},
-    {{  // Left
-        {I, D},
-        {F, M},
-        {I, D},
-        {I, D}
-    }},
-    {{  // Down
-        {M, I},
-        {M, I},
-        {M, I},
-        {M, I}
-    }}
-}};
-
-constexpr const SwapInstructions reverseSwapInstructions(const SwapInstructions& swapInstructions) {
-    auto reversed = SwapInstructions();
-    for (std::size_t faceIndex = 0; faceIndex < 6; faceIndex++) {
-        for (std::size_t sideIndex = 0; sideIndex < 4; sideIndex++) {
-            // TODO: replace this with copy operation?
-            for (std::size_t instructionIndex = 0; instructionIndex < 2; instructionIndex++) {
-                reversed[faceIndex][sideIndex][instructionIndex] = swapInstructions[faceIndex][3 - sideIndex][instructionIndex];
+    std::array<StickerColour, N*N*6> arr;
+    size_t runningIndex = 0;
+    for (int face = 0; face < 6; face++) {
+        // Saved in standard face order (UFRBLD)
+        for (int row = 0; row < dim; row++) {
+            for (int col = 0; col < dim; col++) {
+                arr.at(runningIndex) = faces[face].at(row, col);
+                runningIndex++;
             }
         }
     }
-    return reversed;
+    return arr;
 }
 
-constexpr const SwapInstructions reversedSwapInstructions = reverseSwapInstructions(swapInstructions);
-
-
-}  // namespace cube_helper
+template <int N>
+inline void Cube::printNetFromArray(const std::array<StickerColour, N*N*6>& arr,
+        const std::array<char, 6>& colourChars) {
+    size_t runningIndex = 0;
+    for (int face = 0; face < 6; face++) {
+        std::cout << "face: " << face << '\n';
+        for (int row = 0; row < N; row++) {
+            for (int col = 0; col < N; col++) {
+                std::cout << colourChars[static_cast<size_t>(arr[runningIndex])];
+                runningIndex++;
+            }
+            std::cout << '\n';
+        }
+        std::cout << '\n';
+    }
+}
 
 }  // namespace rubik
