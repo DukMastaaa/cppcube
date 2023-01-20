@@ -1,6 +1,6 @@
 #pragma once
 
-#include "rubik/move.h"
+#include "rubik/core/move.h"
 #include "rubik/algs/alg.h"
 
 namespace rubik {
