@@ -5,30 +5,35 @@
 namespace rubik {
 
 constexpr Cube::Cube(int dim_)
-    : dim(dim_), faces()
-{
-    reset();
-}
+    : dim(dim_),
+    faces{
+        Vector2DSquare(dim_, static_cast<StickerColour>(0)),
+        Vector2DSquare(dim_, static_cast<StickerColour>(1)),
+        Vector2DSquare(dim_, static_cast<StickerColour>(2)),
+        Vector2DSquare(dim_, static_cast<StickerColour>(3)),
+        Vector2DSquare(dim_, static_cast<StickerColour>(4)),
+        Vector2DSquare(dim_, static_cast<StickerColour>(5))}
+{}
 
 constexpr void Cube::applyFaceTurn(CubeFace face, Depth depth, std::int8_t signedRepeat) {
     bool reverse = signedRepeat < 0;
     std::int8_t unsignedRepeat = reverse ? -signedRepeat : signedRepeat;
-    if (depth.min == 0) {
-        if (reverse) {
-            faces[static_cast<size_t>(face)].rot90Counterclockwise();
-        } else {
-            faces[static_cast<size_t>(face)].rot90Clockwise();
-        }
-    }
-    if (depth.max == dim - 1) {
-        // Choose opposite face and switch rotation direction
-        if (reverse) {
-            faces[static_cast<size_t>(oppositeFace(face))].rot90Clockwise();
-        } else {
-            faces[static_cast<size_t>(oppositeFace(face))].rot90Counterclockwise();
-        }
-    }
     for (std::int8_t i = 0; i < unsignedRepeat; i++) {
+        if (depth.min == 0) {
+            if (reverse) {
+                faces[static_cast<size_t>(face)].rot90Counterclockwise();
+            } else {
+                faces[static_cast<size_t>(face)].rot90Clockwise();
+            }
+        }
+        if (depth.max == dim - 1) {
+            // Choose opposite face and switch rotation direction
+            if (reverse) {
+                faces[static_cast<size_t>(oppositeFace(face))].rot90Clockwise();
+            } else {
+                faces[static_cast<size_t>(oppositeFace(face))].rot90Counterclockwise();
+            }
+        }
         for (int layer = depth.min; layer <= depth.max; layer++) {
             cube_helper::cycle(faces, dim, face, reverse, layer);
         }
@@ -50,10 +55,22 @@ constexpr void Cube::applyMove(Move move) {
         case Action::SliceE:
         case Action::SliceS:
             break;  // not implemented
+        // TODO: optimise rotation to swap faces
         case Action::RotX:
+            applyFaceTurn(CubeFace::Right, {0, static_cast<int8_t>(dim-1)}, move.signedRepeat);
         case Action::RotY:
+            applyFaceTurn(CubeFace::Up, {0, static_cast<int8_t>(dim-1)}, move.signedRepeat);
         case Action::RotZ:
-            break;  // not implemented
+            applyFaceTurn(CubeFace::Front , {0, static_cast<int8_t>(dim-1)}, move.signedRepeat);
+    }
+}
+
+constexpr void Cube::applyAlgorithm(Algorithm algorithm) {
+    for (int i = 0; i < MAX_ALG_LENGTH; i++) {
+        if (algorithm.sequence[i].action == Action::NOP) {
+            break;
+        }
+        applyMove(algorithm.sequence[i]);
     }
 }
 

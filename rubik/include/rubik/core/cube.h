@@ -1,6 +1,7 @@
 #pragma once
 
 #include "rubik/core/move.h"
+#include "rubik/algs/alg.h"
 
 #include <array>
 #include <cstdint>
@@ -95,6 +96,8 @@ public:
     // static constexpr Cube fromArray(const std::array<StickerColour, N*N*6>& arr);
 
     constexpr void applyMove(Move move);
+    constexpr void applyAlgorithm(Algorithm algorithm);
+
     constexpr void reset();
     constexpr void resetAndResize(int newDim);
     constexpr StickerColour getColourAtSticker(CubeFace face, int row, int col) const;

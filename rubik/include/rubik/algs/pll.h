@@ -13,7 +13,7 @@ using namespace move_literals;
 
 constexpr const PLLAlgorithm PLL_T{
     "T",
-    {R, U, R--, U--, R--, F, R*2, U, R--, U--, R, U, R--, F--},
+    {R, U, R--, U--, R--, F, R*2, U--, R--, U--, R, U, R--, F--},
     0
 };
 
